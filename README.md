@@ -7,9 +7,9 @@ Java based software for encrypting text into image.
 
 ## Usage:
 1. Find a photo to use for encryption.
-2. Enter name of that file.
+2. Enter name of that photo.
 3. Enter text to encrypt.
-4. Click "Encypt".
+4. Click "Encrypt".
 5. Enjoy!
 
 #### To decrypt text from image:
@@ -23,5 +23,5 @@ Java based software for encrypting text into image.
 ### After encryption
 ![Demo](images/output.png)
 
-## Known issues
+### Known issues
 * white spaces are replaced by 'V'
