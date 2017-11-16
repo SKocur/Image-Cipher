@@ -27,9 +27,12 @@ public class Main extends Application {
 	Button btnEncrypt;
 	Label lblTextToEncrypt;
 	Label lblResult;
+	Label lblCharactersLeft;
 
 	ObservableList hList;
 	ObservableList list;
+
+	Encrypter encrypter;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -43,9 +46,10 @@ public class Main extends Application {
 		hbox = new HBox();
 
 		lblResult = new Label("Result: ");
+		lblTextToEncrypt = new Label("Text: ");
+		lblCharactersLeft = new Label("Characters left: ");
 		btnDecrypt = new Button("Decrypt");
 		btnEncrypt = new Button("Encrypt");
-		lblTextToEncrypt = new Label("Text: ");
 		separator = new Separator();
 		fileName = new TextField();
 		fieldTextToEncrypt = new TextField();
@@ -62,11 +66,12 @@ public class Main extends Application {
 		hbox.setMargin(fieldTextToEncrypt, new Insets(1, 1, 1, 1));
 
 		vbox.setSpacing(10);
-		vbox.setMargin(btnEncrypt, new Insets(0, 10, 0, 20));
 		vbox.setMargin(fileName, new Insets(20, 20, 5, 20));
 		vbox.setMargin(btnDecrypt, new Insets(5, 5, 5, 20));
 		vbox.setMargin(separator, new Insets(10, 10, 10, 10));
-		vbox.setMargin(lblResult, new Insets(10, 10, 10, 10));
+		vbox.setMargin(lblCharactersLeft, new Insets(10, 10, 10, 20));
+		vbox.setMargin(btnEncrypt, new Insets(0, 10, 0, 20));
+		vbox.setMargin(lblResult, new Insets(10, 10, 10, 20));
 
 		separator.setPrefWidth(180);
 
@@ -74,7 +79,7 @@ public class Main extends Application {
 		hList.addAll(lblTextToEncrypt, fieldTextToEncrypt);
 
 		list = vbox.getChildren();
-		list.addAll(fileName, btnDecrypt, separator, hbox, btnEncrypt, lblResult);
+		list.addAll(fileName, btnDecrypt, separator, hbox, lblCharactersLeft, btnEncrypt, lblResult);
 
 		btnDecrypt.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -82,7 +87,7 @@ public class Main extends Application {
 				try{
 					lblResult.setText(Decrypter.decrypt(fileName.getText()));
 				} catch (IOException error) {
-					System.out.println("Error: " + error);
+					System.out.println("Error: " + error.toString());
 				}
 			}
 		});
@@ -91,9 +96,26 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent e){
 				try{
-					Encrypter.encrypt(fileName.getText(), fieldTextToEncrypt.getText());
+					encrypter = new Encrypter(fileName.getText());
+					encrypter.encrypt(fieldTextToEncrypt.getText());
 				} catch (IOException error){
-					System.out.println("Error: " + error);
+					System.out.println("Error: " + error.toString());
+				}
+			}
+		});
+
+		fieldTextToEncrypt.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e){
+				try {
+					encrypter = new Encrypter(fileName.getText());
+					int startCount = (int) encrypter.getImageWidth() / Config.SPACING_CIPHER;
+					int left = startCount - fieldTextToEncrypt.getText().length();
+
+					lblCharactersLeft.setText("Characters left: " + left);
+				} catch (IOException error){
+					System.out.println("Error: " + error.toString());
+					lblCharactersLeft.setText("Invalid image name");
 				}
 			}
 		});

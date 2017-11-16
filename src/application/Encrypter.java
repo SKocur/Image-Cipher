@@ -8,23 +8,32 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class Encrypter {
-	public static void encrypt(String fileName, String text) throws IOException {
-		int width = 0;
+	static int width;
+	String fileName;
+
+	ArrayList<Character> chars;
+	ArrayList<Integer> asciiChars;
+	BufferedImage originalImage;
+
+	File file;
+
+	Encrypter(String fileName) throws IOException {
+		chars = new ArrayList<Character>();
+		asciiChars = new ArrayList<Integer>();
+		originalImage = ImageIO.read(new File(fileName));
+
+		file = null;
+		this.width = originalImage.getWidth();
+	}
+
+	public void encrypt(String text) {
 		int index = 0;
-
-		File f = null;
-
-		ArrayList<Character> chars = new ArrayList<Character>();
-		ArrayList<Integer> asciiChars = new ArrayList<Integer>();
-		BufferedImage originalImage = ImageIO.read(new File(fileName));
 
 		for (char c : text.toCharArray())
 			chars.add(c);
 
 		for(char c : chars)
 			asciiChars.add((int) c);
-
-		width = originalImage.getWidth();
 
 		for(int x = 0; x < width; x++){
 			if(x % Config.SPACING_CIPHER == 0 && index < asciiChars.size()){
@@ -35,11 +44,15 @@ public class Encrypter {
 		}
 
 		try{
-			f = new File("output.png");
-			ImageIO.write(originalImage, "png", f);
+			file = new File("output.png");
+			ImageIO.write(originalImage, "png", file);
 		}catch(IOException e){
 			System.out.println("Error: " + e);
 		}
+	}
+
+	public int getImageWidth() {
+		return this.width;
 	}
 }
 
