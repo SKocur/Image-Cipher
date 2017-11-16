@@ -10,5 +10,4 @@ public class Config {
 	 *
 	 * */
 	public static final int SPACING_CIPHER = 14;
-	public static final int COLOR_BOOST = 87;
 }

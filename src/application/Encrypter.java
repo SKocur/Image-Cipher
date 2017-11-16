@@ -22,14 +22,13 @@ public class Encrypter {
 			chars.add(c);
 
 		for(char c : chars)
-			asciiChars.add(Character.getNumericValue(c));
+			asciiChars.add((int) c);
 
 		width = originalImage.getWidth();
 
 		for(int x = 0; x < width; x++){
 			if(x % Config.SPACING_CIPHER == 0 && index < asciiChars.size()){
-				int iCharacter = asciiChars.get(index) + Config.COLOR_BOOST;
-				Color greenShade = new Color(1, iCharacter, 1);
+				Color greenShade = new Color(1, asciiChars.get(index), 1);
 				originalImage.setRGB(x, Config.IMAGE_MARGIN_TOP, greenShade.getRGB());
 				index++;
 			}

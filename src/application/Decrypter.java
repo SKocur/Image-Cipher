@@ -19,8 +19,7 @@ public class Decrypter {
 		  for(int pixel = 0; pixel < width; pixel++){
 			  if(pixel % Config.SPACING_CIPHER == 0){
 				  Color colorShade = new Color(bufferedImage.getRGB(pixel, Config.IMAGE_MARGIN_TOP), true);
-				  char character = (char) colorShade.getGreen();
-				  characters.add(character);
+				  characters.add((char) colorShade.getGreen());
 			  }
 		  }
 
