@@ -3,7 +3,7 @@
 [![GitHub version](https://badge.fury.io/gh/boennemann%2Fbadges.svg)](https://github.com/SKocur/Image-Cipher)
 
 # Image-Cipher
-Java based software for encrypting text into image.
+Java based software for encrypting text into image. Number of characters you can encrypt is the width of the image divided by 13.
 
 ## Usage:
 1. Find a photo to use for encryption.
@@ -22,6 +22,3 @@ Java based software for encrypting text into image.
 
 ### After encryption
 ![Demo](images/output.png)
-
-### Known issues
-* white spaces are replaced by 'V'
