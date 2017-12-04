@@ -55,7 +55,7 @@ public class Main extends Application {
 		fieldTextToEncrypt = new TextField();
 
 		fileName.setPromptText("Image name to process: ");
-		fileName.setText("some_image.png");
+		fileName.setText("images/image_name.png");
 		fileName.setPrefColumnCount(15);
 
 		fieldTextToEncrypt.setPromptText("Text to encrypt");
