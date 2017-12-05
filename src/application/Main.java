@@ -16,6 +16,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * <h1>Main</h1>
+ * <br>
+ * This class is responsible for creating graphical user interface (GUI).
+ *
+ * @author Szymon Kocur
+ *
+ */
 public class Main extends Application {
 
 	TextField fileName;

@@ -7,6 +7,14 @@ import java.io.IOException;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
+/**
+ * <h1>Encrypter</h1>
+ * <br>
+ * This class is responsible for encrypting text message into image.
+ *
+ * @author Szymon Kocur
+ *
+ */
 public class Encrypter {
 	static int width;
 	String fileName;
@@ -17,6 +25,12 @@ public class Encrypter {
 
 	File file;
 
+	/**
+	 * Here all common variables for this class are initialized.
+	 *
+	 * @param fileName Name of file which will be destination of encrypted message
+	 * @throws IOException
+	 */
 	Encrypter(String fileName) throws IOException {
 		chars = new ArrayList<Character>();
 		asciiChars = new ArrayList<Integer>();
@@ -26,6 +40,12 @@ public class Encrypter {
 		this.width = originalImage.getWidth();
 	}
 
+	/**
+	 * It encrypts data into green channel of pixel using configuration from Config class.
+	 *
+	 * @param text Text message to encrypt
+	 * @see Config
+	 */
 	public void encrypt(String text) {
 		int index = 0;
 

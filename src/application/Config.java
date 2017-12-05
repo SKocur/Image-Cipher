@@ -1,5 +1,13 @@
 package application;
 
+/**
+ * <h1>Config</h1>
+ * <br>
+ * This class contains public constants used in other parts of Image Cipher.
+ *
+ * @author Szymon Kocur
+ *
+ */
 public class Config {
 	public static final int IMAGE_MARGIN_TOP = 13;
 
