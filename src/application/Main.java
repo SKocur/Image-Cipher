@@ -63,7 +63,7 @@ public class Main extends Application {
 		fieldTextToEncrypt = new TextField();
 
 		fileName.setPromptText("Image name to process: ");
-		fileName.setText("images/image_name.png");
+		fileName.setText("images/some_image.png");
 		fileName.setPrefColumnCount(15);
 
 		fieldTextToEncrypt.setPromptText("Text to encrypt");
@@ -91,8 +91,8 @@ public class Main extends Application {
 
 		btnDecrypt.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(ActionEvent e){
-				try{
+			public void handle(ActionEvent e) {
+				try {
 					lblResult.setText(Decrypter.decrypt(fileName.getText()));
 				} catch (IOException error) {
 					System.out.println("Error: " + error.toString());
@@ -102,11 +102,11 @@ public class Main extends Application {
 
 		btnEncrypt.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(ActionEvent e){
-				try{
+			public void handle(ActionEvent e) {
+				try {
 					encrypter = new Encrypter(fileName.getText());
 					encrypter.encrypt(fieldTextToEncrypt.getText());
-				} catch (IOException error){
+				} catch (IOException error) {
 					System.out.println("Error: " + error.toString());
 				}
 			}
@@ -114,14 +114,14 @@ public class Main extends Application {
 
 		fieldTextToEncrypt.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(ActionEvent e){
+			public void handle(ActionEvent e) {
 				try {
 					encrypter = new Encrypter(fileName.getText());
 					int startCount = (int) encrypter.getImageWidth() / Config.SPACING_CIPHER;
 					int left = startCount - fieldTextToEncrypt.getText().length();
 
 					lblCharactersLeft.setText("Characters left: " + left);
-				} catch (IOException error){
+				} catch (IOException error) {
 					System.out.println("Error: " + error.toString());
 					lblCharactersLeft.setText("Invalid image name");
 				}

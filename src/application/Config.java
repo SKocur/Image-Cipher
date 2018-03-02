@@ -9,6 +9,12 @@ package application;
  *
  */
 public class Config {
+
+    // To prevent instantiating of this class
+    private Config() {
+
+    }
+
 	public static final int IMAGE_MARGIN_TOP = 13;
 
 	/*

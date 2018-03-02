@@ -52,21 +52,21 @@ public class Encrypter {
 		for (char c : text.toCharArray())
 			chars.add(c);
 
-		for(char c : chars)
+		for (char c : chars)
 			asciiChars.add((int) c);
 
-		for(int x = 0; x < width; x++){
-			if(x % Config.SPACING_CIPHER == 0 && index < asciiChars.size()){
+		for (int x = 0; x < width; x++) {
+			if (x % Config.SPACING_CIPHER == 0 && index < asciiChars.size()) {
 				Color greenShade = new Color(1, asciiChars.get(index), 1);
 				originalImage.setRGB(x, Config.IMAGE_MARGIN_TOP, greenShade.getRGB());
 				index++;
 			}
 		}
 
-		try{
+		try {
 			file = new File("output.png");
 			ImageIO.write(originalImage, "png", file);
-		}catch(IOException e){
+		} catch (IOException e) {
 			System.out.println("Error: " + e);
 		}
 	}

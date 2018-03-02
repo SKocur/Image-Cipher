@@ -34,14 +34,14 @@ public class Decrypter {
 
 		  ArrayList<Character> characters = new ArrayList<Character>();
 
-		  for(int pixel = 0; pixel < width; pixel++){
-			  if(pixel % Config.SPACING_CIPHER == 0){
+		  for (int pixel = 0; pixel < width; pixel++) {
+			  if (pixel % Config.SPACING_CIPHER == 0) {
 				  Color colorShade = new Color(bufferedImage.getRGB(pixel, Config.IMAGE_MARGIN_TOP), true);
 				  characters.add((char) colorShade.getGreen());
 			  }
 		  }
 
-		  for(char character : characters)
+		  for (char character : characters)
 			  text += character;
 
 		  return text;
