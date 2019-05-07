@@ -20,6 +20,7 @@ public class Encrypter {
     private ArrayList<Character> chars;
     private ArrayList<Integer> asciiChars;
     private BufferedImage originalImage;
+    private String fileName;
 
     /**
      * Here all common variables for this class are initialized.
@@ -31,6 +32,7 @@ public class Encrypter {
         chars = new ArrayList<>();
         asciiChars = new ArrayList<>();
         originalImage = ImageIO.read(new File(fileName));
+        this.fileName = fileName;
 
         this.width = originalImage.getWidth();
     }
@@ -42,15 +44,11 @@ public class Encrypter {
      * @see Config
      */
     public void encrypt(String text) {
-        int index = 0;
-
-        for (char c : text.toCharArray())
-            chars.add(c);
-
-        for (char c : chars)
+        for (char c : text.toCharArray()) {
             asciiChars.add((int) c);
+        }
 
-        for (int x = 0; x < width; x++) {
+        for (int x = 0, index = 0; x < width; x++) {
             if (x % Config.SPACING_CIPHER == 0 && index < asciiChars.size()) {
                 Color greenShade = new Color(1, asciiChars.get(index), 1);
                 originalImage.setRGB(x, Config.IMAGE_MARGIN_TOP, greenShade.getRGB());
@@ -59,7 +57,7 @@ public class Encrypter {
         }
 
         try {
-            File file = new File("output.png");
+            File file = new File(fileName);
             ImageIO.write(originalImage, "png", file);
         } catch (IOException e) {
             System.out.println("Error: " + e);

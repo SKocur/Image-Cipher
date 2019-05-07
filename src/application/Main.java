@@ -60,7 +60,7 @@ public class Main extends Application {
         fieldTextToEncrypt = new TextField();
 
         fileName.setPromptText("Image name to process: ");
-        fileName.setText("images/some_image.png");
+        fileName.setText("some_image.png");
         fileName.setPrefColumnCount(15);
 
         fieldTextToEncrypt.setPromptText("Text to encrypt");
@@ -109,7 +109,7 @@ public class Main extends Application {
         fieldTextToEncrypt.setOnAction((e) -> {
                     try {
                         encrypter = new Encrypter(fileName.getText());
-                        int startCount = (int) encrypter.getImageWidth() / Config.SPACING_CIPHER;
+                        int startCount = encrypter.getImageWidth() / Config.SPACING_CIPHER;
                         int left = startCount - fieldTextToEncrypt.getText().length();
 
                         lblCharactersLeft.setText("Characters left: " + left);
