@@ -13,37 +13,39 @@ import javax.imageio.ImageIO;
  * This class is responsible for decrypting data.
  *
  * @author Szymon Kocur
- *
  */
 public class Decrypter {
 
-	/**
-	 * This method decrypt text message from given image.
-	 * It reads level of shadow on green channel from pixel.
-	 *
-	 * @param fileName Name of the image
-	 * @return text Decrypted text
-	 * @throws IOException When file cannot be found.
-	 * @see Config
-	 */
-	public static String decrypt(String fileName) throws IOException {
-		  BufferedImage bufferedImage = ImageIO.read(new File(fileName));
+    private Decrypter() {
+    }
 
-		  int width = bufferedImage.getWidth();
-		  String text = "";
+    /**
+     * This method decrypt text message from given image.
+     * It reads level of shadow on green channel from pixel.
+     *
+     * @param fileName Name of the image
+     * @return text Decrypted text
+     * @throws IOException When file cannot be found.
+     * @see Config
+     */
+    public static String decrypt(String fileName) throws IOException {
+        BufferedImage bufferedImage = ImageIO.read(new File(fileName));
 
-		  ArrayList<Character> characters = new ArrayList<Character>();
+        int width = bufferedImage.getWidth();
+        String text = "";
 
-		  for (int pixel = 0; pixel < width; pixel++) {
-			  if (pixel % Config.SPACING_CIPHER == 0) {
-				  Color colorShade = new Color(bufferedImage.getRGB(pixel, Config.IMAGE_MARGIN_TOP), true);
-				  characters.add((char) colorShade.getGreen());
-			  }
-		  }
+        ArrayList<Character> characters = new ArrayList<>();
 
-		  for (char character : characters)
-			  text += character;
+        for (int pixel = 0; pixel < width; pixel++) {
+            if (pixel % Config.SPACING_CIPHER == 0) {
+                Color colorShade = new Color(bufferedImage.getRGB(pixel, Config.IMAGE_MARGIN_TOP), true);
+                characters.add((char) colorShade.getGreen());
+            }
+        }
 
-		  return text;
-	}
+        for (char character : characters)
+            text += character;
+
+        return text;
+    }
 }
