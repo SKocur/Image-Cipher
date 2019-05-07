@@ -15,14 +15,11 @@ import javax.imageio.ImageIO;
  * @author Szymon Kocur
  */
 public class Encrypter {
-    int width;
-    String fileName;
 
-    ArrayList<Character> chars;
-    ArrayList<Integer> asciiChars;
-    BufferedImage originalImage;
-
-    File file;
+    private int width;
+    private ArrayList<Character> chars;
+    private ArrayList<Integer> asciiChars;
+    private BufferedImage originalImage;
 
     /**
      * Here all common variables for this class are initialized.
@@ -35,7 +32,6 @@ public class Encrypter {
         asciiChars = new ArrayList<>();
         originalImage = ImageIO.read(new File(fileName));
 
-        file = null;
         this.width = originalImage.getWidth();
     }
 
@@ -63,7 +59,7 @@ public class Encrypter {
         }
 
         try {
-            file = new File("output.png");
+            File file = new File("output.png");
             ImageIO.write(originalImage, "png", file);
         } catch (IOException e) {
             System.out.println("Error: " + e);
