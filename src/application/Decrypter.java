@@ -42,4 +42,20 @@ public class Decrypter {
 
         return stringBuilder.toString();
     }
+
+    public static String decryptBlue(String fileName) throws IOException {
+        BufferedImage bufferedImage = ImageIO.read(new File(fileName));
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < bufferedImage.getHeight(); ++i) {
+            for (int j = 0; j < bufferedImage.getWidth(); ++j) {
+                int b = bufferedImage.getRGB(j, i) & 0b11111111;
+
+                stringBuilder.append((char) b);
+            }
+        }
+
+        return stringBuilder.toString();
+    }
 }

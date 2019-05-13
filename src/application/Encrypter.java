@@ -32,8 +32,8 @@ public class Encrypter {
         chars = new ArrayList<>();
         asciiChars = new ArrayList<>();
         originalImage = ImageIO.read(new File(fileName));
-        this.fileName = fileName;
 
+        this.fileName = fileName;
         this.width = originalImage.getWidth();
     }
 
@@ -43,6 +43,7 @@ public class Encrypter {
      * @param text Text message to encrypt
      * @see Config
      */
+    @Deprecated
     public void encrypt(String text) {
         for (char c : text.toCharArray()) {
             asciiChars.add((int) c);
@@ -60,8 +61,47 @@ public class Encrypter {
             File file = new File(fileName);
             ImageIO.write(originalImage, "png", file);
         } catch (IOException e) {
-            System.out.println("Error: " + e);
+            e.printStackTrace();
         }
+    }
+
+    public void encryptBitwise(String text) {
+        int index = 0;
+        boolean hasDone = false;
+
+        for (int i = 0; i < originalImage.getHeight() && !hasDone; ++i) {
+            for (int j = 0; j < originalImage.getWidth() && !hasDone; ++j) {
+                if (index < text.length()) {
+                    Color color = encryptBlue(text.charAt(index++));
+
+                    originalImage.setRGB(j, i, color.getRGB());
+                } else {
+                    hasDone = true;
+                }
+            }
+        }
+
+        try {
+            File file = new File(fileName);
+            ImageIO.write(originalImage, "png", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Color encryptBlue(char character) {
+        int argb = originalImage.getRGB(123 ,13);
+
+        int r = (argb >> 16) & 0b11111111;
+        int g = (argb >> 8) & 0b11111111;
+
+        int newB = 0;
+
+        if (character < 255) {
+            newB = character & 0b11111111;
+        }
+
+        return new Color(r, g, newB);
     }
 
     public int getImageWidth() {
