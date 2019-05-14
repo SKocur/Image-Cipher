@@ -88,8 +88,8 @@ public class Main extends Application {
 
         btnDecrypt.setOnAction((e) -> {
                     try {
-                        //lblResult.setText(Decrypter.decrypt(fileName.getText()));
-                        lblResult.setText(Decrypter.decryptBlue(fileName.getText()));
+                        Decrypter decrypter = new Decrypter(fileName.getText());
+                        lblResult.setText(decrypter.decryptLowLevelBits());
                     } catch (IOException error) {
                         error.printStackTrace();
                         System.out.println("Error: " + error.toString());
@@ -100,8 +100,7 @@ public class Main extends Application {
         btnEncrypt.setOnAction((e) -> {
                     try {
                         encrypter = new Encrypter(fileName.getText());
-                        //encrypter.encrypt(fieldTextToEncrypt.getText());
-                        encrypter.encryptBitwise(fieldTextToEncrypt.getText());
+                        encrypter.encryptLowLevelBits(fieldTextToEncrypt.getText());
                     } catch (IOException error) {
                         error.printStackTrace();
                     }

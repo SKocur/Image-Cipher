@@ -21,6 +21,9 @@ public class Encrypter {
     private ArrayList<Integer> asciiChars;
     private BufferedImage originalImage;
     private String fileName;
+    private int row;
+    private int col;
+    private int tempBitVal;
 
     /**
      * Here all common variables for this class are initialized.
@@ -65,14 +68,15 @@ public class Encrypter {
         }
     }
 
-    public void encryptBitwise(String text) {
+    @Deprecated
+    public void simpleEncrypt(String text) {
         int index = 0;
         boolean hasDone = false;
 
         for (int i = 0; i < originalImage.getHeight() && !hasDone; ++i) {
             for (int j = 0; j < originalImage.getWidth() && !hasDone; ++j) {
                 if (index < text.length()) {
-                    Color color = encryptBlue(text.charAt(index++));
+                    Color color = encryptBlue(text.charAt(index++), j, i);
 
                     originalImage.setRGB(j, i, color.getRGB());
                 } else {
@@ -89,20 +93,64 @@ public class Encrypter {
         }
     }
 
-    public Color encryptBlue(char character) {
-        int argb = originalImage.getRGB(123 ,13);
+    @Deprecated
+    private Color encryptBlue(char character, int posX, int posY) {
+        int argb = originalImage.getRGB(posX ,posY);
 
         int r = (argb >> 16) & 0b11111111;
         int g = (argb >> 8) & 0b11111111;
 
         int newB = 0;
-
         if (character < 255) {
             newB = character & 0b11111111;
         }
 
         return new Color(r, g, newB);
     }
+
+    public void encryptLowLevelBits(String text) {
+        for (char c : text.toCharArray()) {
+            encryptByte(c);
+        }
+
+        try {
+            File file = new File(fileName);
+            ImageIO.write(originalImage, "png", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Resetting values of cursor coordinates
+        col = 0;
+        row = 0;
+    }
+
+    private void encryptByte(char character) {
+        for (int i = 0; i < 8; ++i) {
+            encryptBitCharacter((character >> i) & 0b1);
+        }
+    }
+
+    private void encryptBitCharacter(int c) {
+        if (col < originalImage.getWidth() - 1) {
+            int mask = 0b11111111;
+            int rgb = originalImage.getRGB(col, row);
+            int r = (rgb >> 16) & mask;
+            int g = (rgb >> 8) & mask;
+
+            int b = originalImage.getRGB(col + 1, row) & mask;
+            b -= c;
+
+            Color color = new Color(r, g, b);
+            originalImage.setRGB(col, row, color.getRGB());
+
+            col += 2;
+        } else {
+            row++;
+            col = 0;
+        }
+    }
+
 
     public int getImageWidth() {
         return this.width;
