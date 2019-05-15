@@ -24,5 +24,7 @@ Java based software for encrypting text into image. Number of characters you can
 ### After encryption
 ![Demo](images/output.jpeg)
 
+### How does it work?
+![Demo](images/encryption_description.png)
 
 ### Documentation is available on: [JavaDoc](https://skocur.github.io/Image-Cipher/)
