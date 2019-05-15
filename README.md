@@ -19,10 +19,10 @@ Java based software for encrypting text into image. Number of characters you can
 3. Enjoy!
 
 ### Before encryption
-![Demo](images/github_logo.jpg)
+![Demo](images/github-logo.jpeg)
 
 ### After encryption
-![Demo](images/output.png)
+![Demo](images/output.jpeg)
 
 
 ### Documentation is available on: [JavaDoc](https://skocur.github.io/Image-Cipher/)
