@@ -112,10 +112,9 @@ public class Main extends Application {
         fieldTextToEncrypt.setOnAction((e) -> {
                     try {
                         encrypter = new LowLevelBitEncrypter(fileName.getText());
-                        int startCount = encrypter.getImageWidth() / Config.SPACING_CIPHER;
-                        int left = startCount - fieldTextToEncrypt.getText().length();
+                        int left = (encrypter.getImageWidth() / 16) * encrypter.getImageHeight();
 
-                        lblCharactersLeft.setText("Characters left: " + left);
+                        lblCharactersLeft.setText("Characters left: ~" + left);
                     } catch (IOException error) {
                         error.printStackTrace();
                         lblCharactersLeft.setText("Invalid image name");
