@@ -2,6 +2,8 @@ package com.skocur.imagecipher;
 
 import java.io.IOException;
 
+import com.skocur.imagecipher.encrypters.Encrypter;
+import com.skocur.imagecipher.encrypters.LowLevelBitEncrypter;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -99,8 +101,8 @@ public class Main extends Application {
 
         btnEncrypt.setOnAction((e) -> {
                     try {
-                        encrypter = new Encrypter(fileName.getText());
-                        encrypter.encryptLowLevelBits(fieldTextToEncrypt.getText());
+                        encrypter = new LowLevelBitEncrypter(fileName.getText());
+                        encrypter.encrypt(fieldTextToEncrypt.getText());
                     } catch (IOException error) {
                         error.printStackTrace();
                     }
@@ -109,7 +111,7 @@ public class Main extends Application {
 
         fieldTextToEncrypt.setOnAction((e) -> {
                     try {
-                        encrypter = new Encrypter(fileName.getText());
+                        encrypter = new LowLevelBitEncrypter(fileName.getText());
                         int startCount = encrypter.getImageWidth() / Config.SPACING_CIPHER;
                         int left = startCount - fieldTextToEncrypt.getText().length();
 
