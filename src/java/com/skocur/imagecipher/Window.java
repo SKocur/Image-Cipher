@@ -3,7 +3,7 @@ package com.skocur.imagecipher;
 import java.io.IOException;
 
 import com.skocur.imagecipher.encrypters.Encrypter;
-import com.skocur.imagecipher.encrypters.LowLevelBitEncrypter;
+import com.skocur.imagecipher.encrypters.LowLevelBitEncryption;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -97,7 +97,7 @@ public class Window extends Application {
 
         btnEncrypt.setOnAction((e) -> {
                     try {
-                        encrypter = new LowLevelBitEncrypter(fileName.getText());
+                        encrypter = new LowLevelBitEncryption(fileName.getText());
                         encrypter.encrypt(fieldTextToEncrypt.getText());
                     } catch (IOException error) {
                         error.printStackTrace();
@@ -107,7 +107,7 @@ public class Window extends Application {
 
         fieldTextToEncrypt.setOnAction((e) -> {
                     try {
-                        encrypter = new LowLevelBitEncrypter(fileName.getText());
+                        encrypter = new LowLevelBitEncryption(fileName.getText());
                         int left = (encrypter.getImageWidth() / 16) * encrypter.getImageHeight();
 
                         lblCharactersLeft.setText("Characters left: ~" + left);

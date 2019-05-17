@@ -3,12 +3,12 @@ package com.skocur.imagecipher.encrypters;
 import java.awt.*;
 import java.io.IOException;
 
-public class LowLevelBitEncrypter extends Encrypter {
+public class LowLevelBitEncryption extends Encrypter {
 
     private int row;
     private int col;
 
-    public LowLevelBitEncrypter(String fileName) throws IOException {
+    public LowLevelBitEncryption(String fileName) throws IOException {
         super(fileName);
     }
 
