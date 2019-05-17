@@ -8,17 +8,17 @@ import java.util.List;
 public class CommandArgs {
 
     @Parameter
-    private List<String> parameters = new ArrayList<>();
+    public List<String> parameters = new ArrayList<>();
 
     @Parameter(names = { "-EM", "--enryption-mode"}, description = "Encryption mode: 1 - SingleColorEncryption, 2 - MultiColorEncryption, 3 - LowLevelBitEncryption")
-    private int encryptionMode = 0; // If 0, then message will not be encrypted
+    public int encryptionMode = 0; // If 0, then message will not be encrypted
 
     @Parameter(names = { "-DM", "--decryption-mode"}, description = "Decryption mode")
-    private int decryptionMode = 0; // If 0, then message will not be decrypted
+    public int decryptionMode = 0; // If 0, then message will not be decrypted
 
     @Parameter(names = { "-f", "--file-name"}, description = "Path to file which will store encrypted data")
-    private String originalFileName;
+    public String originalFileName;
 
     @Parameter(names = { "-m", "--message"}, description = "Message which will be stored in image")
-    private String message;
+    public String message;
 }
