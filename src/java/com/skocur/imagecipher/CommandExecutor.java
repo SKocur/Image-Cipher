@@ -28,7 +28,7 @@ public class CommandExecutor {
         } else if (commandArgs.decryptionMode > 0 && commandArgs.encryptionMode == 0) {
             decrypt(commandArgs);
         } else {
-            System.err.println("You cannot encrypt and decrypt data in the same time");
+            System.err.println("You cannot encrypt and decrypt data at the same time");
             System.exit(2);
         }
     }
