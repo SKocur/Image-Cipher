@@ -26,7 +26,12 @@ public class CommandExecutor {
                 System.exit(1);
             }
         } else if (commandArgs.decryptionMode > 0 && commandArgs.encryptionMode == 0) {
-            decrypt(commandArgs);
+            try {
+                decrypt(commandArgs);
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+                System.exit(1);
+            }
         } else {
             System.err.println("You cannot encrypt and decrypt data at the same time");
             System.exit(2);
@@ -55,7 +60,18 @@ public class CommandExecutor {
         encrypter.encrypt(args.message);
     }
 
-    private static void decrypt(CommandArgs args) {
-
+    private static void decrypt(CommandArgs args) throws IOException {
+        switch (args.decryptionMode) {
+            case 1:
+                Decrypter.decrypt(args.originalFileName);
+                break;
+            case 2:
+                Decrypter.decryptBlue(args.originalFileName);
+                break;
+            case 3:
+                Decrypter decrypter = new Decrypter(args.originalFileName);
+                decrypter.decryptLowLevelBits();
+                break;
+        }
     }
 }
