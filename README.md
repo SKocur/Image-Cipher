@@ -25,9 +25,9 @@ Steganography software for encrypting text into image.
 
 `-DM arg` or `--decryption-mode arg` - sets decryption mode with `arg` option analogically used as above (of course it will decrypt specific algorithm)
 
-`-f arg` or `--file-name arg` - sets image name (or path to it) which will store encrypted data
+`-f fileName` or `--file-name fileName` - sets image name (or path to it) which will store encrypted data
 
-`-m arg` or `--message arg` - sets message which will be encrypted
+`-m some_message` or `--message some_message` - sets message which will be encrypted
 
 ### Before encryption
 ![Demo](images/github-logo.jpeg)
