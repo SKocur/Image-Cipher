@@ -1,8 +1,6 @@
 package com.skocur.imagecipher.encrypters;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 public class LowLevelBitEncrypter extends Encrypter {
@@ -24,7 +22,6 @@ public class LowLevelBitEncrypter extends Encrypter {
         col = 0;
         row = 0;
     }
-
 
     private void encryptByte(char character) {
         for (int i = 0; i < 8; ++i) {

@@ -1,8 +1,6 @@
 package com.skocur.imagecipher.encrypters;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 public class MultiColorEncryption extends Encrypter {
