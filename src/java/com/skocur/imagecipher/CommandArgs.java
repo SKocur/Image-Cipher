@@ -18,4 +18,10 @@ public class CommandArgs {
 
     @Parameter(names = { "-f", "--file-name"}, description = "Path to file which will store encrypted data")
     public String originalFileName;
+
+    @Parameter(names = { "-cf", "--certificate-file"}, description = "Path to file that contains ")
+    public String certificateFileName;
+
+    @Parameter(names = { "-ca", "--crypto-algorithm"}, description = "RSA, DSA")
+    public String cryptoAlgorithm;
 }
