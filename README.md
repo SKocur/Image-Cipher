@@ -27,8 +27,6 @@ Steganography software for encrypting text into image that uses modified version
 
 `-f fileName` or `--file-name fileName` - sets image name (or path to it) which will store encrypted data
 
-`-m some_message` or `--message some_message` - sets message which will be encrypted
-
 ### Before encryption
 ![Demo](images/github-logo.jpeg)
 
