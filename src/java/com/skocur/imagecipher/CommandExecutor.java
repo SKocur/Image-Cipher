@@ -1,10 +1,7 @@
 package com.skocur.imagecipher;
 
 import com.beust.jcommander.JCommander;
-import com.skocur.imagecipher.encrypters.Encrypter;
-import com.skocur.imagecipher.encrypters.LowLevelBitEncryption;
-import com.skocur.imagecipher.encrypters.MultiColorEncryption;
-import com.skocur.imagecipher.encrypters.SingleColorEncryption;
+import com.skocur.imagecipher.encrypters.*;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -52,6 +49,9 @@ public class CommandExecutor {
             case 3:
                 encrypter = new LowLevelBitEncryption(args.originalFileName);
                 break;
+            case 4:
+                encrypter = new RSAEncryption(args.originalFileName, args.certificateFileName);
+                break;
             default:
                 encrypter = new LowLevelBitEncryption(args.originalFileName);
                 System.err.println("There is no available such encryption option!");
@@ -83,6 +83,9 @@ public class CommandExecutor {
             case 3:
                 Decrypter decrypter = new Decrypter(args.originalFileName);
                 message = decrypter.decryptLowLevelBits();
+                break;
+            case 4:
+                // TODO: Create decrypter for RSAEncryption
                 break;
         }
 

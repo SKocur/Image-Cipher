@@ -9,7 +9,7 @@ public abstract class Encrypter {
 
     private int imageWidth;
     private int imageHeight;
-    private String fileName;
+    protected String fileName;
     protected BufferedImage image;
 
     public Encrypter(String fileName) throws IOException {
