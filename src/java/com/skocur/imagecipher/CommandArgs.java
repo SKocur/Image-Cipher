@@ -18,7 +18,4 @@ public class CommandArgs {
 
     @Parameter(names = { "-f", "--file-name"}, description = "Path to file which will store encrypted data")
     public String originalFileName;
-
-    @Parameter(names = { "-m", "--message"}, description = "Message which will be stored in image")
-    public String message;
 }

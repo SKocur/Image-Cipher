@@ -21,6 +21,8 @@ public class LowLevelBitEncryption extends Encrypter {
         // Resetting values of cursor coordinates
         col = 0;
         row = 0;
+
+        saveEncryptedData();
     }
 
     private void encryptByte(char character) {

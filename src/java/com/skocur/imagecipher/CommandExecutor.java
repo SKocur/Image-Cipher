@@ -7,6 +7,7 @@ import com.skocur.imagecipher.encrypters.MultiColorEncryption;
 import com.skocur.imagecipher.encrypters.SingleColorEncryption;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class CommandExecutor {
 
@@ -57,21 +58,34 @@ public class CommandExecutor {
                 System.err.println("LowLevelBitEncryption has been chosen by default");
         }
 
-        encrypter.encrypt(args.message);
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Message to encrypt:\n\n");
+        StringBuilder message = new StringBuilder();
+        String text;
+        while (!(text = scanner.nextLine()).equals(":exit")) {
+            message.append(text);
+        }
+
+        encrypter.encrypt(message.toString());
     }
 
     private static void decrypt(CommandArgs args) throws IOException {
+        String message = "";
+
         switch (args.decryptionMode) {
             case 1:
-                Decrypter.decrypt(args.originalFileName);
+                message = Decrypter.decrypt(args.originalFileName);
                 break;
             case 2:
-                Decrypter.decryptBlue(args.originalFileName);
+                message = Decrypter.decryptBlue(args.originalFileName);
                 break;
             case 3:
                 Decrypter decrypter = new Decrypter(args.originalFileName);
-                decrypter.decryptLowLevelBits();
+                message = decrypter.decryptLowLevelBits();
                 break;
         }
+
+        System.out.println(message);
     }
 }
