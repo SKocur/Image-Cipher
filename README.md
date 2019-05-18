@@ -22,6 +22,7 @@ Steganography software for encrypting text into image that uses modified version
 * if `arg` is equal to 1, then SingleColorEncryption will be used
 * if `arg` is equal to 2, then MultiColorEncryptio will be used
 * if `arg` is equal to 3, then LowLevelBitEncryption will be used
+* if `arg` is equal to 4, then RSAEncryption will be used. WARNING: EXPERIMENTAL IMPLEMENTATION
 
 `-DM arg` or `--decryption-mode arg` - sets decryption mode with `arg` option analogically used as above (of course it will decrypt specific algorithm)
 
