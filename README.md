@@ -6,6 +6,7 @@
 Steganography software for encrypting text into image that uses modified version of LSB (Least Significant Bit) algorithm.
 
 ## Usage:
+### Window option
 1. Find a photo to use for encryption.
 2. Enter the name of that photo in place of "image_name".
 3. Enter text to encrypt.
@@ -27,6 +28,9 @@ Steganography software for encrypting text into image that uses modified version
 `-DM arg` or `--decryption-mode arg` - sets decryption mode with `arg` option analogically used as above (of course it will decrypt specific algorithm)
 
 `-f fileName` or `--file-name fileName` - sets image name (or path to it) which will store encrypted data
+
+#### Example:
+`java -jar Image-Cipher.jar -DM 3 -f my_awesome_image_with_embedded_data.file`
 
 ### Before encryption
 ![Demo](images/github-logo.jpeg)
