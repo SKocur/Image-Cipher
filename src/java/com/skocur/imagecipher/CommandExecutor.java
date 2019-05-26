@@ -2,6 +2,7 @@ package com.skocur.imagecipher;
 
 import com.beust.jcommander.JCommander;
 import com.skocur.imagecipher.encrypters.*;
+import com.skocur.imagecipher.tools.imageprocessing.ImageNoise;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -30,9 +31,16 @@ public class CommandExecutor {
                 System.err.println(e.getMessage());
                 System.exit(1);
             }
-        } else {
+        } else if (commandArgs.encryptionMode > 0 && commandArgs.decryptionMode > 0) {
             System.err.println("You cannot encrypt and decrypt data at the same time");
             System.exit(2);
+        } else if (commandArgs.imageNoise > 0) {
+            try {
+                ImageNoise imageNoise = new ImageNoise(commandArgs.originalFileName);
+                imageNoise.createRandomNoise();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

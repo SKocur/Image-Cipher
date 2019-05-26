@@ -21,4 +21,7 @@ public class CommandArgs {
 
     @Parameter(names = { "-cf", "--certificate-file"}, description = "Path to file that contains certificate")
     public String certificateFileName;
+
+    @Parameter(names = { "--noise-image"}, description = "Creates noise from image")
+    public int imageNoise;
 }
