@@ -43,9 +43,9 @@ public class CommandExecutor {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if (commandArgs.imageColor > 0) {
+        } else if (commandArgs.imageFilterColor > 0) {
             try {
-                ColorFilter.getRedOf(new File(commandArgs.originalFileName));
+                ColorFilter.getColorOf(new File(commandArgs.originalFileName), commandArgs.imageFilterColor);
             } catch (IOException e) {
                 e.printStackTrace();
             }
