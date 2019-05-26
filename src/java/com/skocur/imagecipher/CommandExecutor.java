@@ -2,8 +2,10 @@ package com.skocur.imagecipher;
 
 import com.beust.jcommander.JCommander;
 import com.skocur.imagecipher.encrypters.*;
+import com.skocur.imagecipher.tools.imageprocessing.ColorFilter;
 import com.skocur.imagecipher.tools.imageprocessing.ImageNoise;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -38,6 +40,12 @@ public class CommandExecutor {
             try {
                 ImageNoise imageNoise = new ImageNoise(commandArgs.originalFileName);
                 imageNoise.createRandomNoise();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (commandArgs.imageColor > 0) {
+            try {
+                ColorFilter.getRedOf(new File(commandArgs.originalFileName));
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -24,4 +24,7 @@ public class CommandArgs {
 
     @Parameter(names = { "--noise-image"}, description = "Creates noise from image")
     public int imageNoise;
+
+    @Parameter(names = { "--color-image"}, description = "Save fetched color from image")
+    public int imageColor;
 }

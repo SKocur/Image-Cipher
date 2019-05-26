@@ -40,10 +40,10 @@ public class ImageNoise {
 
         System.out.println("Done generation process");
 
-        saveEncryptedData();
+        saveNoiseImage();
     }
 
-    private void saveEncryptedData() {
+    private void saveNoiseImage() {
         try {
             File file = new File(fileName.split("\\.")[0] + "_noise.png");
             ImageIO.write(image, "png", file);
