@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="1178.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.skocur.imagecipher.WindowController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="1178.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.skocur.imagecipher.controllers.WindowController">
    <children>
       <TabPane layoutX="-1.0" layoutY="52.0" prefHeight="476.0" prefWidth="575.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -22,7 +22,7 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Encryption mode" />
-                        <Button fx:id="encryptButton" layoutX="248.0" layoutY="376.0" mnemonicParsing="false" onAction="#encrypt" prefHeight="57.0" prefWidth="78.0" text="Encrypt" />
+                        <Button fx:id="encryptButton" disable="true" layoutX="248.0" layoutY="376.0" mnemonicParsing="false" onAction="#encrypt" prefHeight="57.0" prefWidth="78.0" text="Encrypt" />
                         <TextArea fx:id="textToEncrypt" layoutX="17.0" layoutY="72.0" prefHeight="286.0" prefWidth="540.0" />
                         <Text layoutX="14.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text to encrypt" />
                         <MenuButton fx:id="encryptionMode" layoutX="134.0" layoutY="10.0" mnemonicParsing="false" text="Mode">
@@ -37,7 +37,19 @@
           </Tab>
           <Tab text="Decryption">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Text layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Decryption mode" />
+                        <MenuButton fx:id="decryptionMode" layoutX="127.0" layoutY="14.0" mnemonicParsing="false" text="Mode">
+                           <items>
+                              <MenuItem id="singleColorEncryption" mnemonicParsing="false" text="Single Color Encryption" />
+                              <MenuItem id="multiColorEncryption" mnemonicParsing="false" text="Multi Color Encryption" />
+                              <MenuItem id="lowLevelBitEncryption" mnemonicParsing="false" text="Low Level Bit Encryption" />
+                           </items>
+                        </MenuButton>
+                        <Text layoutX="15.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text from image:" />
+                        <Button fx:id="decryptButton" disable="true" layoutX="249.0" layoutY="50.0" mnemonicParsing="false" onAction="#decrypt" prefHeight="57.0" prefWidth="78.0" text="Decrypt" />
+                     </children></AnchorPane>
             </content>
           </Tab>
         </tabs>

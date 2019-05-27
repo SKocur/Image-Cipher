@@ -1,8 +1,9 @@
-package com.skocur.imagecipher;
+package com.skocur.imagecipher.controllers;
 
 import java.io.File;
 import java.io.IOException;
 
+import com.skocur.imagecipher.Decrypter;
 import com.skocur.imagecipher.encrypters.*;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -35,6 +36,10 @@ public class WindowController extends Application {
     public TextArea textToEncrypt;
     @FXML
     public MenuButton encryptionMode;
+    @FXML
+    public MenuButton decryptionMode;
+    @FXML
+    public Button decryptButton;
 
     // Default option is Low Level Bit Encryption/Decryption
     private int cryptoOption = 3;
@@ -43,7 +48,7 @@ public class WindowController extends Application {
     public void start(Stage myStage) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("views/MainWindow.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../views/MainWindow.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,6 +67,19 @@ public class WindowController extends Application {
                     cryptoOption = finalI + 1
             );
         }
+
+        encryptButton.setDisable(false);
+    }
+
+    private void initDecryptionMode() {
+        for (int i = 0; i < decryptionMode.getItems().size(); i++) {
+            int finalI = i;
+            decryptionMode.getItems().get(i).setOnAction(e ->
+                    cryptoOption = finalI + 1
+            );
+        }
+
+        decryptButton.setDisable(false);
     }
 
     @FXML
@@ -70,7 +88,13 @@ public class WindowController extends Application {
         Image image = new Image(file.toURI().toString());
         previewImage.setImage(image);
 
-        initEncryptionMode();
+        if (file.exists()) {
+            initEncryptionMode();
+            initDecryptionMode();
+        } else {
+            encryptButton.setDisable(true);
+            decryptButton.setDisable(true);
+        }
     }
 
     @FXML
@@ -94,5 +118,28 @@ public class WindowController extends Application {
         }
 
         encrypter.encrypt(textToEncrypt.getText());
+    }
+
+    @FXML
+    public void decrypt() throws IOException {
+        String message = "";
+
+        switch (cryptoOption) {
+            case 1:
+                message = Decrypter.decrypt(imagePathTextField.getText());
+                break;
+            case 2:
+                message = Decrypter.decryptBlue(imagePathTextField.getText());
+                break;
+            case 3:
+                Decrypter decrypter = new Decrypter(imagePathTextField.getText());
+                message = decrypter.decryptLowLevelBits();
+                break;
+            default:
+                System.err.println("No valid decryption mode was chosen!");
+                System.exit(2);
+        }
+
+        // TODO: Add displaying decrypted message on GUI
     }
 }

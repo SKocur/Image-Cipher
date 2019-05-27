@@ -1,5 +1,6 @@
 package com.skocur.imagecipher;
 
+import com.skocur.imagecipher.controllers.WindowController;
 import javafx.application.Application;
 
 public class Main {
