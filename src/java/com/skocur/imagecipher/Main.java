@@ -8,7 +8,7 @@ public class Main {
         String osName = System.getProperty("os.name");
 
         if (osName.startsWith("Windows") && args.length == 0) {
-            Application.launch(Window.class, args);
+            Application.launch(WindowController.class, args);
         } else {
             CommandExecutor.executeArgs(args);
         }
