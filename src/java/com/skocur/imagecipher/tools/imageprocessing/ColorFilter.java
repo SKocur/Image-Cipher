@@ -8,28 +8,16 @@ import java.io.IOException;
 
 public class ColorFilter {
 
-    /**
-     * Method that filter color from image. Option of filtering is based on option
-     * fetched from command line argument. Default filter is to RED.
-     *
-     * @param file Path to image
-     * @param option Option of filtering
-     * @throws IOException
-     */
-    public static void getColorOf(File file, int option) throws IOException {
+    public static BufferedImage getColorOf(File file, int option) throws IOException {
         BufferedImage image = ImageIO.read(file);
 
         int bitShift = 16;
-        String tag = "red";
-
         switch (option) {
             case 2:
                 bitShift = 8;
-                tag = "green";
                 break;
             case 3:
                 bitShift = 0;
-                tag = "blue";
                 break;
         }
 
@@ -48,7 +36,30 @@ public class ColorFilter {
             }
         }
 
-        saveColorData(file.getName(), tag, image);
+        return image;
+    }
+
+    /**
+     * Method that filter color from image. Option of filtering is based on option
+     * fetched from command line argument. Default filter is to RED.
+     *
+     * @param file Path to image
+     * @param option Option of filtering
+     * @throws IOException
+     */
+    public static void getColorAndSave(File file, int option) throws IOException {
+        String tag = "red";
+
+        switch (option) {
+            case 2:
+                tag = "green";
+                break;
+            case 3:
+                tag = "blue";
+                break;
+        }
+
+        saveColorData(file.getName(), tag, getColorOf(file, option));
     }
 
     private static void saveColorData(String fileName, String fileTag, BufferedImage image) {

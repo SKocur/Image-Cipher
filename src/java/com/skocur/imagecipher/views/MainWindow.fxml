@@ -60,5 +60,6 @@
       <ImageView fx:id="previewImage" fitHeight="382.0" fitWidth="551.0" layoutX="598.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="598.0" layoutY="92.0" text="Image:" />
       <Button fx:id="loadImageButton" layoutX="598.0" layoutY="17.0" mnemonicParsing="false" onAction="#loadImage" text="Load image" />
+      <Button fx:id="imageProcessing" disable="true" layoutX="703.0" layoutY="17.0" mnemonicParsing="false" onAction="#launchImageProcessingWindow" text="Image processing" />
    </children>
 </Pane>

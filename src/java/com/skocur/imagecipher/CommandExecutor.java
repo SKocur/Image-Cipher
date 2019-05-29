@@ -45,7 +45,7 @@ public class CommandExecutor {
             }
         } else if (commandArgs.imageFilterColor > 0) {
             try {
-                ColorFilter.getColorOf(new File(commandArgs.originalFileName), commandArgs.imageFilterColor);
+                ColorFilter.getColorAndSave(new File(commandArgs.originalFileName), commandArgs.imageFilterColor);
             } catch (IOException e) {
                 e.printStackTrace();
             }

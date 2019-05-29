@@ -1,17 +1,21 @@
 package com.skocur.imagecipher.controllers;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import com.skocur.imagecipher.Decrypter;
 import com.skocur.imagecipher.encrypters.*;
+import com.skocur.imagecipher.tools.imageprocessing.ColorFilter;
 import javafx.application.Application;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -43,9 +47,17 @@ public class WindowController extends Application {
     public Button decryptButton;
     @FXML
     public Text messageFromImage;
+    @FXML
+    public Button imageProcessing;
+    @FXML
+    public ImageView imageAfterPreview;
+    @FXML
+    public ImageView imageBeforePreview;
 
     // Default option is Low Level Bit Encryption/Decryption
     private int cryptoOption = 3;
+
+    private static String fileName = "";
 
     @Override
     public void start(Stage myStage) {
@@ -88,17 +100,48 @@ public class WindowController extends Application {
 
     @FXML
     public void loadImage() {
-        File file = new File(imagePathTextField.getText());
+        fileName = imagePathTextField.getText();
+        File file = new File(fileName);
         Image image = new Image(file.toURI().toString());
         previewImage.setImage(image);
 
         if (file.exists()) {
             initEncryptionMode();
             initDecryptionMode();
+
+            imageProcessing.setDisable(false);
         } else {
             encryptButton.setDisable(true);
             decryptButton.setDisable(true);
+            imageProcessing.setDisable(true);
         }
+    }
+
+    @FXML
+    public void launchImageProcessingWindow() {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("../views/ImageProcessingWindow.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Scene scene = new Scene(root, 900, 500);
+        Stage stage = new Stage();
+
+        stage.setMinWidth(900);
+        stage.setMinHeight(450);
+        stage.setTitle("Image Processing");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+    @FXML
+    public void initViews() {
+        File file = new File(fileName);
+        Image image = new Image(file.toURI().toString());
+        imageBeforePreview.setImage(image);
     }
 
     @FXML
@@ -145,5 +188,40 @@ public class WindowController extends Application {
         }
 
         messageFromImage.setText(message);
+    }
+
+    @FXML
+    public void processRED() {
+        try {
+            setProcessedImage(ColorFilter.getColorOf(new File(fileName), 1));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void processGREEN() {
+        try {
+            setProcessedImage(ColorFilter.getColorOf(new File(fileName), 2));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void processBLUE() {
+        try {
+            setProcessedImage(ColorFilter.getColorOf(new File(fileName), 3));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void processNOISE() {
+    }
+
+    private void setProcessedImage(BufferedImage image) {
+        imageAfterPreview.setImage(SwingFXUtils.toFXImage(image, null));
     }
 }
