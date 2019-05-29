@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
@@ -40,6 +41,8 @@ public class WindowController extends Application {
     public MenuButton decryptionMode;
     @FXML
     public Button decryptButton;
+    @FXML
+    public Text messageFromImage;
 
     // Default option is Low Level Bit Encryption/Decryption
     private int cryptoOption = 3;
@@ -54,7 +57,8 @@ public class WindowController extends Application {
         }
 
         Scene scene = new Scene(root, 1178, 533);
-
+        myStage.setMinWidth(900);
+        myStage.setMinHeight(450);
         myStage.setTitle("Image Cipher");
         myStage.setScene(scene);
         myStage.show();
@@ -140,6 +144,6 @@ public class WindowController extends Application {
                 System.exit(2);
         }
 
-        // TODO: Add displaying decrypted message on GUI
+        messageFromImage.setText(message);
     }
 }

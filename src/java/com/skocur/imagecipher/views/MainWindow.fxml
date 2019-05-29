@@ -49,6 +49,7 @@
                         </MenuButton>
                         <Text layoutX="15.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text from image:" />
                         <Button fx:id="decryptButton" disable="true" layoutX="249.0" layoutY="50.0" mnemonicParsing="false" onAction="#decrypt" prefHeight="57.0" prefWidth="78.0" text="Decrypt" />
+                        <Text fx:id="messageFromImage" layoutX="15.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -58,6 +59,6 @@
       <TextField fx:id="imagePathTextField" layoutX="137.0" layoutY="17.0" prefHeight="25.0" prefWidth="438.0" />
       <ImageView fx:id="previewImage" fitHeight="382.0" fitWidth="551.0" layoutX="598.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="598.0" layoutY="92.0" text="Image:" />
-      <Button fx:id="loadImageButton" layoutX="598.0" layoutY="17.0" mnemonicParsing="false" onAction="#loadImage" text="Preview Image" />
+      <Button fx:id="loadImageButton" layoutX="598.0" layoutY="17.0" mnemonicParsing="false" onAction="#loadImage" text="Load image" />
    </children>
 </Pane>
