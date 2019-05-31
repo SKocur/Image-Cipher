@@ -1,5 +1,6 @@
 package com.skocur.imagecipher.controllers;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -14,9 +15,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -220,14 +223,27 @@ public class WindowController extends Application {
 
     @FXML
     public void processNOISE() {
-        try {
-            setProcessedImage(new ImageNoise(fileName).createRandomNoise());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // TODO: Create benchmark for operation below
+        Runnable r = () -> {
+            try {
+                setProcessedImage(new ImageNoise(fileName).createRandomNoise());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+        new Thread(r).start();
     }
 
-    private void setProcessedImage(BufferedImage image) {
+    public void setProcessedImage(BufferedImage image) {
         imageAfterPreview.setImage(SwingFXUtils.toFXImage(image, null));
+    }
+
+
+    public ImagePreviewUpdater imagePreviewUpdater = WindowController.this::setProcessedImage;
+
+    @FunctionalInterface
+    public interface ImagePreviewUpdater {
+
+        void update(BufferedImage image);
     }
 }
