@@ -1,6 +1,5 @@
 package com.skocur.imagecipher.controllers;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -236,14 +235,5 @@ public class WindowController extends Application {
 
     public void setProcessedImage(BufferedImage image) {
         imageAfterPreview.setImage(SwingFXUtils.toFXImage(image, null));
-    }
-
-
-    public ImagePreviewUpdater imagePreviewUpdater = WindowController.this::setProcessedImage;
-
-    @FunctionalInterface
-    public interface ImagePreviewUpdater {
-
-        void update(BufferedImage image);
     }
 }

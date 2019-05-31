@@ -27,10 +27,11 @@ public class ImageNoise {
         while (sum < pixels.length * pixels[0].length) {
             int x = (int) (Math.random() * image.getWidth());
             int y = (int) (Math.random() * image.getHeight());
-            int x2 = (int) (Math.random() * image.getWidth());
-            int y2 = (int) (Math.random() * image.getHeight());
 
             if (pixels[y][x] != 0) {
+                int x2 = (int) (Math.random() * image.getWidth());
+                int y2 = (int) (Math.random() * image.getHeight());
+
                 image.setRGB(x, y, pixels[y2][x2]);
                 pixels[y][x] = 0;
 
