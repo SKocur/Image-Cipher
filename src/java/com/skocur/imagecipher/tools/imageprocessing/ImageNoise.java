@@ -15,7 +15,7 @@ public class ImageNoise {
         this.image = ImageIO.read(new File(fileName));
     }
 
-    public void createRandomNoise() {
+    public BufferedImage createRandomNoise() {
         int[][] pixels = new int[image.getHeight()][image.getWidth()];
         for (int row = 0; row < pixels.length; ++row) {
             for (int col = 0; col < pixels[row].length; ++col) {
@@ -38,12 +38,10 @@ public class ImageNoise {
             }
         }
 
-        System.out.println("Done generation process");
-
-        saveNoiseImage();
+        return image;
     }
 
-    private void saveNoiseImage() {
+    public void saveNoiseImage(BufferedImage image) {
         try {
             File file = new File(fileName.split("\\.")[0] + "_noise.png");
             ImageIO.write(image, "png", file);

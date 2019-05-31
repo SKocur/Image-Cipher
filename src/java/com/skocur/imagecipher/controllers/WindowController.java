@@ -7,6 +7,7 @@ import java.io.IOException;
 import com.skocur.imagecipher.Decrypter;
 import com.skocur.imagecipher.encrypters.*;
 import com.skocur.imagecipher.tools.imageprocessing.ColorFilter;
+import com.skocur.imagecipher.tools.imageprocessing.ImageNoise;
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -219,6 +220,11 @@ public class WindowController extends Application {
 
     @FXML
     public void processNOISE() {
+        try {
+            setProcessedImage(new ImageNoise(fileName).createRandomNoise());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setProcessedImage(BufferedImage image) {

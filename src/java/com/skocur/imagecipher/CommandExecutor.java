@@ -39,7 +39,7 @@ public class CommandExecutor {
         } else if (commandArgs.imageNoise > 0) {
             try {
                 ImageNoise imageNoise = new ImageNoise(commandArgs.originalFileName);
-                imageNoise.createRandomNoise();
+                imageNoise.saveNoiseImage(imageNoise.createRandomNoise());
             } catch (IOException e) {
                 e.printStackTrace();
             }
