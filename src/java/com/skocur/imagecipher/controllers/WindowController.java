@@ -52,15 +52,11 @@ public class WindowController extends Application {
     public Text messageFromImage;
     @FXML
     public Button imageProcessing;
-    @FXML
-    public ImageView imageAfterPreview;
-    @FXML
-    public ImageView imageBeforePreview;
 
     // Default option is Low Level Bit Encryption/Decryption
     private int cryptoOption = 3;
 
-    private static String fileName = "";
+    public static String fileName = "";
 
     @Override
     public void start(Stage myStage) {
@@ -139,14 +135,6 @@ public class WindowController extends Application {
         stage.show();
     }
 
-
-    @FXML
-    public void initViews() {
-        File file = new File(fileName);
-        Image image = new Image(file.toURI().toString());
-        imageBeforePreview.setImage(image);
-    }
-
     @FXML
     public void encrypt() throws IOException {
         Encrypter encrypter;
@@ -191,49 +179,5 @@ public class WindowController extends Application {
         }
 
         messageFromImage.setText(message);
-    }
-
-    @FXML
-    public void processRED() {
-        try {
-            setProcessedImage(ColorFilter.getColorOf(new File(fileName), 1));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void processGREEN() {
-        try {
-            setProcessedImage(ColorFilter.getColorOf(new File(fileName), 2));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void processBLUE() {
-        try {
-            setProcessedImage(ColorFilter.getColorOf(new File(fileName), 3));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void processNOISE() {
-        // TODO: Create benchmark for operation below
-        Runnable r = () -> {
-            try {
-                setProcessedImage(new ImageNoise(fileName).createRandomNoise());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        };
-        new Thread(r).start();
-    }
-
-    public void setProcessedImage(BufferedImage image) {
-        imageAfterPreview.setImage(SwingFXUtils.toFXImage(image, null));
     }
 }
