@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.skocur.imagecipher.Decrypter;
+import com.skocur.imagecipher.Main;
 import com.skocur.imagecipher.encrypters.*;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -58,12 +59,14 @@ public class WindowController extends Application {
     public void start(Stage myStage) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("../views/MainWindow.fxml"));
+            root = new FXMLLoader().load(Main.class.getResourceAsStream("views/MainWindow.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         Scene scene = new Scene(root, 1178, 533);
+        scene.getStylesheets().add(Main.class.getResource("views/styles/style_main_window.css").toString());
+
         myStage.setMinWidth(900);
         myStage.setMinHeight(450);
         myStage.setTitle("Image Cipher");
@@ -116,7 +119,7 @@ public class WindowController extends Application {
     public void launchImageProcessingWindow() {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("../views/ImageProcessingWindow.fxml"));
+            root = new FXMLLoader().load(Main.class.getResourceAsStream("views/ImageProcessingWindow.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
