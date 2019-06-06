@@ -2,27 +2,21 @@ package com.skocur.imagecipher.controllers;
 
 import com.skocur.imagecipher.tools.imageprocessing.ColorFilter;
 import com.skocur.imagecipher.tools.imageprocessing.ImageNoise;
-import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ImageProcessingController extends Application {
+public class ImageProcessingController {
 
     @FXML
     public ImageView imageAfterPreview;
     @FXML
     public ImageView imageBeforePreview;
-
-    @Override
-    public void start(Stage primaryStage) {
-    }
 
     @FXML
     public void initViews() {

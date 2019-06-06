@@ -1,15 +1,11 @@
 package com.skocur.imagecipher.controllers;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import com.skocur.imagecipher.Decrypter;
 import com.skocur.imagecipher.encrypters.*;
-import com.skocur.imagecipher.tools.imageprocessing.ColorFilter;
-import com.skocur.imagecipher.tools.imageprocessing.ImageNoise;
 import javafx.application.Application;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
