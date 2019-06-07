@@ -18,6 +18,7 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/buttonEncLoadImage"
                 android:layout_width="140dp"
                 android:layout_height="50dp"
                 style="@style/Widget.AppCompat.Button.Colored"
@@ -26,6 +27,7 @@
                 android:layout_margin="10dp"/>
 
             <ImageView
+                android:id="@+id/imageFromGalleryEnc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"/>
@@ -46,44 +48,42 @@
                     android:text="Single Color Encryption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/radioSingleColorEncryption"
-                    android:layout_weight="1"/>
+                    android:id="@+id/radioSingleColorEncryption"/>
 
                 <RadioButton
                     android:text="Multi Color Encryption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/radioMultiColorEncryption"
-                    android:layout_weight="1"/>
+                    android:id="@+id/radioMultiColorEncryption"/>
 
                 <RadioButton
                     android:text="Low Level Bit Encryption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioLowLevelBitEncryption"
-                    android:layout_weight="1"
                     android:checked="true"/>
             </RadioGroup>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Message:"
+                android:text="Text:"
                 android:textSize="20dp"
                 android:layout_marginStart="10dp"/>
 
             <EditText
+                android:id="@+id/textToEncrypt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:tooltipText="Message that will be encrypted"
-                android:id="@+id/editText"
                 android:lines="10"
                 android:scrollbars="vertical"
                 android:maxLines="15"
                 android:layout_margin="10dp"/>
 
             <Button
+                android:id="@+id/buttonEncrypt"
                 android:layout_width="140dp"
                 android:layout_height="50dp"
                 style="@style/Widget.AppCompat.Button.Colored"
