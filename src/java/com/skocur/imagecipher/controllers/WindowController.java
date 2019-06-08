@@ -21,8 +21,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 
 /**
- * <h1>WindowController</h1>
- * <br>
+ * WindowController
  * This class is responsible for creating graphical user interface (GUI).
  *
  * @author Szymon Kocur
@@ -96,6 +95,11 @@ public class WindowController extends Application {
         decryptButton.setDisable(false);
     }
 
+    /**
+     * This method takes image from file path. If file exists, buttons
+     * responsible for processing data (for example encryption) will be
+     * enabled.
+     */
     @FXML
     public void loadImage() {
         fileName = imagePathTextField.getText();

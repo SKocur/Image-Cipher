@@ -1,1 +1,4 @@
 com.skocur.imagecipher
+com.skocur.imagecipher.controllers
+com.skocur.imagecipher.encrypters
+com.skocur.imagecipher.tools.imageprocessing

@@ -15,6 +15,12 @@ public class ImageNoise {
         this.image = ImageIO.read(new File(fileName));
     }
 
+    /**
+     * Randomly shuffles every pixel in image. It has to go through
+     * whole file in order to swap everything.
+     *
+     * @return
+     */
     public BufferedImage createRandomNoise() {
         int[][] pixels = new int[image.getHeight()][image.getWidth()];
         for (int row = 0; row < pixels.length; ++row) {

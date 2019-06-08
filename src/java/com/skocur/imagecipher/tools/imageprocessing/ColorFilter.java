@@ -6,8 +6,29 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Class that is responsible for processing data from image. This specific one
+ * gets color from every pixel from image and after this process this filtered
+ * data can be saved or returned to GUI in order to be displayed.
+ */
 public class ColorFilter {
 
+    /**
+     * Returns BufferedImage object that is in one color. Takes option parameter
+     * which describes color value of filtering:
+     * 1 - Red (default)
+     * 2 - Green
+     * 3 - Blue
+     *
+     * Method goes through whole image changing every pixel it meets to chosen color.
+     * This filtering option influences bitwise operation, which is used to
+     * fetch specific color from pixel.
+     *
+     * @param file Image that will be processed
+     * @param option Mode of color filtering
+     * @return Buffered Image - Processed Image
+     * @throws IOException Thrown when file cannot be found
+     */
     public static BufferedImage getColorOf(File file, int option) throws IOException {
         BufferedImage image = ImageIO.read(file);
 
