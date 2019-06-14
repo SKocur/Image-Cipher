@@ -67,4 +67,10 @@ public class ImageProcessingController {
     public void setProcessedImage(BufferedImage image) {
         imageAfterPreview.setImage(SwingFXUtils.toFXImage(image, null));
     }
+
+    // TODO: Add button (in FXML) and implement feature that will enable user to save image after processing. If it is required, developer can change code from methods above.
+    //@FXML
+    public void saveProcessedImage() {
+
+    }
 }
