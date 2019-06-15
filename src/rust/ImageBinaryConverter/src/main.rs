@@ -1,14 +1,35 @@
 extern crate image;
 
+use std::env;
 use std::io::prelude::*;
 use std::fs::File;
-use image::ColorType;
-use image::ImageFormat;
+use std::iter::FromIterator;
 use image::ImageBuffer;
 use image::Rgb;
 
 fn main() {
-    let file_name = String::from("Editing How I redesigned LSB steganography algorithm_ – Medium.pdf");
+    let args: Vec<String> = env::args().collect();
+
+    if args.len() > 1 {
+        let mode = &args[1];
+
+        if mode == "enc" {
+            encrypt_vector_files(Vec::from_iter(args[2..].iter().cloned()));
+        } else if mode == "dec" {
+            // TODO: Implement decryption mechanism
+        } else {
+            panic!("Invalid mode");
+        }
+    }
+}
+
+fn encrypt_vector_files(files: Vec<String>) {
+    for file in files {
+        encrypt_file(file);
+    }
+}
+
+fn encrypt_file(file_name: String) {
     let mut file = File::open(&file_name)
         .expect("Cannot read file");
 
@@ -16,8 +37,7 @@ fn main() {
     file.read_to_end(&mut buffer)
         .expect("Cannot load data to buffer");
 
-    let mut size_y: u32 = 500;
-
+    let size_y: u32 = 500;
     let size_x: u32 = buffer.len() as u32 / size_y;
     let mut image = ImageBuffer::<Rgb<u8>, Vec<u8>>::new(size_x, size_y);
 
