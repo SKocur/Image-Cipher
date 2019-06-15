@@ -32,14 +32,14 @@ fn encrypt_file(file_name: String) {
         .expect("Cannot load data to buffer");
 
     let bytes_to_pixels: f32 = buffer.len() as f32 / BYTES_PER_PIXEL as f32;
-    let size_x = (bytes_to_pixels / 2.0) as u32;
-    let size_y = (bytes_to_pixels - size_x as f32) as u32;
-    println!("Bytes ({}) = {} x {} pixels", buffer.len() as u32, size_x, size_y);
-    let mut image = ImageBuffer::<Rgb<u8>, Vec<u8>>::new(size_x, size_y);
+
+    let size_sqr = bytes_to_pixels.sqrt() as u32;
+    println!("Bytes ({}) = {} x {} pixels", buffer.len() as u32, size_sqr, size_sqr);
+    let mut image = ImageBuffer::<Rgb<u8>, Vec<u8>>::new(size_sqr, size_sqr);
 
     let mut counter: usize = 0;
-    for y in 0..size_y - 1 {
-        for x in 0..size_x {
+    for y in 0..size_sqr - 1 {
+        for x in 0..size_sqr {
             if counter == buffer.len() {
                 break;
             } else if counter + 1 == buffer.len() {
