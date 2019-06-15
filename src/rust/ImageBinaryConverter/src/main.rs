@@ -7,19 +7,13 @@ use std::iter::FromIterator;
 use image::ImageBuffer;
 use image::Rgb;
 
+const BYTES_PER_PIXEL: u8 = 3;
+
 fn main() {
     let args: Vec<String> = env::args().collect();
 
     if args.len() > 1 {
-        let mode = &args[1];
-
-        if mode == "enc" {
-            encrypt_vector_files(Vec::from_iter(args[2..].iter().cloned()));
-        } else if mode == "dec" {
-            // TODO: Implement decryption mechanism
-        } else {
-            panic!("Invalid mode");
-        }
+        encrypt_vector_files(Vec::from_iter(args[1..].iter().cloned()));
     }
 }
 
@@ -37,8 +31,10 @@ fn encrypt_file(file_name: String) {
     file.read_to_end(&mut buffer)
         .expect("Cannot load data to buffer");
 
-    let size_y: u32 = 500;
-    let size_x: u32 = buffer.len() as u32 / size_y;
+    let bytes_to_pixels: f32 = buffer.len() as f32 / BYTES_PER_PIXEL as f32;
+    let size_x = (bytes_to_pixels / 2.0) as u32;
+    let size_y = (bytes_to_pixels - size_x as f32) as u32;
+    println!("Bytes ({}) = {} x {} pixels", buffer.len() as u32, size_x, size_y);
     let mut image = ImageBuffer::<Rgb<u8>, Vec<u8>>::new(size_x, size_y);
 
     let mut counter: usize = 0;
@@ -60,5 +56,8 @@ fn encrypt_file(file_name: String) {
         }
     }
 
-    image.save(format!("{}.png", file_name)).unwrap();
+    println!("Image processed");
+
+    // Method below doesn't save jpg images, there is no eror, just no output
+    image.save(format!("{}.png", file_name)).expect("Error while saving file");
 }
