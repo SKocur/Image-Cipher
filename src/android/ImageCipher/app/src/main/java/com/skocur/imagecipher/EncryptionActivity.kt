@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import com.skocur.imagecipher.encrypters.Encrypter
+import com.skocur.imagecipher.encrypters.LowLevelBitEncryption
 import kotlinx.android.synthetic.main.activity_encryption.*
 
 class EncryptionActivity : AppCompatActivity() {
@@ -18,7 +20,6 @@ class EncryptionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_encryption)
 
         buttonEncLoadImage.setOnClickListener {
-            // TODO: Add - asking user for permission to access smartphone's storage
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
 
@@ -27,13 +28,16 @@ class EncryptionActivity : AppCompatActivity() {
 
         buttonEncrypt.setOnClickListener {
             val text : String = textToEncrypt.text.toString()
-            var option = 3 // Default encryption is set to Low Level Bit Encryption
 
+            // Default encryption is set to Low Level Bit Encryption
+            var encrypter : Encrypter = LowLevelBitEncryption(bitmap, contentResolver, applicationContext)
             if (radioSingleColorEncryption.isChecked) {
-                option = 1
+
             } else if (radioMultiColorEncryption.isChecked) {
-                option = 2
+
             }
+
+            encrypter.encrypt(text)
         }
     }
 
