@@ -3,6 +3,7 @@
           package="com.skocur.imagecipher">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="READ_EXTERNAL_STORAGE" />
 
     <application
             android:allowBackup="true"

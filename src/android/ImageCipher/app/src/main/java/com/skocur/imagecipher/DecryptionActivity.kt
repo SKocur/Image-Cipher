@@ -25,7 +25,12 @@ class DecryptionActivity : AppCompatActivity() {
         }
 
         buttonDecrypt.setOnClickListener {
+            if (radioLowLevelBitDecryption.isChecked) {
+                val decrypter = Decrypter(bitmap)
 
+                decryptedText.text = decrypter.decryptLowLevelBits()
+                decryptedText.visibility = View.VISIBLE
+            }
         }
     }
 

@@ -26,22 +26,28 @@ class LowLevelBitEncryption(bitmap: Bitmap,
     }
 
     private fun encryptByte(character : Char) {
-        for (i in 0..8) {
+        for (i in 0..7) {
             encryptBitCharacter((character.toInt() shr i) and 0b1)
         }
     }
 
     private fun encryptBitCharacter(c : Int) {
         if (col < bitmap.width - 1) {
-            val mask = 255
             val rgb = bitmap.getPixel(col, row)
-            val r = (rgb shr 16) and mask
-            val g = (rgb shr 8) and mask
+            val r = Color.red(rgb)
+            val g = Color.green(rgb)
 
-            var b = bitmap.getPixel(col + 1, row) and mask
+            var b = Color.blue(bitmap.getPixel(col + 1, row))
             b -= c
 
-            bitmap.setPixel(col, row, String.format("%02x%02x%02x", r, g, b).toInt(16))
+            //bitmap.setPixel(col, row, String.format("%02x%02x%02x", r, g, b).toInt(16))
+            val color = Color.rgb(r, g, b)
+            super.bitmap.setPixel(col, row, color)
+
+            col += 2
+        } else {
+            row++
+            col = 0
         }
     }
 }

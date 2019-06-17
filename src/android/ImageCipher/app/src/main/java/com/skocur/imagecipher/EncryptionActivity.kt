@@ -2,6 +2,7 @@ package com.skocur.imagecipher
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -47,7 +48,7 @@ class EncryptionActivity : AppCompatActivity() {
         if (requestCode == REQUEST_PHOTO_GALLERY) {
             if (data != null) {
                 bitmap = MediaStore.Images.Media.getBitmap(contentResolver, data.data)
-
+                //val uri: Uri = intent.data
                 imageFromGalleryEnc.setImageBitmap(bitmap)
                 imageFromGalleryEnc.visibility = View.VISIBLE
             }
