@@ -24,5 +24,6 @@
         </items>
       </ToolBar>
       <Button layoutX="254.0" layoutY="29.0" mnemonicParsing="false" onAction="#processNOISE" text="NOISE" />
+      <Button layoutX="325.0" layoutY="29.0" mnemonicParsing="false" onAction="#saveProcessedImage" text="SAVE" />
    </children>
 </Pane>
