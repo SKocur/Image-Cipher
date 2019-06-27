@@ -72,14 +72,18 @@ public class ImageProcessingController {
         bufferedImage = image;
     }
 
-    // TODO: Add button (in FXML) and implement feature that will enable user to save image after processing. If it is required, developer can change code from methods above.
-    //@FXML
+    @FXML
     public void saveProcessedImage() {
         String filePath = WindowController.fileName;
         int extIndex = filePath.lastIndexOf('.');
-        if (extIndex == -1) { throw new Error("Invalid path. Extension not specified"); }
+
+        if (extIndex == -1) {
+            throw new Error("Invalid path. Extension not specified");
+        }
+
         String outputPath = filePath.substring(0, extIndex) + "_processed" + filePath.substring(extIndex);
         File out = new File(outputPath);
+
         try {
             ImageIO.write(this.bufferedImage, filePath.substring(extIndex + 1), out);
         } catch (IOException e) {
