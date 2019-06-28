@@ -2,6 +2,7 @@ package com.skocur.imagecipher.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 import com.skocur.imagecipher.Decrypter;
 import com.skocur.imagecipher.Main;
@@ -56,21 +57,23 @@ public class WindowController extends Application {
 
     @Override
     public void start(Stage myStage) {
-        Parent root = null;
+        Optional<Parent> root = Optional.empty();
         try {
-            root = new FXMLLoader().load(Main.class.getResourceAsStream("views/MainWindow.fxml"));
+            root = Optional.of(new FXMLLoader().load(Main.class.getResourceAsStream("views/MainWindow.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Scene scene = new Scene(root, 1178, 533);
-        scene.getStylesheets().add(Main.class.getResource("views/styles/style_main_window.css").toString());
+        root.ifPresent(parent -> {
+            Scene scene = new Scene(parent, 1178, 533);
+            scene.getStylesheets().add(Main.class.getResource("views/styles/style_main_window.css").toString());
 
-        myStage.setMinWidth(900);
-        myStage.setMinHeight(450);
-        myStage.setTitle("Image Cipher");
-        myStage.setScene(scene);
-        myStage.show();
+            myStage.setMinWidth(900);
+            myStage.setMinHeight(450);
+            myStage.setTitle("Image Cipher");
+            myStage.setScene(scene);
+            myStage.show();
+        });
     }
 
     private void initEncryptionMode() {
@@ -121,21 +124,23 @@ public class WindowController extends Application {
 
     @FXML
     public void launchImageProcessingWindow() {
-        Parent root = null;
+        Optional<Parent> root = Optional.empty();
         try {
-            root = new FXMLLoader().load(Main.class.getResourceAsStream("views/ImageProcessingWindow.fxml"));
+            root = Optional.of(new FXMLLoader().load(Main.class.getResourceAsStream("views/ImageProcessingWindow.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Scene scene = new Scene(root, 900, 500);
-        Stage stage = new Stage();
+        root.ifPresent(parent -> {
+            Scene scene = new Scene(parent, 900, 500);
+            Stage stage = new Stage();
 
-        stage.setMinWidth(900);
-        stage.setMinHeight(450);
-        stage.setTitle("Image Processing");
-        stage.setScene(scene);
-        stage.show();
+            stage.setMinWidth(900);
+            stage.setMinHeight(450);
+            stage.setTitle("Image Processing");
+            stage.setScene(scene);
+            stage.show();
+        });
     }
 
     @FXML

@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class CommandExecutor {
 
-    public static void executeArgs(String[] args) {
+    public static void executeArgs(String[] args) throws IOException {
         CommandArgs commandArgs = new CommandArgs();
 
         JCommander.newBuilder()
@@ -20,35 +20,17 @@ public class CommandExecutor {
                 .parse(args);
 
         if (commandArgs.encryptionMode > 0 && commandArgs.decryptionMode == 0) {
-            try {
-                encrypt(commandArgs);
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-                System.exit(1);
-            }
+            encrypt(commandArgs);
         } else if (commandArgs.decryptionMode > 0 && commandArgs.encryptionMode == 0) {
-            try {
-                decrypt(commandArgs);
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-                System.exit(1);
-            }
+            decrypt(commandArgs);
         } else if (commandArgs.encryptionMode > 0 && commandArgs.decryptionMode > 0) {
             System.err.println("You cannot encrypt and decrypt data at the same time");
             System.exit(2);
         } else if (commandArgs.imageNoise > 0) {
-            try {
-                ImageNoise imageNoise = new ImageNoise(commandArgs.originalFileName);
-                imageNoise.saveNoiseImage(imageNoise.createRandomNoise());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            ImageNoise imageNoise = new ImageNoise(commandArgs.originalFileName);
+            imageNoise.saveNoiseImage(imageNoise.createRandomNoise());
         } else if (commandArgs.imageFilterColor > 0) {
-            try {
-                ColorFilter.getColorAndSave(new File(commandArgs.originalFileName), commandArgs.imageFilterColor);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            ColorFilter.getColorAndSave(new File(commandArgs.originalFileName), commandArgs.imageFilterColor);
         }
     }
 
