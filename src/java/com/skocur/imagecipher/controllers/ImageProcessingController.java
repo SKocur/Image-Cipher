@@ -1,6 +1,7 @@
 package com.skocur.imagecipher.controllers;
 
 import com.skocur.imagecipher.tools.imageprocessing.ColorFilter;
+import com.skocur.imagecipher.tools.imageprocessing.FilteringColorMode;
 import com.skocur.imagecipher.tools.imageprocessing.ImageNoise;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -31,7 +32,8 @@ public class ImageProcessingController {
     @FXML
     public void processRED() {
         try {
-            setProcessedImage(ColorFilter.getColorOf(new File(WindowController.fileName), 1));
+            setProcessedImage(ColorFilter.getColorOf(new File(WindowController.fileName),
+                    FilteringColorMode.RED));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -40,7 +42,8 @@ public class ImageProcessingController {
     @FXML
     public void processGREEN() {
         try {
-            setProcessedImage(ColorFilter.getColorOf(new File(WindowController.fileName), 2));
+            setProcessedImage(ColorFilter.getColorOf(new File(WindowController.fileName),
+                    FilteringColorMode.GREEN));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,7 +52,8 @@ public class ImageProcessingController {
     @FXML
     public void processBLUE() {
         try {
-            setProcessedImage(ColorFilter.getColorOf(new File(WindowController.fileName), 3));
+            setProcessedImage(ColorFilter.getColorOf(new File(WindowController.fileName),
+                    FilteringColorMode.BLUE));
         } catch (IOException e) {
             e.printStackTrace();
         }

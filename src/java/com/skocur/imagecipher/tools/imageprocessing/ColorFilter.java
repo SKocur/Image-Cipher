@@ -25,19 +25,19 @@ public class ColorFilter {
      * fetch specific color from pixel.
      *
      * @param file Image that will be processed
-     * @param option Mode of color filtering
+     * @param colorMode Mode of color filtering
      * @return Buffered Image - Processed Image
      * @throws IOException Thrown when file cannot be found
      */
-    public static BufferedImage getColorOf(File file, int option) throws IOException {
+    public static BufferedImage getColorOf(File file, FilteringColorMode colorMode) throws IOException {
         BufferedImage image = ImageIO.read(file);
 
         int bitShift = 16;
-        switch (option) {
-            case 2:
+        switch (colorMode) {
+            case GREEN:
                 bitShift = 8;
                 break;
-            case 3:
+            case BLUE:
                 bitShift = 0;
                 break;
         }
@@ -47,9 +47,9 @@ public class ColorFilter {
                 int rgb = image.getRGB(col, row);
 
                 Color color = new Color((rgb >> bitShift) & 255, 0, 0);
-                if (option == 2) {
+                if (colorMode == FilteringColorMode.GREEN) {
                     color = new Color(0, (rgb >> bitShift) & 255, 0);
-                } else if (option == 3) {
+                } else if (colorMode == FilteringColorMode.BLUE) {
                     color = new Color(0, 0, (rgb >> bitShift) & 255);
                 }
 
@@ -65,22 +65,22 @@ public class ColorFilter {
      * fetched from command line argument. Default filter is to RED.
      *
      * @param file Path to image
-     * @param option Option of filtering
+     * @param colorMode Option of filtering
      * @throws IOException
      */
-    public static void getColorAndSave(File file, int option) throws IOException {
+    public static void getColorAndSave(File file, FilteringColorMode colorMode) throws IOException {
         String tag = "red";
 
-        switch (option) {
-            case 2:
+        switch (colorMode) {
+            case GREEN:
                 tag = "green";
                 break;
-            case 3:
+            case BLUE:
                 tag = "blue";
                 break;
         }
 
-        saveColorData(file.getName(), tag, getColorOf(file, option));
+        saveColorData(file.getName(), tag, getColorOf(file, colorMode));
     }
 
     private static void saveColorData(String fileName, String fileTag, BufferedImage image) {

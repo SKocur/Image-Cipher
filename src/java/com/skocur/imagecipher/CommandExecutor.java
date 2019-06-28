@@ -3,6 +3,7 @@ package com.skocur.imagecipher;
 import com.beust.jcommander.JCommander;
 import com.skocur.imagecipher.encrypters.*;
 import com.skocur.imagecipher.tools.imageprocessing.ColorFilter;
+import com.skocur.imagecipher.tools.imageprocessing.FilteringColorMode;
 import com.skocur.imagecipher.tools.imageprocessing.ImageNoise;
 
 import java.io.File;
@@ -30,7 +31,18 @@ public class CommandExecutor {
             ImageNoise imageNoise = new ImageNoise(commandArgs.originalFileName);
             imageNoise.saveNoiseImage(imageNoise.createRandomNoise());
         } else if (commandArgs.imageFilterColor > 0) {
-            ColorFilter.getColorAndSave(new File(commandArgs.originalFileName), commandArgs.imageFilterColor);
+            FilteringColorMode colorMode = FilteringColorMode.RED;
+
+            switch (commandArgs.imageFilterColor) {
+                case 1:
+                    colorMode = FilteringColorMode.BLUE;
+                    break;
+                case 2:
+                    colorMode = FilteringColorMode.GREEN;
+                    break;
+            }
+
+            ColorFilter.getColorAndSave(new File(commandArgs.originalFileName), colorMode);
         }
     }
 

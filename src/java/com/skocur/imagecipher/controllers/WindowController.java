@@ -59,14 +59,18 @@ public class WindowController extends Application {
     public void start(Stage myStage) {
         Optional<Parent> root = Optional.empty();
         try {
-            root = Optional.of(new FXMLLoader().load(Main.class.getResourceAsStream("views/MainWindow.fxml")));
+            root = Optional.of(new FXMLLoader().load(
+                    Main.class.getResourceAsStream("views/MainWindow.fxml")
+            ));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         root.ifPresent(parent -> {
             Scene scene = new Scene(parent, 1178, 533);
-            scene.getStylesheets().add(Main.class.getResource("views/styles/style_main_window.css").toString());
+            scene.getStylesheets().add(
+                    Main.class.getResource("views/styles/style_main_window.css").toString()
+            );
 
             myStage.setMinWidth(900);
             myStage.setMinHeight(450);
@@ -126,7 +130,9 @@ public class WindowController extends Application {
     public void launchImageProcessingWindow() {
         Optional<Parent> root = Optional.empty();
         try {
-            root = Optional.of(new FXMLLoader().load(Main.class.getResourceAsStream("views/ImageProcessingWindow.fxml")));
+            root = Optional.of(new FXMLLoader().load(
+                    Main.class.getResourceAsStream("views/ImageProcessingWindow.fxml")
+            ));
         } catch (IOException e) {
             e.printStackTrace();
         }
