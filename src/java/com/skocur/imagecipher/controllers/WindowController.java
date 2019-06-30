@@ -80,26 +80,24 @@ public class WindowController extends Application {
         });
     }
 
-    private void initEncryptionMode() {
-        for (int i = 0; i < encryptionMode.getItems().size(); i++) {
-            int finalI = i;
-            encryptionMode.getItems().get(i).setOnAction(e ->
-                    cryptoOption = finalI + 1
-            );
+    private void initCryptoMode() {
+        int size = decryptionMode.getItems().size();
+
+        if (size == encryptionMode.getItems().size()) {
+            for (int i = 0; i < size; i++) {
+                int finalI = i;
+                decryptionMode.getItems().get(i).setOnAction(e ->
+                        cryptoOption = finalI + 1
+                );
+
+                encryptionMode.getItems().get(i).setOnAction(e ->
+                        cryptoOption = finalI + 1
+                );
+            }
+
+            decryptButton.setDisable(false);
+            encryptButton.setDisable(false);
         }
-
-        encryptButton.setDisable(false);
-    }
-
-    private void initDecryptionMode() {
-        for (int i = 0; i < decryptionMode.getItems().size(); i++) {
-            int finalI = i;
-            decryptionMode.getItems().get(i).setOnAction(e ->
-                    cryptoOption = finalI + 1
-            );
-        }
-
-        decryptButton.setDisable(false);
     }
 
     /**
@@ -115,8 +113,7 @@ public class WindowController extends Application {
         previewImage.setImage(image);
 
         if (file.exists()) {
-            initEncryptionMode();
-            initDecryptionMode();
+            initCryptoMode();
 
             imageProcessing.setDisable(false);
         } else {
