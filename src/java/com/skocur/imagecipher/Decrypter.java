@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
+import java.security.interfaces.RSAPrivateKey;
+import javax.crypto.Cipher;
 import javax.imageio.ImageIO;
 
 /**
@@ -105,4 +107,13 @@ public class Decrypter {
             col = 0;
         }
     }
+
+    public String RSADecryption(String Text, RSAPrivateKey Key) throws Exception
+    {
+        byte[] bytes=Text.getBytes();
+        Cipher decrypter= Cipher.getInstance("RSA");
+        decrypter.init(Cipher.DECRYPT_MODE,Key);
+        return new String(decrypter.doFinal(bytes));
+    }
+
 }

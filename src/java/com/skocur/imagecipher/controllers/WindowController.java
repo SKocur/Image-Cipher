@@ -2,6 +2,7 @@ package com.skocur.imagecipher.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.interfaces.RSAPrivateKey;
 import java.util.Optional;
 
 import com.skocur.imagecipher.Decrypter;
@@ -52,7 +53,7 @@ public class WindowController extends Application {
 
     // Default option is Low Level Bit Encryption/Decryption
     private int cryptoOption = 3;
-
+    private RSAPrivateKey key; //I can't find any better way to save this key,saving every private key in it's own file would kind of defeat the purpose of having one
     public static String fileName = "";
 
     @Override
@@ -160,6 +161,9 @@ public class WindowController extends Application {
             case 3:
                 encrypter = new LowLevelBitEncryption(imagePathTextField.getText());
                 break;
+            case 4:
+                encrypter = new RSAEncryption(imagePathTextField.getText());
+                break;
             default:
                 encrypter = new LowLevelBitEncryption(imagePathTextField.getText());
                 System.err.println("There is no available such encryption option!");
@@ -167,12 +171,17 @@ public class WindowController extends Application {
         }
 
         encrypter.encrypt(textToEncrypt.getText());
+        if(encrypter.getClass()==RSAEncryption.class)
+        {
+            RSAEncryption r=(RSAEncryption) encrypter;
+            key=r.getPrivKey();
+        }
     }
 
     @FXML
     public void decrypt() throws IOException {
         String message = "";
-
+        Decrypter decrypter;
         switch (cryptoOption) {
             case 1:
                 message = Decrypter.decrypt(imagePathTextField.getText());
@@ -181,8 +190,18 @@ public class WindowController extends Application {
                 message = Decrypter.decryptBlue(imagePathTextField.getText());
                 break;
             case 3:
-                Decrypter decrypter = new Decrypter(imagePathTextField.getText());
+                decrypter = new Decrypter(imagePathTextField.getText());
                 message = decrypter.decryptLowLevelBits();
+                break;
+            case 4:
+                decrypter = new Decrypter(imagePathTextField.getText());
+                message = decrypter.decryptLowLevelBits();
+                try{
+                    message = decrypter.RSADecryption(message,key);
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                };
                 break;
             default:
                 System.err.println("No valid decryption mode was chosen!");
