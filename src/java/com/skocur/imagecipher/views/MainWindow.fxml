@@ -30,6 +30,7 @@
                             <MenuItem id="singleColorEncryption" mnemonicParsing="false" text="Single Color Encryption" />
                             <MenuItem id="multiColorEncryption" mnemonicParsing="false" text="Multi Color Encryption" />
                               <MenuItem id="lowLevelBitEncryption" mnemonicParsing="false" text="Low Level Bit Encryption" />
+                              <MenuItem id="RSAEncryption" mnemonicParsing="false" text="RSA Encryption" />
                           </items>
                         </MenuButton>
                      </children></AnchorPane>
@@ -45,6 +46,7 @@
                               <MenuItem id="singleColorEncryption" mnemonicParsing="false" text="Single Color Encryption" />
                               <MenuItem id="multiColorEncryption" mnemonicParsing="false" text="Multi Color Encryption" />
                               <MenuItem id="lowLevelBitEncryption" mnemonicParsing="false" text="Low Level Bit Encryption" />
+                               <MenuItem id="RSAEncryption" mnemonicParsing="false" text="RSA Encryption" />
                            </items>
                         </MenuButton>
                         <Text layoutX="15.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text from image:" />

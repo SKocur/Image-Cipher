@@ -47,7 +47,7 @@ public class CommandExecutor {
     }
 
     /**
-     * This method create Encryption object based on user preferences
+     * This method creates an Encryption object based on user preferences
      * derived from command line. By default (if user's option doesn't match anything)
      * LowLevelBitEncryption is chosen. For now user can only encrypt data that are
      * fetched from console using simple Scanner. If user types ":exit", loop which
