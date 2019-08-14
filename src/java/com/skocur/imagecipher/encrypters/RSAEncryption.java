@@ -44,7 +44,6 @@ public class RSAEncryption extends Encrypter {
 
             Encrypter encrypter = new LowLevelBitEncryption(super.fileName);
             encrypter.encrypt(new String(encrypted, StandardCharsets.UTF_8));
-            saveEncryptedData();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
