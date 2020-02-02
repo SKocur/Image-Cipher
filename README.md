@@ -7,6 +7,7 @@ Steganography software for encrypting text into image that uses modified version
 
 ## Usage:
 ### Window option
+#### To encrypt text into image:
 1. Find a photo to use for encryption.
 2. Enter the name of that photo in place of "image_name".
 3. Enter text to encrypt.
