@@ -3,7 +3,7 @@
 [![GitHub version](https://badge.fury.io/gh/boennemann%2Fbadges.svg)](https://github.com/SKocur/Image-Cipher)
 
 # Image-Cipher
-Steganography software for encrypting text into image that uses modified version of LSB (Least Significant Bit) algorithm.
+Steganography software for encrypting text into image that uses modified version of LSB (Least Significant Bit) algorithm. Project is part of this [Medium article](https://medium.com/@szymonkocur/how-i-redesigned-lsb-steganography-algorithm-ee45503dd47).
 
 ## Usage:
 ### Window option
