@@ -1,6 +1,7 @@
 package com.skocur.imagecipher.controllers;
 
 import com.skocur.imagecipher.tools.imageprocessing.map.BfsImagePainter;
+import com.skocur.imagecipher.tools.imageprocessing.map.DfsImagePainter;
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.RadioButton;
@@ -24,6 +25,9 @@ public class PixelTraversalController {
     @FXML
     public ColorPicker colorPicker;
 
+    @FXML
+    public RadioButton radioDFS;
+
     private ImageView preview;
 
     private Thread imageGenerationThread;
@@ -33,14 +37,27 @@ public class PixelTraversalController {
     }
 
     public void runPixelTraversal() {
-        if (radioBFS.isSelected()) {
-            if (imageGenerationThread != null) {
-                imageGenerationThread.interrupt();
-            }
+        if (imageGenerationThread != null) {
+            imageGenerationThread.interrupt();
+        }
 
+        if (radioBFS.isSelected()) {
             imageGenerationThread = new Thread(() -> {
                 try {
                     BfsImagePainter.paintImage(new File(WindowController.fileName),
+                            getParsedNumber(iterations.getText()),
+                            colorPicker.getValue(),
+                            getParsedNumber(animationPause.getText()),
+                            preview);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            imageGenerationThread.start();
+        } else if (radioDFS.isSelected()) {
+            imageGenerationThread = new Thread(() -> {
+                try {
+                    DfsImagePainter.paintImage(new File(WindowController.fileName),
                             getParsedNumber(iterations.getText()),
                             colorPicker.getValue(),
                             getParsedNumber(animationPause.getText()),
