@@ -7,6 +7,7 @@ import com.skocur.imagecipher.tools.imageprocessing.ImageNoise;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -14,17 +15,35 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class ImageProcessingController {
+public class ImageProcessingController implements Initializable {
 
     @FXML
     public ImageView imageAfterPreview;
     @FXML
     public ImageView imageBeforePreview;
+
+    private PixelTraversalController pixelTraversalController;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        imageAfterPreview.setOnMouseClicked((event) -> {
+            if (pixelTraversalController == null) {
+                return;
+            }
+
+            pixelTraversalController.setStartLocation(
+                    new Point((int) event.getX(), (int) event.getY())
+            );
+        });
+    }
 
     @FXML
     public void initViews() {
@@ -75,7 +94,7 @@ public class ImageProcessingController {
         new Thread(r).start();
     }
 
-    public void setProcessedImage(BufferedImage image) {
+    private void setProcessedImage(BufferedImage image) {
         imageAfterPreview.setImage(SwingFXUtils.toFXImage(image, null));
     }
 
@@ -106,8 +125,8 @@ public class ImageProcessingController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("views/PixelTraversalWindow.fxml"));
             root = Optional.of(fxmlLoader.load());
-            PixelTraversalController controller = fxmlLoader.getController();
-            controller.setPreview(imageAfterPreview);
+            pixelTraversalController = fxmlLoader.getController();
+            pixelTraversalController.setPreview(imageAfterPreview);
         } catch (IOException e) {
             e.printStackTrace();
         }

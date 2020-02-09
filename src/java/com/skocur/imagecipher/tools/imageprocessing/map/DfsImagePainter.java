@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -31,14 +32,22 @@ public class DfsImagePainter {
                                   int iterations,
                                   Color penColor,
                                   int animationPause,
-                                  ImageView preview) throws IOException {
+                                  ImageView preview,
+                                  Point point) throws IOException {
         BufferedImage image = ImageIO.read(file);
         int imageY = image.getHeight();
         int imageX = image.getWidth();
-        int startColor = image.getRGB(0, 0);
+
+        double scaleX = preview.getFitWidth() > 0 ? (double) imageX / preview.getFitWidth() : 1;
+        double scaleY = preview.getFitHeight() > 0 ? (double) imageY / preview.getFitHeight() : 1;
+
+        int startPointX = (int) (point.x * scaleX);
+        int startPointY = (int) (point.y * scaleY);
+
+        int startColor = image.getRGB(startPointX, startPointY);
 
         Stack<Pixel> stack = new Stack<>();
-        stack.push(new Pixel(0, 0, startColor));
+        stack.push(new Pixel(startPointX, startPointY, startColor));
 
         int counter = 0;
         while (!stack.isEmpty() && counter < iterations) {

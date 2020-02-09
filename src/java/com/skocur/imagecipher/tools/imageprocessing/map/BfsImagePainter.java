@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,23 +31,29 @@ public class BfsImagePainter {
                                   int iterations,
                                   Color penColor,
                                   int animationPause,
-                                  ImageView preview) throws IOException {
+                                  ImageView preview,
+                                  Point point) throws IOException {
         BufferedImage image = ImageIO.read(file);
         int imageY = image.getHeight();
         int imageX = image.getWidth();
-        int startColor = image.getRGB(0, 0);
+
+        double scaleX = preview.getFitWidth() > 0 ? (double) imageX / preview.getFitWidth() : 1;
+        double scaleY = preview.getFitHeight() > 0 ? (double) imageY / preview.getFitHeight() : 1;
+
+        int startPointX = (int) (point.x * scaleX);
+        int startPointY = (int) (point.y * scaleY);
+
+        int startColor = image.getRGB(startPointX, startPointY);
 
         Queue<Pixel> queue = new LinkedList<>();
-        queue.add(new Pixel(0, 0, startColor));
+        queue.add(new Pixel(startPointX, startPointY, startColor));
 
         int counter = 0;
         while (!queue.isEmpty() && counter < iterations) {
             Pixel pixel = queue.poll();
             image.setRGB(pixel.x, pixel.y, ColorParser.getColor(penColor));
 
-            if (preview != null) {
-                preview.setImage(SwingFXUtils.toFXImage(image, null));
-            }
+            preview.setImage(SwingFXUtils.toFXImage(image, null));
 
             if (pixel.y < imageY - 1
                     && image.getRGB(pixel.x, pixel.y + 1) == startColor) {

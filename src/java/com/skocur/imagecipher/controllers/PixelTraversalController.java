@@ -8,6 +8,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -29,11 +30,15 @@ public class PixelTraversalController {
     public RadioButton radioDFS;
 
     private ImageView preview;
-
     private Thread imageGenerationThread;
+    private Point startingPoint = new Point();
 
     void setPreview(ImageView preview) {
         this.preview = preview;
+    }
+
+    void setStartLocation(Point startingPoint) {
+        this.startingPoint = startingPoint;
     }
 
     public void runPixelTraversal() {
@@ -48,7 +53,8 @@ public class PixelTraversalController {
                             getParsedNumber(iterations.getText()),
                             colorPicker.getValue(),
                             getParsedNumber(animationPause.getText()),
-                            preview);
+                            preview,
+                            startingPoint);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -61,7 +67,8 @@ public class PixelTraversalController {
                             getParsedNumber(iterations.getText()),
                             colorPicker.getValue(),
                             getParsedNumber(animationPause.getText()),
-                            preview);
+                            preview,
+                            startingPoint);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
