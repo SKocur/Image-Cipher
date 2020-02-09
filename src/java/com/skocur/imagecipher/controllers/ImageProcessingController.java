@@ -34,6 +34,10 @@ public class ImageProcessingController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        File file = new File(WindowController.fileName);
+        Image image = new Image(file.toURI().toString());
+        imageBeforePreview.setImage(image);
+
         imageAfterPreview.setOnMouseClicked((event) -> {
             if (pixelTraversalController == null) {
                 return;
@@ -43,13 +47,6 @@ public class ImageProcessingController implements Initializable {
                     new Point((int) event.getX(), (int) event.getY())
             );
         });
-    }
-
-    @FXML
-    public void initViews() {
-        File file = new File(WindowController.fileName);
-        Image image = new Image(file.toURI().toString());
-        imageBeforePreview.setImage(image);
     }
 
     @FXML
