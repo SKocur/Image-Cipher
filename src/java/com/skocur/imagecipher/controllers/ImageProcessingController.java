@@ -1,17 +1,23 @@
 package com.skocur.imagecipher.controllers;
 
+import com.skocur.imagecipher.Main;
 import com.skocur.imagecipher.tools.imageprocessing.ColorFilter;
 import com.skocur.imagecipher.tools.imageprocessing.FilteringColorMode;
 import com.skocur.imagecipher.tools.imageprocessing.ImageNoise;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 public class ImageProcessingController {
 
@@ -19,8 +25,6 @@ public class ImageProcessingController {
     public ImageView imageAfterPreview;
     @FXML
     public ImageView imageBeforePreview;
-
-    private BufferedImage bufferedImage;
 
     @FXML
     public void initViews() {
@@ -73,7 +77,6 @@ public class ImageProcessingController {
 
     public void setProcessedImage(BufferedImage image) {
         imageAfterPreview.setImage(SwingFXUtils.toFXImage(image, null));
-        bufferedImage = image;
     }
 
     @FXML
@@ -88,10 +91,34 @@ public class ImageProcessingController {
         String outputPath = filePath.substring(0, extIndex) + "_processed" + filePath.substring(extIndex);
         File out = new File(outputPath);
 
+        BufferedImage afterPreviewBuffer = SwingFXUtils.fromFXImage(imageAfterPreview.getImage(), null);
+
         try {
-            ImageIO.write(this.bufferedImage, filePath.substring(extIndex + 1), out);
+            ImageIO.write(afterPreviewBuffer, filePath.substring(extIndex + 1), out);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void openPixelTraversing() {
+        Optional<Parent> root = Optional.empty();
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("views/PixelTraversalWindow.fxml"));
+            root = Optional.of(fxmlLoader.load());
+            PixelTraversalController controller = fxmlLoader.getController();
+            controller.setPreview(imageAfterPreview);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        root.ifPresent(parent -> {
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+
+            stage.setTitle("Pixel Traversal");
+            stage.setScene(scene);
+            stage.show();
+        });
     }
 }
