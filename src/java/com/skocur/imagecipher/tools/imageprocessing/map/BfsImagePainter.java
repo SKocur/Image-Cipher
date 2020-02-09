@@ -2,9 +2,9 @@ package com.skocur.imagecipher.tools.imageprocessing.map;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class BfsImagePainter {
         while (!queue.isEmpty() && counter < iterations) {
             Pixel pixel = queue.poll();
             pixel.visited = true;
-            image.setRGB(pixel.x, pixel.y, penColor.getRGB());
+            image.setRGB(pixel.x, pixel.y, getColor(penColor));
 
             if (preview != null) {
                 preview.setImage(SwingFXUtils.toFXImage(image, null));
@@ -57,7 +57,8 @@ public class BfsImagePainter {
             try {
                 Thread.sleep(animationPause);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
+                return image;
             }
         }
 
@@ -77,5 +78,17 @@ public class BfsImagePainter {
             this.y = y;
             this.color = color;
         }
+    }
+
+    private static int getColor(Color color) {
+        int R = (int) Math.round(255 * color.getRed());
+        int G = (int) Math.round(255 * color.getGreen());
+        int B = (int) Math.round(255 * color.getBlue());
+
+        R = (R << 16) & 0x00FF0000;
+        G = (G << 8) & 0x0000FF00;
+        B = B & 0x000000FF;
+
+        return 0xFF000000 | R | G | B;
     }
 }
