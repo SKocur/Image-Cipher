@@ -10,13 +10,14 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Stack;
 
-public class BfsImagePainter {
+public class DfsImagePainter {
 
     /**
-     * Breadth First Search algorithm to color pixels in image.
+     * Depth First Search algorithm used to color image. This specific implementation
+     * uses stack, because it will prevent possible StackOverflowError which would
+     * occur if it gets too big image to traverse.
      *
      * @param file           Image file
      * @param iterations     Number of iterations
@@ -36,38 +37,35 @@ public class BfsImagePainter {
         int imageX = image.getWidth();
         int startColor = image.getRGB(0, 0);
 
-        Queue<Pixel> queue = new LinkedList<>();
-        queue.add(new Pixel(0, 0, startColor));
+        Stack<Pixel> stack = new Stack<>();
+        stack.push(new Pixel(0, 0, startColor));
 
         int counter = 0;
-        while (!queue.isEmpty() && counter < iterations) {
-            Pixel pixel = queue.poll();
+        while (!stack.isEmpty() && counter < iterations) {
+            Pixel pixel = stack.pop();
             image.setRGB(pixel.x, pixel.y, ColorParser.getColor(penColor));
 
             if (preview != null) {
                 preview.setImage(SwingFXUtils.toFXImage(image, null));
             }
 
-            if (pixel.y < imageY - 1
-                    && image.getRGB(pixel.x, pixel.y + 1) == startColor) {
-                queue.add(new Pixel(pixel.x, pixel.y + 1, startColor));
+            if (pixel.y < imageY - 1 && image.getRGB(pixel.x, pixel.y + 1) == startColor) {
+                stack.push(new Pixel(pixel.x, pixel.y + 1, startColor));
                 counter++;
             }
 
-            if (pixel.y > 0
-                    && image.getRGB(pixel.x, pixel.y - 1) == startColor) {
-                queue.add(new Pixel(pixel.x, pixel.y - 1, startColor));
+            if (pixel.y > 0 && image.getRGB(pixel.x, pixel.y - 1) == startColor) {
+                stack.push(new Pixel(pixel.x, pixel.y - 1, startColor));
                 counter++;
             }
 
-            if (pixel.x < imageX - 1
-                    && image.getRGB(pixel.x + 1, pixel.y) == startColor) {
-                queue.add(new Pixel(pixel.x + 1, pixel.y, startColor));
+            if (pixel.x < imageX - 1 && image.getRGB(pixel.x + 1, pixel.y) == startColor) {
+                stack.push(new Pixel(pixel.x + 1, pixel.y, startColor));
+                counter++;
             }
 
-            if (pixel.x > 0
-                    && image.getRGB(pixel.x - 1, pixel.y) == startColor) {
-                queue.add(new Pixel(pixel.x - 1, pixel.y, startColor));
+            if (pixel.x > 0 && image.getRGB(pixel.x - 1, pixel.y) == startColor) {
+                stack.push(new Pixel(pixel.x - 1, pixel.y, startColor));
                 counter++;
             }
 
