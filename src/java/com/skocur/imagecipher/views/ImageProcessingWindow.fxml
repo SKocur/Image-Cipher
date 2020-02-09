@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
@@ -23,7 +25,20 @@
             <Button mnemonicParsing="false" onAction="#processBLUE" text="BLUE" />
         </items>
       </ToolBar>
-      <Button layoutX="254.0" layoutY="29.0" mnemonicParsing="false" onAction="#processNOISE" text="NOISE" />
-      <Button layoutX="325.0" layoutY="29.0" mnemonicParsing="false" onAction="#saveProcessedImage" text="SAVE" />
+      <HBox layoutX="255.0" layoutY="29.0" prefHeight="25.0" prefWidth="249.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#processNOISE" text="NOISE">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#openPixelTraversing" prefHeight="25.0" prefWidth="123.0" text="PIXEL TRAVERSING">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#saveProcessedImage" text="SAVE" />
+         </children>
+      </HBox>
    </children>
 </Pane>
