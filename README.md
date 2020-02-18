@@ -48,3 +48,6 @@ Steganography software for encrypting text into image that uses modified version
 2 - Invalid arguments (for example encrypting and decrypting at the same time)
 
 ### Documentation is available on: [JavaDoc](https://skocur.github.io/Image-Cipher/)
+
+## Additional tools
+#### [BinaryToImageConverter](https://gist.github.com/SKocur/edd29a369e6097dbc5d7bef9c35a116e) - converts any binary file to image.
