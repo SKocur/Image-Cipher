@@ -120,7 +120,7 @@ public class ImageProcessingController implements Initializable {
     public void openPixelTraversing() {
         Optional<Parent> root = Optional.empty();
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("views/PixelTraversalWindow.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/views/PixelTraversalWindow.fxml"));
             root = Optional.of(fxmlLoader.load());
             pixelTraversalController = fxmlLoader.getController();
             pixelTraversalController.setPreview(imageAfterPreview);

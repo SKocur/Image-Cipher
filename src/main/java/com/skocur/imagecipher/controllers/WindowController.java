@@ -60,8 +60,8 @@ public class WindowController extends Application {
     public void start(Stage myStage) {
         Optional<Parent> root = Optional.empty();
         try {
-            root = Optional.of(new FXMLLoader().load(
-                    Main.class.getResourceAsStream("views/MainWindow.fxml")
+            root = Optional.of(FXMLLoader.load(
+                    Main.class.getResource("/views/MainWindow.fxml")
             ));
         } catch (IOException e) {
             e.printStackTrace();
@@ -70,7 +70,7 @@ public class WindowController extends Application {
         root.ifPresent(parent -> {
             Scene scene = new Scene(parent, 1178, 533);
             scene.getStylesheets().add(
-                    Main.class.getResource("views/styles/style_main_window.css").toString()
+                    Main.class.getResource("/views/styles/style_main_window.css").toString()
             );
 
             myStage.setMinWidth(900);
@@ -128,8 +128,8 @@ public class WindowController extends Application {
     public void launchImageProcessingWindow() {
         Optional<Parent> root = Optional.empty();
         try {
-            root = Optional.of(new FXMLLoader().load(
-                    Main.class.getResourceAsStream("views/ImageProcessingWindow.fxml")
+            root = Optional.of(FXMLLoader.load(
+                    Main.class.getResource("/views/ImageProcessingWindow.fxml")
             ));
         } catch (IOException e) {
             e.printStackTrace();
@@ -171,10 +171,9 @@ public class WindowController extends Application {
         }
 
         encrypter.encrypt(textToEncrypt.getText());
-        if(encrypter.getClass()==RSAEncryption.class)
-        {
-            RSAEncryption r=(RSAEncryption) encrypter;
-            key=r.getPrivKey();
+        if (encrypter instanceof RSAEncryption) {
+            RSAEncryption r = (RSAEncryption) encrypter;
+            key = r.getPrivKey();
         }
     }
 
@@ -196,12 +195,11 @@ public class WindowController extends Application {
             case 4:
                 decrypter = new Decrypter(imagePathTextField.getText());
                 message = decrypter.decryptLowLevelBits();
-                try{
-                    message = decrypter.RSADecryption(message,key);
-                }
-                catch(Exception e) {
+                try {
+                    message = decrypter.RSADecryption(message, key);
+                } catch (Exception e) {
                     e.printStackTrace();
-                };
+                }
                 break;
             default:
                 System.err.println("No valid decryption mode was chosen!");
