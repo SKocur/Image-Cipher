@@ -2,6 +2,7 @@ package com.skocur.imagecipher.controllers;
 
 import com.skocur.imagecipher.tools.imageprocessing.map.BfsImagePainter;
 import com.skocur.imagecipher.tools.imageprocessing.map.DfsImagePainter;
+import com.skocur.imagecipher.tools.SaveNumberParser;
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.RadioButton;
@@ -50,9 +51,9 @@ public class PixelTraversalController {
             imageGenerationThread = new Thread(() -> {
                 try {
                     BfsImagePainter.paintImage(new File(WindowController.fileName),
-                            getParsedNumber(iterations.getText()),
+                            SaveNumberParser.getParsedNumber(iterations.getText()),
                             colorPicker.getValue(),
-                            getParsedNumber(animationPause.getText()),
+                            SaveNumberParser.getParsedNumber(animationPause.getText()),
                             preview,
                             startingPoint);
                 } catch (IOException e) {
@@ -64,9 +65,9 @@ public class PixelTraversalController {
             imageGenerationThread = new Thread(() -> {
                 try {
                     DfsImagePainter.paintImage(new File(WindowController.fileName),
-                            getParsedNumber(iterations.getText()),
+                            SaveNumberParser.getParsedNumber(iterations.getText()),
                             colorPicker.getValue(),
-                            getParsedNumber(animationPause.getText()),
+                            SaveNumberParser.getParsedNumber(animationPause.getText()),
                             preview,
                             startingPoint);
                 } catch (IOException e) {
@@ -75,16 +76,5 @@ public class PixelTraversalController {
             });
             imageGenerationThread.start();
         }
-    }
-
-    private int getParsedNumber(String text) {
-        int res;
-        try {
-            res = Integer.parseInt(text);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-
-        return res;
     }
 }
