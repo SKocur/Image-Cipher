@@ -1,5 +1,7 @@
 package com.skocur.imagecipher.encrypters;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -25,13 +27,13 @@ public abstract class Encrypter {
      * @param fileName Path to image file
      * @throws IOException
      */
-    public Encrypter(String fileName) throws IOException {
+    public Encrypter(@NotNull String fileName) throws IOException {
         this.fileName = fileName;
         this.image = ImageIO.read(new File(fileName));
         this.imageWidth = image.getWidth();
     }
 
-    public abstract void encrypt(String text);
+    public abstract void encrypt(@NotNull String text);
 
     /**
      * Method that is always invoked after all encryption processes have finished.

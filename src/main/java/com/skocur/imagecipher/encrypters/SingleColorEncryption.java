@@ -1,6 +1,7 @@
 package com.skocur.imagecipher.encrypters;
 
 import com.skocur.imagecipher.Config;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.io.IOException;
@@ -11,7 +12,7 @@ public class SingleColorEncryption extends Encrypter {
     private ArrayList<Character> chars;
     private ArrayList<Integer> asciiChars;
 
-    public SingleColorEncryption(String fileName) throws IOException {
+    public SingleColorEncryption(@NotNull String fileName) throws IOException {
         super(fileName);
 
         chars = new ArrayList<>();
@@ -19,7 +20,7 @@ public class SingleColorEncryption extends Encrypter {
     }
 
     @Override
-    public void encrypt(String text) {
+    public void encrypt(@NotNull String text) {
         for (char c : text.toCharArray()) {
             asciiChars.add((int) c);
         }

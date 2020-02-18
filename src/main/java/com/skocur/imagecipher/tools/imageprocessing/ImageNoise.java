@@ -1,5 +1,7 @@
 package com.skocur.imagecipher.tools.imageprocessing;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,7 +12,7 @@ public class ImageNoise {
     private String fileName;
     private BufferedImage image;
 
-    public ImageNoise(String fileName) throws IOException {
+    public ImageNoise(@NotNull String fileName) throws IOException {
         this.fileName = fileName;
         this.image = ImageIO.read(new File(fileName));
     }
@@ -21,6 +23,7 @@ public class ImageNoise {
      *
      * @return
      */
+    @NotNull
     public BufferedImage createRandomNoise() {
         int sum = 0;
         while (sum < image.getHeight() * image.getWidth()) {
@@ -38,7 +41,7 @@ public class ImageNoise {
         return image;
     }
 
-    public void saveNoiseImage(BufferedImage image) {
+    public void saveNoiseImage(@NotNull BufferedImage image) {
         try {
             File file = new File(fileName.split("\\.")[0] + "_noise.png");
             ImageIO.write(image, "png", file);

@@ -1,5 +1,8 @@
 package com.skocur.imagecipher.encrypters;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -22,25 +25,27 @@ public class RSAEncryption extends Encrypter {
     public RSAPublicKey pubkey;
     protected RSAPrivateKey privkey;
     private RSAKeyType keyformat;
-    public RSAEncryption(String fileName, String certificateFileName) throws IOException {
+
+    public RSAEncryption(@NotNull String fileName, @Nullable String certificateFileName) throws IOException {
         super(fileName);
         this.certificateFileName = certificateFileName;
-        keyformat=RSAKeyType.RSA;
+        keyformat = RSAKeyType.RSA;
     }
 
-    public RSAEncryption(String fileName) throws IOException {
+    public RSAEncryption(@NotNull String fileName) throws IOException {
         super(fileName);
         this.certificateFileName = null;
-        keyformat=RSAKeyType.RSA;
+        keyformat = RSAKeyType.RSA;
     }
 
     @Override
-    public void encrypt(String text) {
+    public void encrypt(@NotNull String text) {
         try {
             byte[] encrypted;
-            if(keyformat.equals(RSAKeyType.RSA))
-            encrypted=RSATypeEncryption(text);
-            else throw new UnsupportedOperationException(); //leaving this here as a placeholder until all RSA public key formats are implemented here
+            if (keyformat.equals(RSAKeyType.RSA))
+                encrypted = RSATypeEncryption(text);
+            else
+                throw new UnsupportedOperationException(); //leaving this here as a placeholder until all RSA public key formats are implemented here
 
             Encrypter encrypter = new LowLevelBitEncryption(super.fileName);
             encrypter.encrypt(new String(encrypted, StandardCharsets.UTF_8));
@@ -63,20 +68,19 @@ public class RSAEncryption extends Encrypter {
         }
     }
 
-    private byte[] RSATypeEncryption(String text) throws Exception
-        {
-            byte[] encrypted;
-            KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-            generator.initialize(2048, new SecureRandom());
-            KeyPair pair = generator.generateKeyPair();
-            pubkey = (RSAPublicKey) pair.getPublic();
-            privkey = (RSAPrivateKey) pair.getPrivate();
-            Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.ENCRYPT_MODE, pubkey);
+    private byte[] RSATypeEncryption(@NotNull String text) throws Exception {
+        byte[] encrypted;
+        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+        generator.initialize(2048, new SecureRandom());
+        KeyPair pair = generator.generateKeyPair();
+        pubkey = (RSAPublicKey) pair.getPublic();
+        privkey = (RSAPrivateKey) pair.getPrivate();
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.ENCRYPT_MODE, pubkey);
 
-            encrypted = cipher.doFinal(text.getBytes());
-            return encrypted;
-        }
+        encrypted = cipher.doFinal(text.getBytes());
+        return encrypted;
+    }
 
     /*
     private byte[] SSHTypeEncryption(String text)
@@ -98,13 +102,11 @@ public class RSAEncryption extends Encrypter {
             //leaving this here for future implementation
             return encrypted;
         }*/
-    public RSAPrivateKey getPrivKey()
-    {
+    public RSAPrivateKey getPrivKey() {
         return this.privkey;
     } //needed for decryption
 }
 
-enum RSAKeyType
-{
-    RSA,SSH,SSH2,Base64;
+enum RSAKeyType {
+    RSA, SSH, SSH2, Base64;
 }
