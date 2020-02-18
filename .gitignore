@@ -1,13 +1,2 @@
-
-src/java/journal.jpeg
-src/java/journal_processed.jpeg
-src/java/nbbuild.xml
-src/java/nbproject/build-impl.xml
-src/java/nbproject/genfiles.properties
-src/java/nbproject/private/config.properties
-src/java/nbproject/private/private.properties
-src/java/nbproject/private/private.xml
-src/java/nbproject/project.properties
-src/java/nbproject/project.xml
-src/java/manifest.mf
-src/java/com/skocur/imagecipher/compila.bat
+.idea/
+output/
