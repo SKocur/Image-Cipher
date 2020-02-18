@@ -1,6 +1,6 @@
-package com.skocur.imagecipher
+package com.skocur.imagecipher.tools
 
-import com.skocur.imagecipher.tools.SaveNumberParser
+
 import spock.lang.Specification
 
 class SaveNumberParserTest extends Specification {

@@ -1,17 +1,18 @@
 package com.skocur.imagecipher.encrypters;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 import java.io.IOException;
 
 public class MultiColorEncryption extends Encrypter {
 
-    public MultiColorEncryption(String fileName) throws IOException {
+    public MultiColorEncryption(@NotNull String fileName) throws IOException {
         super(fileName);
     }
 
-    @Deprecated
     @Override
-    public void encrypt(String text) {
+    public void encrypt(@NotNull String text) {
         int index = 0;
         boolean hasDone = false;
 
@@ -30,9 +31,9 @@ public class MultiColorEncryption extends Encrypter {
         saveEncryptedData();
     }
 
-    @Deprecated
+    @NotNull
     private Color encryptBlue(char character, int posX, int posY) {
-        int argb = image.getRGB(posX ,posY);
+        int argb = image.getRGB(posX, posY);
 
         int r = (argb >> 16) & 0b11111111;
         int g = (argb >> 8) & 0b11111111;

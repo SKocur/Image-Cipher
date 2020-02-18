@@ -1,5 +1,7 @@
 package com.skocur.imagecipher;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
@@ -35,8 +37,8 @@ public class Decrypter {
      * @throws IOException When file cannot be found.
      * @see Config
      */
-    @Deprecated
-    public static String decrypt(String fileName) throws IOException {
+    @NotNull
+    public static String decrypt(@NotNull String fileName) throws IOException {
         BufferedImage bufferedImage = ImageIO.read(new File(fileName));
 
         int width = bufferedImage.getWidth();
@@ -52,8 +54,8 @@ public class Decrypter {
         return stringBuilder.toString();
     }
 
-    @Deprecated
-    public static String decryptBlue(String fileName) throws IOException {
+    @NotNull
+    public static String decryptBlue(@NotNull String fileName) throws IOException {
         BufferedImage bufferedImage = ImageIO.read(new File(fileName));
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -69,6 +71,7 @@ public class Decrypter {
         return stringBuilder.toString();
     }
 
+    @NotNull
     public String decryptLowLevelBits() {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -108,12 +111,11 @@ public class Decrypter {
         }
     }
 
-    public String RSADecryption(String Text, RSAPrivateKey Key) throws Exception
-    {
-        byte[] bytes=Text.getBytes();
-        Cipher decrypter= Cipher.getInstance("RSA");
-        decrypter.init(Cipher.DECRYPT_MODE,Key);
+    public String RSADecryption(@NotNull String text,
+                                @NotNull RSAPrivateKey key) throws Exception {
+        byte[] bytes = text.getBytes();
+        Cipher decrypter = Cipher.getInstance("RSA");
+        decrypter.init(Cipher.DECRYPT_MODE, key);
         return new String(decrypter.doFinal(bytes));
     }
-
 }

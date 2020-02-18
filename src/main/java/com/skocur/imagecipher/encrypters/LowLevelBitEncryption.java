@@ -1,5 +1,7 @@
 package com.skocur.imagecipher.encrypters;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 import java.io.IOException;
 
@@ -8,12 +10,12 @@ public class LowLevelBitEncryption extends Encrypter {
     private int row;
     private int col;
 
-    public LowLevelBitEncryption(String fileName) throws IOException {
+    public LowLevelBitEncryption(@NotNull String fileName) throws IOException {
         super(fileName);
     }
 
     @Override
-    public void encrypt(String text) {
+    public void encrypt(@NotNull String text) {
         for (char c : text.toCharArray()) {
             encryptByte(c);
         }

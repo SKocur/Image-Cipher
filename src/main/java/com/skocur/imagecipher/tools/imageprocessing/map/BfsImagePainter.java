@@ -5,6 +5,7 @@ import com.skocur.imagecipher.tools.imageprocessing.Pixel;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -27,12 +28,12 @@ public class BfsImagePainter {
      * @return BufferedImage - it is returned at the end of painting
      * @throws IOException May occur while reading the image file
      */
-    public static void paintImage(File file,
+    public static void paintImage(@NotNull File file,
                                   int iterations,
-                                  Color penColor,
+                                  @NotNull Color penColor,
                                   int animationPause,
-                                  ImageView preview,
-                                  Point point) throws IOException {
+                                  @NotNull ImageView preview,
+                                  @NotNull Point point) throws IOException {
         BufferedImage image = ImageIO.read(file);
         int imageY = image.getHeight();
         int imageX = image.getWidth();

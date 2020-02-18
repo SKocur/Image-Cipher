@@ -5,6 +5,7 @@ import com.skocur.imagecipher.encrypters.*;
 import com.skocur.imagecipher.tools.imageprocessing.ColorFilter;
 import com.skocur.imagecipher.tools.imageprocessing.FilteringColorMode;
 import com.skocur.imagecipher.tools.imageprocessing.ImageNoise;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,7 +57,7 @@ public class CommandExecutor {
      * @param args CommandArgs object that contains program arguments
      * @throws IOException
      */
-    private static void encrypt(CommandArgs args) throws IOException {
+    private static void encrypt(@NotNull CommandArgs args) throws IOException {
         Encrypter encrypter;
 
         switch (args.encryptionMode) {
@@ -97,7 +98,7 @@ public class CommandExecutor {
      * @param args CommandArgs object that contains program arguments
      * @throws IOException
      */
-    private static void decrypt(CommandArgs args) throws IOException {
+    private static void decrypt(@NotNull CommandArgs args) throws IOException {
         String message = "";
 
         switch (args.decryptionMode) {

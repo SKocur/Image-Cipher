@@ -1,5 +1,7 @@
 package com.skocur.imagecipher.tools.imageprocessing;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -19,16 +21,17 @@ public class ColorFilter {
      * 1 - Red (default)
      * 2 - Green
      * 3 - Blue
-     *
+     * <p>
      * Method goes through whole image changing every pixel it meets to chosen color.
      * This filtering option influences bitwise operation, which is used to
      * fetch specific color from pixel.
      *
-     * @param file Image that will be processed
+     * @param file      Image that will be processed
      * @param colorMode Mode of color filtering
      * @return Buffered Image - Processed Image
      * @throws IOException Thrown when file cannot be found
      */
+    @NotNull
     public static BufferedImage getColorOf(File file, FilteringColorMode colorMode) throws IOException {
         BufferedImage image = ImageIO.read(file);
 
@@ -64,11 +67,11 @@ public class ColorFilter {
      * Method that filter color from image. Option of filtering is based on option
      * fetched from command line argument. Default filter is to RED.
      *
-     * @param file Path to image
+     * @param file      Path to image
      * @param colorMode Option of filtering
      * @throws IOException
      */
-    public static void getColorAndSave(File file, FilteringColorMode colorMode) throws IOException {
+    public static void getColorAndSave(@NotNull File file, FilteringColorMode colorMode) throws IOException {
         String tag = "red";
 
         switch (colorMode) {
@@ -83,7 +86,9 @@ public class ColorFilter {
         saveColorData(file.getName(), tag, getColorOf(file, colorMode));
     }
 
-    private static void saveColorData(String fileName, String fileTag, BufferedImage image) {
+    private static void saveColorData(@NotNull String fileName,
+                                      @NotNull String fileTag,
+                                      @NotNull BufferedImage image) {
         try {
             File file = new File(fileName.split("\\.")[0] + "_" + fileTag + ".png");
             ImageIO.write(image, "png", file);

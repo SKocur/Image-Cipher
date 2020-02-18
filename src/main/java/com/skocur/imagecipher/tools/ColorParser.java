@@ -1,10 +1,11 @@
 package com.skocur.imagecipher.tools;
 
 import javafx.scene.paint.Color;
+import org.jetbrains.annotations.NotNull;
 
 public class ColorParser {
 
-    public static int getColor(Color color) {
+    public static int getColor(@NotNull Color color) {
         int R = (int) Math.round(255 * color.getRed());
         int G = (int) Math.round(255 * color.getGreen());
         int B = (int) Math.round(255 * color.getBlue());

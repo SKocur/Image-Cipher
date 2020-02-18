@@ -25,7 +25,7 @@ public class Main {
         }
     }
 
-    private static void executeCommand(String[] args){
+    private static void executeCommand(String[] args) {
         try {
             CommandExecutor.executeArgs(args);
         } catch (IOException e) {
