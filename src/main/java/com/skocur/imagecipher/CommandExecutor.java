@@ -55,29 +55,11 @@ public class CommandExecutor {
      * reads message will stop and encryption process will be invoked.
      *
      * @param args CommandArgs object that contains program arguments
-     * @throws IOException
      */
-    private static void encrypt(@NotNull CommandArgs args) throws IOException {
-        Encrypter encrypter;
-
-        switch (args.encryptionMode) {
-            case 1:
-                encrypter = new SingleColorEncryption(args.originalFileName);
-                break;
-            case 2:
-                encrypter = new MultiColorEncryption(args.originalFileName);
-                break;
-            case 3:
-                encrypter = new LowLevelBitEncryption(args.originalFileName);
-                break;
-            case 4:
-                encrypter = new RSAEncryption(args.originalFileName, args.certificateFileName);
-                break;
-            default:
-                encrypter = new LowLevelBitEncryption(args.originalFileName);
-                System.err.println("There is no available such encryption option!");
-                System.err.println("LowLevelBitEncryption has been chosen by default");
-        }
+    private static void encrypt(@NotNull CommandArgs args) {
+        Encrypter encrypter = EncrypterManager.getEncrypter(
+                EncrypterType.getType(args.encryptionMode), args.originalFileName
+        );
 
         System.out.println("Message to encrypt:\n\n");
 
@@ -86,6 +68,10 @@ public class CommandExecutor {
         Scanner scanner = new Scanner(System.in);
         while (!(text = scanner.nextLine()).equals(":exit")) {
             message.append(text);
+        }
+
+        if (encrypter == null) {
+            return;
         }
 
         encrypter.encrypt(message.toString());
