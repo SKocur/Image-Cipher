@@ -13,10 +13,9 @@ import java.io.IOException;
  * encryption is done. Getter methods that return dimensions of image can be used
  * by outside class to calculate capacity of data that are allowed to be stored.
  */
-public abstract class Encrypter {
+public abstract class Encrypter implements AutoCloseable {
 
     private int imageWidth;
-    private int imageHeight;
     protected String fileName;
     protected BufferedImage image;
 
@@ -36,9 +35,10 @@ public abstract class Encrypter {
     public abstract void encrypt(@NotNull String text);
 
     /**
-     * Method that is always invoked after all encryption processes have finished.
+     * Method that should be invoked after all encryption processes have finished.
      */
-    protected void saveEncryptedData() {
+    @Override
+    public void close() {
         try {
             File file = new File(fileName);
             ImageIO.write(image, "png", file);
@@ -49,9 +49,5 @@ public abstract class Encrypter {
 
     public int getImageWidth() {
         return imageWidth;
-    }
-
-    public int getImageHeight() {
-        return imageHeight;
     }
 }

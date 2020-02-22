@@ -149,18 +149,19 @@ public class WindowController extends Application {
 
     @FXML
     public void encrypt() {
-        Encrypter encrypter = EncrypterManager.getEncrypter(
+        try (Encrypter encrypter = EncrypterManager.getEncrypter(
                 EncrypterType.getType(cryptoOption), imagePathTextField.getText()
-        );
+        )) {
 
-        if (encrypter == null) {
-            return;
-        }
+            if (encrypter == null) {
+                return;
+            }
 
-        encrypter.encrypt(textToEncrypt.getText());
-        if (encrypter instanceof RSAEncryption) {
-            RSAEncryption r = (RSAEncryption) encrypter;
-            key = r.getPrivKey();
+            encrypter.encrypt(textToEncrypt.getText());
+            if (encrypter instanceof RSAEncryption) {
+                RSAEncryption r = (RSAEncryption) encrypter;
+                key = r.getPrivKey();
+            }
         }
     }
 

@@ -57,24 +57,25 @@ public class CommandExecutor {
      * @param args CommandArgs object that contains program arguments
      */
     private static void encrypt(@NotNull CommandArgs args) {
-        Encrypter encrypter = EncrypterManager.getEncrypter(
+        try (Encrypter encrypter = EncrypterManager.getEncrypter(
                 EncrypterType.getType(args.encryptionMode), args.originalFileName
-        );
+        )) {
 
-        System.out.println("Message to encrypt:\n\n");
+            System.out.println("Message to encrypt:\n\n");
 
-        StringBuilder message = new StringBuilder();
-        String text;
-        Scanner scanner = new Scanner(System.in);
-        while (!(text = scanner.nextLine()).equals(":exit")) {
-            message.append(text);
+            StringBuilder message = new StringBuilder();
+            String text;
+            Scanner scanner = new Scanner(System.in);
+            while (!(text = scanner.nextLine()).equals(":exit")) {
+                message.append(text);
+            }
+
+            if (encrypter == null) {
+                return;
+            }
+
+            encrypter.encrypt(message.toString());
         }
-
-        if (encrypter == null) {
-            return;
-        }
-
-        encrypter.encrypt(message.toString());
     }
 
     /**
