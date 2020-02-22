@@ -148,26 +148,13 @@ public class WindowController extends Application {
     }
 
     @FXML
-    public void encrypt() throws IOException {
-        Encrypter encrypter;
+    public void encrypt() {
+        Encrypter encrypter = EncrypterManager.getEncrypter(
+                EncrypterType.getType(cryptoOption), imagePathTextField.getText()
+        );
 
-        switch (cryptoOption) {
-            case 1:
-                encrypter = new SingleColorEncryption(imagePathTextField.getText());
-                break;
-            case 2:
-                encrypter = new MultiColorEncryption(imagePathTextField.getText());
-                break;
-            case 3:
-                encrypter = new LowLevelBitEncryption(imagePathTextField.getText());
-                break;
-            case 4:
-                encrypter = new RSAEncryption(imagePathTextField.getText());
-                break;
-            default:
-                encrypter = new LowLevelBitEncryption(imagePathTextField.getText());
-                System.err.println("There is no available such encryption option!");
-                System.err.println("LowLevelBitEncryption has been chosen by default");
+        if (encrypter == null) {
+            return;
         }
 
         encrypter.encrypt(textToEncrypt.getText());
