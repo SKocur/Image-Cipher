@@ -27,8 +27,6 @@ public class MultiColorEncryption extends Encrypter {
                 }
             }
         }
-
-        saveEncryptedData();
     }
 
     @NotNull

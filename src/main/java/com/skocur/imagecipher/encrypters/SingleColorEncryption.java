@@ -9,13 +9,11 @@ import java.util.ArrayList;
 
 public class SingleColorEncryption extends Encrypter {
 
-    private ArrayList<Character> chars;
     private ArrayList<Integer> asciiChars;
 
     public SingleColorEncryption(@NotNull String fileName) throws IOException {
         super(fileName);
 
-        chars = new ArrayList<>();
         asciiChars = new ArrayList<>();
     }
 
@@ -32,7 +30,5 @@ public class SingleColorEncryption extends Encrypter {
                 index++;
             }
         }
-
-        saveEncryptedData();
     }
 }
