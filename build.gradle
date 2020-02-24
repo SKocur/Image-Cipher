@@ -19,15 +19,17 @@ jar {
 
 dependencies {
     implementation 'org.jetbrains:annotations:16.0.2'
-
     implementation group: 'com.beust', name: 'jcommander', version: '1.69'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.0.1'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.8'
+
+    implementation files("libs/IcSdk-0.1.jar")
 
     testCompile(
             'junit:junit:4.12',
             'org.codehaus.groovy:groovy-all:2.4.4',
             'org.spockframework:spock-core:1.0-groovy-2.4'
     )
-
 }
 
 repositories {
