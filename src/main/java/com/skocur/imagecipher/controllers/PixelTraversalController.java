@@ -15,66 +15,66 @@ import java.io.IOException;
 
 public class PixelTraversalController {
 
-    @FXML
-    public TextField animationPause;
+  @FXML
+  public TextField animationPause;
 
-    @FXML
-    public TextField iterations;
+  @FXML
+  public TextField iterations;
 
-    @FXML
-    public RadioButton radioBFS;
+  @FXML
+  public RadioButton radioBFS;
 
-    @FXML
-    public ColorPicker colorPicker;
+  @FXML
+  public ColorPicker colorPicker;
 
-    @FXML
-    public RadioButton radioDFS;
+  @FXML
+  public RadioButton radioDFS;
 
-    private ImageView preview;
-    private Thread imageGenerationThread;
-    private Point startingPoint = new Point();
+  private ImageView preview;
+  private Thread imageGenerationThread;
+  private Point startingPoint = new Point();
 
-    void setPreview(ImageView preview) {
-        this.preview = preview;
+  void setPreview(ImageView preview) {
+    this.preview = preview;
+  }
+
+  void setStartLocation(Point startingPoint) {
+    this.startingPoint = startingPoint;
+  }
+
+  public void runPixelTraversal() {
+    if (imageGenerationThread != null) {
+      imageGenerationThread.interrupt();
     }
 
-    void setStartLocation(Point startingPoint) {
-        this.startingPoint = startingPoint;
-    }
-
-    public void runPixelTraversal() {
-        if (imageGenerationThread != null) {
-            imageGenerationThread.interrupt();
+    if (radioBFS.isSelected()) {
+      imageGenerationThread = new Thread(() -> {
+        try {
+          BfsImagePainter.paintImage(new File(WindowController.fileName),
+              SaveNumberParser.getParsedNumber(iterations.getText()),
+              colorPicker.getValue(),
+              SaveNumberParser.getParsedNumber(animationPause.getText()),
+              preview,
+              startingPoint);
+        } catch (IOException e) {
+          e.printStackTrace();
         }
-
-        if (radioBFS.isSelected()) {
-            imageGenerationThread = new Thread(() -> {
-                try {
-                    BfsImagePainter.paintImage(new File(WindowController.fileName),
-                            SaveNumberParser.getParsedNumber(iterations.getText()),
-                            colorPicker.getValue(),
-                            SaveNumberParser.getParsedNumber(animationPause.getText()),
-                            preview,
-                            startingPoint);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            imageGenerationThread.start();
-        } else if (radioDFS.isSelected()) {
-            imageGenerationThread = new Thread(() -> {
-                try {
-                    DfsImagePainter.paintImage(new File(WindowController.fileName),
-                            SaveNumberParser.getParsedNumber(iterations.getText()),
-                            colorPicker.getValue(),
-                            SaveNumberParser.getParsedNumber(animationPause.getText()),
-                            preview,
-                            startingPoint);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            imageGenerationThread.start();
+      });
+      imageGenerationThread.start();
+    } else if (radioDFS.isSelected()) {
+      imageGenerationThread = new Thread(() -> {
+        try {
+          DfsImagePainter.paintImage(new File(WindowController.fileName),
+              SaveNumberParser.getParsedNumber(iterations.getText()),
+              colorPicker.getValue(),
+              SaveNumberParser.getParsedNumber(animationPause.getText()),
+              preview,
+              startingPoint);
+        } catch (IOException e) {
+          e.printStackTrace();
         }
+      });
+      imageGenerationThread.start();
     }
+  }
 }
