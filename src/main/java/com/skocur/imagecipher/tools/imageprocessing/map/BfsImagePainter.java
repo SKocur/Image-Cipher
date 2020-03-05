@@ -17,74 +17,74 @@ import java.util.Queue;
 
 public class BfsImagePainter {
 
-    /**
-     * Breadth First Search algorithm to color pixels in image.
-     *
-     * @param file           Image file
-     * @param iterations     Number of iterations
-     * @param penColor       Color of ink that will be used to color image
-     * @param animationPause Duration of break between iterations
-     * @param preview        ImageView that displays live changes done by algorithm
-     * @return BufferedImage - it is returned at the end of painting
-     * @throws IOException May occur while reading the image file
-     */
-    public static void paintImage(@NotNull File file,
-                                  int iterations,
-                                  @NotNull Color penColor,
-                                  int animationPause,
-                                  @NotNull ImageView preview,
-                                  @NotNull Point point) throws IOException {
-        BufferedImage image = ImageIO.read(file);
-        int imageY = image.getHeight();
-        int imageX = image.getWidth();
+  /**
+   * Breadth First Search algorithm to color pixels in image.
+   *
+   * @param file Image file
+   * @param iterations Number of iterations
+   * @param penColor Color of ink that will be used to color image
+   * @param animationPause Duration of break between iterations
+   * @param preview ImageView that displays live changes done by algorithm
+   * @return BufferedImage - it is returned at the end of painting
+   * @throws IOException May occur while reading the image file
+   */
+  public static void paintImage(@NotNull File file,
+      int iterations,
+      @NotNull Color penColor,
+      int animationPause,
+      @NotNull ImageView preview,
+      @NotNull Point point) throws IOException {
+    BufferedImage image = ImageIO.read(file);
+    int imageY = image.getHeight();
+    int imageX = image.getWidth();
 
-        double scaleX = preview.getFitWidth() > 0 ? (double) imageX / preview.getFitWidth() : 1;
-        double scaleY = preview.getFitHeight() > 0 ? (double) imageY / preview.getFitHeight() : 1;
+    double scaleX = preview.getFitWidth() > 0 ? (double) imageX / preview.getFitWidth() : 1;
+    double scaleY = preview.getFitHeight() > 0 ? (double) imageY / preview.getFitHeight() : 1;
 
-        int startPointX = (int) (point.x * scaleX);
-        int startPointY = (int) (point.y * scaleY);
+    int startPointX = (int) (point.x * scaleX);
+    int startPointY = (int) (point.y * scaleY);
 
-        int startColor = image.getRGB(startPointX, startPointY);
+    int startColor = image.getRGB(startPointX, startPointY);
 
-        Queue<Pixel> queue = new LinkedList<>();
-        queue.add(new Pixel(startPointX, startPointY, startColor));
+    Queue<Pixel> queue = new LinkedList<>();
+    queue.add(new Pixel(startPointX, startPointY, startColor));
 
-        int counter = 0;
-        while (!queue.isEmpty() && counter < iterations) {
-            Pixel pixel = queue.poll();
-            image.setRGB(pixel.x, pixel.y, ColorParser.getColor(penColor));
+    int counter = 0;
+    while (!queue.isEmpty() && counter < iterations) {
+      Pixel pixel = queue.poll();
+      image.setRGB(pixel.x, pixel.y, ColorParser.getColor(penColor));
 
-            preview.setImage(SwingFXUtils.toFXImage(image, null));
+      preview.setImage(SwingFXUtils.toFXImage(image, null));
 
-            if (pixel.y < imageY - 1
-                    && image.getRGB(pixel.x, pixel.y + 1) == startColor) {
-                queue.add(new Pixel(pixel.x, pixel.y + 1, startColor));
-                counter++;
-            }
+      if (pixel.y < imageY - 1
+          && image.getRGB(pixel.x, pixel.y + 1) == startColor) {
+        queue.add(new Pixel(pixel.x, pixel.y + 1, startColor));
+        counter++;
+      }
 
-            if (pixel.y > 0
-                    && image.getRGB(pixel.x, pixel.y - 1) == startColor) {
-                queue.add(new Pixel(pixel.x, pixel.y - 1, startColor));
-                counter++;
-            }
+      if (pixel.y > 0
+          && image.getRGB(pixel.x, pixel.y - 1) == startColor) {
+        queue.add(new Pixel(pixel.x, pixel.y - 1, startColor));
+        counter++;
+      }
 
-            if (pixel.x < imageX - 1
-                    && image.getRGB(pixel.x + 1, pixel.y) == startColor) {
-                queue.add(new Pixel(pixel.x + 1, pixel.y, startColor));
-            }
+      if (pixel.x < imageX - 1
+          && image.getRGB(pixel.x + 1, pixel.y) == startColor) {
+        queue.add(new Pixel(pixel.x + 1, pixel.y, startColor));
+      }
 
-            if (pixel.x > 0
-                    && image.getRGB(pixel.x - 1, pixel.y) == startColor) {
-                queue.add(new Pixel(pixel.x - 1, pixel.y, startColor));
-                counter++;
-            }
+      if (pixel.x > 0
+          && image.getRGB(pixel.x - 1, pixel.y) == startColor) {
+        queue.add(new Pixel(pixel.x - 1, pixel.y, startColor));
+        counter++;
+      }
 
-            try {
-                Thread.sleep(animationPause);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                return;
-            }
-        }
+      try {
+        Thread.sleep(animationPause);
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+        return;
+      }
     }
+  }
 }

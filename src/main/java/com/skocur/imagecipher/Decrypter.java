@@ -19,103 +19,103 @@ import javax.imageio.ImageIO;
  */
 public class Decrypter {
 
-    private int row;
-    private int col;
-    private int tempBitVal;
-    private BufferedImage originalImage;
+  private int row;
+  private int col;
+  private int tempBitVal;
+  private BufferedImage originalImage;
 
-    public Decrypter(String fileName) throws IOException {
-        this.originalImage = ImageIO.read(new File(fileName));
+  public Decrypter(String fileName) throws IOException {
+    this.originalImage = ImageIO.read(new File(fileName));
+  }
+
+  /**
+   * This method decrypt text message from given image. It reads level of shadow on green channel
+   * from pixel.
+   *
+   * @param fileName Name of the image
+   * @return text Decrypted text
+   * @throws IOException When file cannot be found.
+   * @see Config
+   */
+  @NotNull
+  public static String decrypt(@NotNull String fileName) throws IOException {
+    BufferedImage bufferedImage = ImageIO.read(new File(fileName));
+
+    int width = bufferedImage.getWidth();
+    StringBuilder stringBuilder = new StringBuilder();
+
+    for (int pixel = 0; pixel < width; pixel++) {
+      if (pixel % Config.SPACING_CIPHER == 0) {
+        Color colorShade = new Color(bufferedImage.getRGB(pixel, Config.IMAGE_MARGIN_TOP), true);
+        stringBuilder.append((char) colorShade.getGreen());
+      }
     }
 
-    /**
-     * This method decrypt text message from given image.
-     * It reads level of shadow on green channel from pixel.
-     *
-     * @param fileName Name of the image
-     * @return text Decrypted text
-     * @throws IOException When file cannot be found.
-     * @see Config
-     */
-    @NotNull
-    public static String decrypt(@NotNull String fileName) throws IOException {
-        BufferedImage bufferedImage = ImageIO.read(new File(fileName));
+    return stringBuilder.toString();
+  }
 
-        int width = bufferedImage.getWidth();
-        StringBuilder stringBuilder = new StringBuilder();
+  @NotNull
+  public static String decryptBlue(@NotNull String fileName) throws IOException {
+    BufferedImage bufferedImage = ImageIO.read(new File(fileName));
 
-        for (int pixel = 0; pixel < width; pixel++) {
-            if (pixel % Config.SPACING_CIPHER == 0) {
-                Color colorShade = new Color(bufferedImage.getRGB(pixel, Config.IMAGE_MARGIN_TOP), true);
-                stringBuilder.append((char) colorShade.getGreen());
-            }
-        }
+    StringBuilder stringBuilder = new StringBuilder();
 
-        return stringBuilder.toString();
+    for (int i = 0; i < bufferedImage.getHeight(); ++i) {
+      for (int j = 0; j < bufferedImage.getWidth(); ++j) {
+        int b = bufferedImage.getRGB(j, i) & 0b11111111;
+
+        stringBuilder.append((char) b);
+      }
     }
 
-    @NotNull
-    public static String decryptBlue(@NotNull String fileName) throws IOException {
-        BufferedImage bufferedImage = ImageIO.read(new File(fileName));
+    return stringBuilder.toString();
+  }
 
-        StringBuilder stringBuilder = new StringBuilder();
+  @NotNull
+  public String decryptLowLevelBits() {
+    StringBuilder stringBuilder = new StringBuilder();
 
-        for (int i = 0; i < bufferedImage.getHeight(); ++i) {
-            for (int j = 0; j < bufferedImage.getWidth(); ++j) {
-                int b = bufferedImage.getRGB(j, i) & 0b11111111;
+    while (col < originalImage.getWidth() - 1 && row < originalImage.getHeight()) {
+      char c = 0;
 
-                stringBuilder.append((char) b);
-            }
-        }
+      for (int i = 0; i < 8; ++i) {
+        decryptBitCharacter();
 
-        return stringBuilder.toString();
+        c <<= 1;
+        c |= tempBitVal;
+      }
+
+      c = (char) (Integer.reverse(c << 24) & 0b11111111);
+
+      stringBuilder.append(c);
     }
 
-    @NotNull
-    public String decryptLowLevelBits() {
-        StringBuilder stringBuilder = new StringBuilder();
+    return stringBuilder.toString();
+  }
 
-        while (col < originalImage.getWidth() - 1 && row < originalImage.getHeight()) {
-            char c = 0;
+  private void decryptBitCharacter() {
+    if (col < originalImage.getWidth() - 1) {
+      int mask = 0b11111111;
+      int rgb = originalImage.getRGB(col, row);
 
-            for (int i = 0; i < 8; ++i) {
-                decryptBitCharacter();
+      int b = rgb & mask;
 
-                c <<= 1;
-                c |= tempBitVal;
-            }
+      int newB = originalImage.getRGB(col + 1, row) & mask;
 
-            c = (char) (Integer.reverse(c << 24) & 0b11111111);
+      tempBitVal = Math.abs(newB - b);
 
-            stringBuilder.append(c);
-        }
-
-        return stringBuilder.toString();
+      col += 2;
+    } else {
+      row++;
+      col = 0;
     }
+  }
 
-    private void decryptBitCharacter() {
-        if (col < originalImage.getWidth() - 1) {
-            int mask = 0b11111111;
-            int rgb = originalImage.getRGB(col, row);
-
-            int b = rgb & mask;
-
-            int newB = originalImage.getRGB(col + 1, row) & mask;
-
-            tempBitVal = Math.abs(newB - b);
-
-            col += 2;
-        } else {
-            row++;
-            col = 0;
-        }
-    }
-
-    public String RSADecryption(@NotNull String text,
-                                @NotNull RSAPrivateKey key) throws Exception {
-        byte[] bytes = text.getBytes();
-        Cipher decrypter = Cipher.getInstance("RSA");
-        decrypter.init(Cipher.DECRYPT_MODE, key);
-        return new String(decrypter.doFinal(bytes));
-    }
+  public String RSADecryption(@NotNull String text,
+      @NotNull RSAPrivateKey key) throws Exception {
+    byte[] bytes = text.getBytes();
+    Cipher decrypter = Cipher.getInstance("RSA");
+    decrypter.init(Cipher.DECRYPT_MODE, key);
+    return new String(decrypter.doFinal(bytes));
+  }
 }

@@ -16,75 +16,75 @@ import java.util.Stack;
 
 public class DfsImagePainter {
 
-    /**
-     * Depth First Search algorithm used to color image. This specific implementation
-     * uses stack, because it will prevent possible StackOverflowError which would
-     * occur if it gets too big image to traverse.
-     *
-     * @param file           Image file
-     * @param iterations     Number of iterations
-     * @param penColor       Color of ink that will be used to color image
-     * @param animationPause Duration of break between iterations
-     * @param preview        ImageView that displays live changes done by algorithm
-     * @return BufferedImage - it is returned at the end of painting
-     * @throws IOException May occur while reading the image file
-     */
-    public static void paintImage(@NotNull File file,
-                                  int iterations,
-                                  @NotNull Color penColor,
-                                  int animationPause,
-                                  @NotNull ImageView preview,
-                                  @NotNull Point point) throws IOException {
-        BufferedImage image = ImageIO.read(file);
-        int imageY = image.getHeight();
-        int imageX = image.getWidth();
+  /**
+   * Depth First Search algorithm used to color image. This specific implementation uses stack,
+   * because it will prevent possible StackOverflowError which would occur if it gets too big image
+   * to traverse.
+   *
+   * @param file Image file
+   * @param iterations Number of iterations
+   * @param penColor Color of ink that will be used to color image
+   * @param animationPause Duration of break between iterations
+   * @param preview ImageView that displays live changes done by algorithm
+   * @return BufferedImage - it is returned at the end of painting
+   * @throws IOException May occur while reading the image file
+   */
+  public static void paintImage(@NotNull File file,
+      int iterations,
+      @NotNull Color penColor,
+      int animationPause,
+      @NotNull ImageView preview,
+      @NotNull Point point) throws IOException {
+    BufferedImage image = ImageIO.read(file);
+    int imageY = image.getHeight();
+    int imageX = image.getWidth();
 
-        double scaleX = preview.getFitWidth() > 0 ? (double) imageX / preview.getFitWidth() : 1;
-        double scaleY = preview.getFitHeight() > 0 ? (double) imageY / preview.getFitHeight() : 1;
+    double scaleX = preview.getFitWidth() > 0 ? (double) imageX / preview.getFitWidth() : 1;
+    double scaleY = preview.getFitHeight() > 0 ? (double) imageY / preview.getFitHeight() : 1;
 
-        int startPointX = (int) (point.x * scaleX);
-        int startPointY = (int) (point.y * scaleY);
+    int startPointX = (int) (point.x * scaleX);
+    int startPointY = (int) (point.y * scaleY);
 
-        int startColor = image.getRGB(startPointX, startPointY);
+    int startColor = image.getRGB(startPointX, startPointY);
 
-        Stack<Pixel> stack = new Stack<>();
-        stack.push(new Pixel(startPointX, startPointY, startColor));
+    Stack<Pixel> stack = new Stack<>();
+    stack.push(new Pixel(startPointX, startPointY, startColor));
 
-        int counter = 0;
-        while (!stack.isEmpty() && counter < iterations) {
-            Pixel pixel = stack.pop();
-            image.setRGB(pixel.x, pixel.y, ColorParser.getColor(penColor));
+    int counter = 0;
+    while (!stack.isEmpty() && counter < iterations) {
+      Pixel pixel = stack.pop();
+      image.setRGB(pixel.x, pixel.y, ColorParser.getColor(penColor));
 
-            if (preview != null) {
-                preview.setImage(SwingFXUtils.toFXImage(image, null));
-            }
+      if (preview != null) {
+        preview.setImage(SwingFXUtils.toFXImage(image, null));
+      }
 
-            if (pixel.y < imageY - 1 && image.getRGB(pixel.x, pixel.y + 1) == startColor) {
-                stack.push(new Pixel(pixel.x, pixel.y + 1, startColor));
-                counter++;
-            }
+      if (pixel.y < imageY - 1 && image.getRGB(pixel.x, pixel.y + 1) == startColor) {
+        stack.push(new Pixel(pixel.x, pixel.y + 1, startColor));
+        counter++;
+      }
 
-            if (pixel.y > 0 && image.getRGB(pixel.x, pixel.y - 1) == startColor) {
-                stack.push(new Pixel(pixel.x, pixel.y - 1, startColor));
-                counter++;
-            }
+      if (pixel.y > 0 && image.getRGB(pixel.x, pixel.y - 1) == startColor) {
+        stack.push(new Pixel(pixel.x, pixel.y - 1, startColor));
+        counter++;
+      }
 
-            if (pixel.x < imageX - 1 && image.getRGB(pixel.x + 1, pixel.y) == startColor) {
-                stack.push(new Pixel(pixel.x + 1, pixel.y, startColor));
-                counter++;
-            }
+      if (pixel.x < imageX - 1 && image.getRGB(pixel.x + 1, pixel.y) == startColor) {
+        stack.push(new Pixel(pixel.x + 1, pixel.y, startColor));
+        counter++;
+      }
 
-            if (pixel.x > 0 && image.getRGB(pixel.x - 1, pixel.y) == startColor) {
-                stack.push(new Pixel(pixel.x - 1, pixel.y, startColor));
-                counter++;
-            }
+      if (pixel.x > 0 && image.getRGB(pixel.x - 1, pixel.y) == startColor) {
+        stack.push(new Pixel(pixel.x - 1, pixel.y, startColor));
+        counter++;
+      }
 
-            try {
-                Thread.sleep(animationPause);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                return;
-            }
-        }
+      try {
+        Thread.sleep(animationPause);
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+        return;
+      }
     }
+  }
 }
