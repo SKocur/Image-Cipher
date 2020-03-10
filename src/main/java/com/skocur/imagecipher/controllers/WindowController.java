@@ -5,16 +5,13 @@ import com.jfoenix.controls.JFXToggleButton;
 import com.skocur.imagecipher.Decrypter;
 import java.io.File;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.net.URL;
-import java.security.interfaces.RSAPrivateKey;
 import java.util.Optional;
 
 import com.skocur.imagecipher.Main;
 import com.skocur.imagecipher.encrypters.*;
 import java.util.ResourceBundle;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,7 +21,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -57,9 +53,6 @@ public class WindowController extends Application implements Initializable {
       "Multi Color Decryption",
       "Low Level Bit Decryption"};
 
-  // Default option is Low Level Bit Encryption/Decryption
-  private int cryptoOption = 3;
-  private RSAPrivateKey key; //I can't find any better way to save this key,saving every private key in it's own file would kind of defeat the purpose of having one
   public static String fileName = "";
 
   @Override
@@ -75,9 +68,6 @@ public class WindowController extends Application implements Initializable {
 
     root.ifPresent(parent -> {
       Scene scene = new Scene(parent);
-//      scene.getStylesheets().add(
-//          Main.class.getResource("/views/styles/style_main_window.css").toString()
-//      );
       scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
 
       myStage.setMinWidth(900);
@@ -87,26 +77,6 @@ public class WindowController extends Application implements Initializable {
       myStage.show();
     });
   }
-
-//  private void initCryptoMode() {
-//    int size = decryptionMode.getItems().size();
-//
-//    if (size == encryptionMode.getItems().size()) {
-//      for (int i = 0; i < size; i++) {
-//        int finalI = i;
-//        decryptionMode.getItems().get(i).setOnAction(e ->
-//            cryptoOption = finalI + 1
-//        );
-//
-//        encryptionMode.getItems().get(i).setOnAction(e ->
-//            cryptoOption = finalI + 1
-//        );
-//      }
-//
-//      decryptButton.setDisable(false);
-//      encryptButton.setDisable(false);
-//    }
-//  }
 
   /**
    * This method takes image from file path. If file exists, buttons responsible for processing data
