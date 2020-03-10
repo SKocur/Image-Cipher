@@ -2,6 +2,7 @@ package com.skocur.imagecipher.controllers;
 
 import com.imagecipher.icsdk.annotations.IcAlgorithmSpecification;
 import com.jfoenix.controls.JFXToggleButton;
+import com.skocur.imagecipher.Decrypter;
 import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -42,18 +43,6 @@ public class WindowController extends Application implements Initializable {
   @FXML
   public Button loadImageButton;
   @FXML
-  public Button encryptButton;
-  @FXML
-  public TextArea textToEncrypt;
-  @FXML
-  public MenuButton encryptionMode;
-  @FXML
-  public MenuButton decryptionMode;
-  @FXML
-  public Button decryptButton;
-  @FXML
-  public Text messageFromImage;
-  @FXML
   public Button imageProcessing;
   @FXML
   public Button goButton;
@@ -63,6 +52,10 @@ public class WindowController extends Application implements Initializable {
   public JFXToggleButton modeToggle;
   @FXML
   public TextArea textHolder;
+
+  private String[] decryptersNames = {"Single Color Decryption",
+      "Multi Color Decryption",
+      "Low Level Bit Decryption"};
 
   // Default option is Low Level Bit Encryption/Decryption
   private int cryptoOption = 3;
@@ -127,7 +120,6 @@ public class WindowController extends Application implements Initializable {
         new ExtensionFilter("Image files", "*.png", "*.jpg")
     );
 
-//    fileName = imagePathTextField.getText();
     File file = fileChooser.showOpenDialog(new Stage());
 
     if (file == null) {
@@ -139,13 +131,10 @@ public class WindowController extends Application implements Initializable {
     previewImage.setImage(image);
 
     if (file.exists()) {
-//      initCryptoMode();
       initCryptoAlgorithms();
       goButton.setDisable(false);
       imageProcessing.setDisable(false);
     } else {
-      encryptButton.setDisable(true);
-      decryptButton.setDisable(true);
       imageProcessing.setDisable(true);
     }
   }
@@ -179,7 +168,13 @@ public class WindowController extends Application implements Initializable {
     ToggleGroup group = new ToggleGroup();
 
     if (modeToggle.isSelected()) {
-      //TODO add decrypters
+      for (String name : decryptersNames) {
+        RadioMenuItem radioMenuItem = new RadioMenuItem(name);
+        radioMenuItem.setToggleGroup(group);
+        radioMenuItem.setUserData(name);
+
+        cryptoAlgorithms.getItems().add(radioMenuItem);
+      }
     } else {
       for (int i = 1; i < 4; ++i) {
         Encrypter encrypter = EncrypterManager.getEncrypter(EncrypterType.getType(i), fileName);
@@ -268,55 +263,43 @@ public class WindowController extends Application implements Initializable {
   }
 
   private void executeDecryption() {
+    MenuItem menuItem = cryptoAlgorithms.getItems().get(0);
+
+    if (!(menuItem instanceof RadioMenuItem)) {
+      System.err.println("Menu item is not instance of RadioMenuItem");
+      return;
+    }
+
+    RadioMenuItem radioMenuItem = (RadioMenuItem) menuItem;
+    Toggle selectedToggle = radioMenuItem.getToggleGroup().getSelectedToggle();
+
+    if (selectedToggle == null) {
+      System.err.println("No algorithm has been chosen");
+      return;
+    }
+
+    Object object = selectedToggle.getUserData();
+
+    if (!(object instanceof String)) {
+      System.err.println("Data od decryption algorithm is not a String instance");
+      return;
+    }
+
+    try {
+      String name = (String) object;
+      String message = "";
+      if (name.equals(decryptersNames[0])) {
+        message = Decrypter.decrypt(fileName);
+      } else if (name.equals(decryptersNames[1])) {
+        message = Decrypter.decryptBlue(fileName);
+      } else if (name.equals(decryptersNames[2])) {
+        Decrypter decrypter = new Decrypter(fileName);
+        message = decrypter.decryptLowLevelBits();
+      }
+
+      textHolder.setText(message);
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
+    }
   }
-
-//  @FXML
-//  public void encrypt() {
-//    try (Encrypter encrypter = EncrypterManager.getEncrypter(
-//        EncrypterType.getType(cryptoOption), imagePathTextField.getText()
-//    )) {
-//
-//      if (encrypter == null) {
-//        return;
-//      }
-//
-//      encrypter.encrypt(textToEncrypt.getText());
-//      if (encrypter instanceof RSAEncryption) {
-//        RSAEncryption r = (RSAEncryption) encrypter;
-//        key = r.getPrivKey();
-//      }
-//    }
-//  }
-
-//  @FXML
-//  public void decrypt() throws IOException {
-//    String message = "";
-//    Decrypter decrypter;
-//    switch (cryptoOption) {
-//      case 1:
-//        message = Decrypter.decrypt(imagePathTextField.getText());
-//        break;
-//      case 2:
-//        message = Decrypter.decryptBlue(imagePathTextField.getText());
-//        break;
-//      case 3:
-//        decrypter = new Decrypter(imagePathTextField.getText());
-//        message = decrypter.decryptLowLevelBits();
-//        break;
-//      case 4:
-//        decrypter = new Decrypter(imagePathTextField.getText());
-//        message = decrypter.decryptLowLevelBits();
-//        try {
-//          message = decrypter.RSADecryption(message, key);
-//        } catch (Exception e) {
-//          e.printStackTrace();
-//        }
-//        break;
-//      default:
-//        System.err.println("No valid decryption mode was chosen!");
-//        System.exit(2);
-//    }
-//
-//    messageFromImage.setText(message);
-//  }
 }
