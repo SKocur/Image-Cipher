@@ -1,5 +1,6 @@
 package com.skocur.imagecipher.encrypters;
 
+import com.imagecipher.icsdk.annotations.IcAlgorithmSpecification;
 import com.skocur.imagecipher.Config;
 import org.jetbrains.annotations.NotNull;
 
@@ -7,6 +8,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+@IcAlgorithmSpecification(algorithmName = "Single Color Encryption")
 public class SingleColorEncryption extends Encrypter {
 
   private ArrayList<Integer> asciiChars;

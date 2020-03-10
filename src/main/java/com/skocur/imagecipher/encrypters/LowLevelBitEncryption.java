@@ -1,10 +1,12 @@
 package com.skocur.imagecipher.encrypters;
 
+import com.imagecipher.icsdk.annotations.IcAlgorithmSpecification;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.io.IOException;
 
+@IcAlgorithmSpecification(algorithmName = "Low Level Bit Encryption")
 public class LowLevelBitEncryption extends Encrypter {
 
   private int row;
@@ -39,7 +41,7 @@ public class LowLevelBitEncryption extends Encrypter {
       int g = (rgb >> 8) & mask;
 
       int b = image.getRGB(col + 1, row) & mask;
-      b -= c;
+      b -= c; //TODO What is user add white/bright image to encrypt (b would be equal 0)?
 
       Color color = new Color(r, g, b);
       image.setRGB(col, row, color.getRGB());

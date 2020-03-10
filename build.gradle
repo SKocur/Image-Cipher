@@ -23,6 +23,9 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.0.1'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.8'
 
+    implementation 'org.kordamp.bootstrapfx:bootstrapfx-core:0.2.4'
+    implementation 'com.jfoenix:jfoenix:8.0.8'
+
     implementation files("libs/IcSdk-0.1.jar")
 
     testCompile(
@@ -34,6 +37,7 @@ dependencies {
 
 repositories {
     mavenCentral()
+    jcenter()
 
     maven { url 'https://jitpack.io' }
 }
