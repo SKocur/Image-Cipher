@@ -1,10 +1,12 @@
 package com.skocur.imagecipher.encrypters;
 
+import com.imagecipher.icsdk.annotations.IcAlgorithmSpecification;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.io.IOException;
 
+@IcAlgorithmSpecification(algorithmName = "Low Level Bit Encryption")
 public class LowLevelBitEncryption extends Encrypter {
 
   private int row;

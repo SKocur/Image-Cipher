@@ -1,10 +1,12 @@
 package com.skocur.imagecipher.encrypters;
 
+import com.imagecipher.icsdk.annotations.IcAlgorithmSpecification;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.io.IOException;
 
+@IcAlgorithmSpecification(algorithmName = "Multi Color Encryption")
 public class MultiColorEncryption extends Encrypter {
 
   public MultiColorEncryption(@NotNull String fileName) throws IOException {
