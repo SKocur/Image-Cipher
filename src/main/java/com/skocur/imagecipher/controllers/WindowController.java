@@ -13,6 +13,7 @@ import com.skocur.imagecipher.Main;
 import com.skocur.imagecipher.encrypters.*;
 import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -60,6 +61,8 @@ public class WindowController extends Application implements Initializable {
   public MenuButton cryptoAlgorithms;
   @FXML
   public JFXToggleButton modeToggle;
+  @FXML
+  public TextArea textHolder;
 
   // Default option is Low Level Bit Encryption/Decryption
   private int cryptoOption = 3;
@@ -173,6 +176,8 @@ public class WindowController extends Application implements Initializable {
   private void initCryptoAlgorithms() {
     cryptoAlgorithms.getItems().clear();
 
+    ToggleGroup group = new ToggleGroup();
+
     if (modeToggle.isSelected()) {
       //TODO add decrypters
     } else {
@@ -183,24 +188,25 @@ public class WindowController extends Application implements Initializable {
           continue;
         }
 
-        MenuItem menuItem = getNamedMenuItem(encrypter.getClass());
-
+        RadioMenuItem menuItem = getNamedMenuItem(encrypter.getClass());
+        menuItem.setToggleGroup(group);
         menuItem.setUserData(encrypter);
+
         cryptoAlgorithms.getItems().add(menuItem);
       }
     }
   }
 
   @NotNull
-  private MenuItem getNamedMenuItem(@NotNull Class<?> algorithm) {
+  private RadioMenuItem getNamedMenuItem(@NotNull Class<?> algorithm) {
     IcAlgorithmSpecification[] specifications = algorithm
         .getDeclaredAnnotationsByType(IcAlgorithmSpecification.class);
 
-    MenuItem menuItem;
+    RadioMenuItem menuItem;
     if (specifications.length > 0) {
-      menuItem = new MenuItem(specifications[0].algorithmName());
+      menuItem = new RadioMenuItem(specifications[0].algorithmName());
     } else {
-      menuItem = new MenuItem(getNameFromClass(algorithm));
+      menuItem = new RadioMenuItem(getNameFromClass(algorithm));
     }
 
     return menuItem;
@@ -218,6 +224,50 @@ public class WindowController extends Application implements Initializable {
       initCryptoAlgorithms();
       modeToggle.setText(newValue ? "Decryption enabled" : "Encryption enabled");
     }));
+  }
+
+  @FXML
+  public void executeAlgorithm() {
+    if (isDecryptionSelected()) {
+      executeDecryption();
+    } else {
+      executeEncryption();
+    }
+  }
+
+  private boolean isDecryptionSelected() {
+    return modeToggle.isSelected();
+  }
+
+  private void executeEncryption() {
+    MenuItem menuItem = cryptoAlgorithms.getItems().get(0);
+
+    if (!(menuItem instanceof RadioMenuItem)) {
+      System.err.println("Menu item is not instance of RadioMenuItem");
+      return;
+    }
+
+    RadioMenuItem radioMenuItem = (RadioMenuItem) menuItem;
+    Toggle selectedToggle = radioMenuItem.getToggleGroup().getSelectedToggle();
+
+    if (selectedToggle == null) {
+      System.err.println("No algorithm has been chosen");
+      return;
+    }
+
+    Object object = selectedToggle.getUserData();
+
+    if (!(object instanceof Encrypter)) {
+      System.err.println("Selected algorithm is not instance of Encrypter");
+      return;
+    }
+
+    try (Encrypter encrypter = (Encrypter) selectedToggle.getUserData()) {
+      encrypter.encrypt(textHolder.getText());
+    }
+  }
+
+  private void executeDecryption() {
   }
 
 //  @FXML
