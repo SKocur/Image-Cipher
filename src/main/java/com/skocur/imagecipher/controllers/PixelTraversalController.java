@@ -3,6 +3,9 @@ package com.skocur.imagecipher.controllers;
 import com.skocur.imagecipher.tools.imageprocessing.map.BfsImagePainter;
 import com.skocur.imagecipher.tools.imageprocessing.map.DfsImagePainter;
 import com.skocur.imagecipher.tools.SaveNumberParser;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.RadioButton;
@@ -34,12 +37,18 @@ public class PixelTraversalController {
   private Thread imageGenerationThread;
   private Point startingPoint = new Point();
 
-  void setPreview(ImageView preview) {
-    this.preview = preview;
+  private Disposable disposable;
+
+  void setClickObservable(Observable<Point> observable) {
+    disposable = observable.subscribeOn(Schedulers.computation())
+        .subscribe(point -> {
+          startingPoint = point;
+          runPixelTraversal();
+        });
   }
 
-  void setStartLocation(Point startingPoint) {
-    this.startingPoint = startingPoint;
+  void setPreview(ImageView preview) {
+    this.preview = preview;
   }
 
   public void runPixelTraversal() {
@@ -76,5 +85,9 @@ public class PixelTraversalController {
       });
       imageGenerationThread.start();
     }
+  }
+
+  void dispose() {
+    disposable.dispose();
   }
 }
