@@ -25,17 +25,26 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 
 People *love* thorough bug reports. I'm not even kidding.
 
-## We Use [Github Flow](https://guides.github.com/introduction/flow/index.html), so all code changes happen through pull requests.
-Pull requests are the best way to propose changes to the codebase. We actively welcome your pull requests:
-1. Fork the repo and create your branch from `master`.
-2. If you've added code that should be tested, add tests.
-3. If you've changed APIs, update the documentation.
-4. Ensure the test suite passes.
-5. Make sure your code lints.
-6. Issue that pull request!
+### Used technologies
+* Java 8
+* Gradle
+* JavaFX
+* Dagger 2
+* RxJava 3
+* For testing: Spock Framework
+* IDE: IntelliJ IDEA
+
+### How to develop ImageCipher?
+1. Choose issue that is opened and not associated to anyone **or** propose something to develop.
+2. Branch out from current master and name your branch like develop/{your_username}/{name_of_issue/issue_id}
+3. After you finished developing push your code to new remote branch named like your local branch.
+4. Create Pull Request to merge your changes into `master` branch.
+5. Java CI (Continuous Integration) runner will try to compile the project source code.
+6. If Java CI task completes successfully, you can assign your PR to some mantainer to let them review your code and then eventually merge your changes.
 
 ## Use a Consistent Coding Style.
 [Google Java Code Style](https://google.github.io/styleguide/javaguide.html)
+Make sure your code is properly formatted with Intellij IDEA formatter placed in `formatter` directory.
 
 ## License
 By contributing, you agree that your contributions will be licensed under its Apache-2.0 License.
