@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'groovy'
+apply plugin: 'idea'
 
 mainClassName = 'com.skocur.imagecipher.Main'
 
@@ -27,6 +28,9 @@ dependencies {
     implementation 'com.jfoenix:jfoenix:8.0.8'
 
     implementation "io.reactivex.rxjava3:rxjava:3.0.1"
+
+    implementation 'com.google.dagger:dagger:2.27'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.27'
 
     implementation files("libs/IcSdk-0.1.jar")
 

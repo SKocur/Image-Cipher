@@ -1,9 +1,6 @@
 package com.skocur.imagecipher.plugin;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.imagecipher.icsdk.IcPlugin;
 import com.imagecipher.icsdk.PluginInstance;
 
@@ -17,12 +14,18 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
+import javax.inject.Inject;
+import javax.inject.Named;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class PluginLoader {
 
-  static void loadAllPlugins() {
+  @Inject
+  @Named("YamlMapper")
+  public ObjectMapper mapper;
+
+  void loadAllPlugins() {
     File[] jars = listJars();
 
     if (jars == null) {
@@ -31,10 +34,10 @@ public class PluginLoader {
 
     List<URI> jarsUrls = listUris(jars);
 
-    jarsUrls.parallelStream().forEach(PluginLoader::loadPluginFromUri);
+    jarsUrls.parallelStream().forEach(this::loadPluginFromUri);
   }
 
-  private static void loadPluginFromUri(@NotNull URI uri) {
+  private void loadPluginFromUri(@NotNull URI uri) {
     try {
       JarFile jarFile = new JarFile(uri.getPath());
 
@@ -47,7 +50,7 @@ public class PluginLoader {
         return;
       }
 
-      PluginConfiguration pluginConfiguration = getYamlMapper()
+      PluginConfiguration pluginConfiguration = mapper
           .readValue(getYamlContent(jarFile.getInputStream(jarEntry)), PluginConfiguration.class);
 
       ClassLoader loader = getPluginLoader(uri);
@@ -68,7 +71,7 @@ public class PluginLoader {
     }
   }
 
-  private static void loadPlugin(@NotNull ClassLoader loader,
+  private void loadPlugin(@NotNull ClassLoader loader,
       @NotNull PluginConfiguration pluginConfiguration) {
     IcPlugin plugin;
     try {
@@ -89,7 +92,7 @@ public class PluginLoader {
   }
 
   @Nullable
-  private static ClassLoader getPluginLoader(@NotNull URI uri) {
+  private ClassLoader getPluginLoader(@NotNull URI uri) {
     try {
       return new URLClassLoader(
           new URL[]{uri.toURL()},
@@ -103,7 +106,7 @@ public class PluginLoader {
   }
 
   @NotNull
-  private static String getYamlContent(@NotNull InputStream inputStream) {
+  private String getYamlContent(@NotNull InputStream inputStream) {
     BufferedReader in = new BufferedReader(
         new InputStreamReader(inputStream));
     StringBuilder yamlContentBuilder = new StringBuilder();
@@ -123,22 +126,14 @@ public class PluginLoader {
   }
 
   @NotNull
-  private static ObjectMapper getYamlMapper() {
-    ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    mapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
-    return mapper;
-  }
-
-  @NotNull
-  private static List<URI> listUris(File[] jars) {
+  private List<URI> listUris(File[] jars) {
     return Arrays.stream(jars)
         .map(File::toURI)
         .collect(Collectors.toList());
   }
 
   @Nullable
-  private static File[] listJars() {
+  private File[] listJars() {
     File dir = new File(PluginManager.PLUGINS_PATH);
     return dir.listFiles((directory, name) -> name.endsWith(".jar"));
   }
