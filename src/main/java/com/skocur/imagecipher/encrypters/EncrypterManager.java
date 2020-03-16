@@ -22,7 +22,7 @@ public class EncrypterManager {
           return new RSAEncryption(fileName);
       }
     } catch (IOException e) {
-      System.err.format("Cannot create encryption instance: %s", e.getMessage());
+      System.err.format("Cannot create encryption instance: %s\n", e.getMessage());
     }
     return null;
   }
