@@ -145,7 +145,7 @@ public class WindowController extends Application implements Initializable {
 
         cryptoAlgorithms.getItems().add(radioMenuItem);
       }
-    } else {
+    } else if (fileName != null && !fileName.equals("")) {
       for (int i = 1; i < 4; ++i) {
         Encrypter encrypter = EncrypterManager.getEncrypter(EncrypterType.getType(i), fileName);
 
