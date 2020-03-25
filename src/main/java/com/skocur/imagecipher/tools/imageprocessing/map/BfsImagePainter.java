@@ -5,6 +5,8 @@ import com.skocur.imagecipher.tools.imageprocessing.Pixel;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
@@ -16,6 +18,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class BfsImagePainter {
+
+  private static final Logger logger = LogManager.getLogger();
 
   /**
    * Breadth First Search algorithm to color pixels in image.
@@ -34,6 +38,7 @@ public class BfsImagePainter {
       int animationPause,
       @NotNull ImageView preview,
       @NotNull Point point) throws IOException {
+    logger.debug("BFS painting image, " + point.toString());
     BufferedImage image = ImageIO.read(file);
     int imageY = image.getHeight();
     int imageX = image.getWidth();
@@ -82,6 +87,7 @@ public class BfsImagePainter {
       try {
         Thread.sleep(animationPause);
       } catch (InterruptedException e) {
+        logger.info("Interrupting BFS painting thread");
         Thread.currentThread().interrupt();
         return;
       }

@@ -1,5 +1,7 @@
 package com.skocur.imagecipher.encrypters;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,6 +28,8 @@ public class RSAEncryption extends Encrypter {
   protected RSAPrivateKey privkey;
   private RSAKeyType keyformat;
 
+  private static final Logger logger = LogManager.getLogger();
+
   public RSAEncryption(@NotNull String fileName, @Nullable String certificateFileName)
       throws IOException {
     super(fileName);
@@ -41,6 +45,7 @@ public class RSAEncryption extends Encrypter {
 
   @Override
   public void encrypt(@NotNull String text) {
+    logger.debug("Encrypting: " + text);
     try {
       byte[] encrypted;
       if (keyformat.equals(RSAKeyType.RSA)) {
@@ -52,21 +57,21 @@ public class RSAEncryption extends Encrypter {
       Encrypter encrypter = new LowLevelBitEncryption(super.fileName);
       encrypter.encrypt(new String(encrypted, StandardCharsets.UTF_8));
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error(e);
     } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
+      logger.error(e);
     } catch (InvalidKeySpecException e) {
-      e.printStackTrace();
+      logger.error(e);
     } catch (BadPaddingException e) {
-      e.printStackTrace();
+      logger.error(e);
     } catch (IllegalBlockSizeException e) {
-      e.printStackTrace();
+      logger.error(e);
     } catch (NoSuchPaddingException e) {
-      e.printStackTrace();
+      logger.error(e);
     } catch (InvalidKeyException e) {
-      e.printStackTrace();
+      logger.error(e);
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.error(e);
     }
   }
 

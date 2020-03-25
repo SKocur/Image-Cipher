@@ -5,6 +5,8 @@ import com.skocur.imagecipher.tools.imageprocessing.Pixel;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
@@ -15,6 +17,8 @@ import java.io.IOException;
 import java.util.Stack;
 
 public class DfsImagePainter {
+
+  private static final Logger logger = LogManager.getLogger();
 
   /**
    * Depth First Search algorithm used to color image. This specific implementation uses stack,
@@ -35,6 +39,7 @@ public class DfsImagePainter {
       int animationPause,
       @NotNull ImageView preview,
       @NotNull Point point) throws IOException {
+    logger.debug("DFS painting image, " + point.toString());
     BufferedImage image = ImageIO.read(file);
     int imageY = image.getHeight();
     int imageX = image.getWidth();
@@ -82,6 +87,7 @@ public class DfsImagePainter {
       try {
         Thread.sleep(animationPause);
       } catch (InterruptedException e) {
+        logger.debug("Interrupting DFS painting thread: " + e.getMessage());
         Thread.currentThread().interrupt();
         return;
       }

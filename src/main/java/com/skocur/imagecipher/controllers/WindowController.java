@@ -25,6 +25,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -55,6 +57,8 @@ public class WindowController extends Application implements Initializable {
 
   public static String fileName = "";
 
+  private static final Logger logger = LogManager.getLogger();
+
   @Override
   public void start(Stage myStage) {
     Optional<Parent> root = Optional.empty();
@@ -63,7 +67,7 @@ public class WindowController extends Application implements Initializable {
           Main.class.getResource("/views/MainWindow.fxml")
       ));
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error(e);
     }
 
     root.ifPresent(parent -> {
@@ -75,6 +79,8 @@ public class WindowController extends Application implements Initializable {
       myStage.setTitle("Image Cipher");
       myStage.setScene(scene);
       myStage.show();
+
+      logger.info("Showing MainWindow");
     });
   }
 
@@ -90,9 +96,11 @@ public class WindowController extends Application implements Initializable {
         new ExtensionFilter("Image files", "*.png", "*.jpg")
     );
 
+    logger.info("Opening file chooser dialog");
     File file = fileChooser.showOpenDialog(new Stage());
 
     if (file == null) {
+      logger.warn("No image has been chosen");
       return;
     }
 
@@ -101,10 +109,12 @@ public class WindowController extends Application implements Initializable {
     previewImage.setImage(image);
 
     if (file.exists()) {
+      logger.info("Image file exists");
       initCryptoAlgorithms();
       goButton.setDisable(false);
       imageProcessing.setDisable(false);
     } else {
+      logger.warn("Image file does not exist");
       imageProcessing.setDisable(true);
     }
   }
@@ -117,7 +127,7 @@ public class WindowController extends Application implements Initializable {
           Main.class.getResource("/views/ImageProcessingWindow.fxml")
       ));
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error(e);
     }
 
     root.ifPresent(parent -> {
@@ -129,6 +139,7 @@ public class WindowController extends Application implements Initializable {
       stage.setTitle("Image Processing");
       stage.setScene(scene);
       stage.show();
+      logger.info("Opening ImageProcessingWindow");
     });
   }
 
@@ -137,7 +148,14 @@ public class WindowController extends Application implements Initializable {
 
     ToggleGroup group = new ToggleGroup();
 
+    if (fileName == null || fileName.equals("")) {
+      logger.warn("Cannot initialize crypto algorithms, no file has been chosen");
+      return;
+    }
+
     if (modeToggle.isSelected()) {
+      logger.info("Loading decryption algorithms");
+
       for (String name : decryptersNames) {
         RadioMenuItem radioMenuItem = new RadioMenuItem(name);
         radioMenuItem.setToggleGroup(group);
@@ -145,7 +163,8 @@ public class WindowController extends Application implements Initializable {
 
         cryptoAlgorithms.getItems().add(radioMenuItem);
       }
-    } else if (fileName != null && !fileName.equals("")) {
+    } else {
+      logger.info("Loading encryption algorithms");
       for (int i = 1; i < 4; ++i) {
         Encrypter encrypter = EncrypterManager.getEncrypter(EncrypterType.getType(i), fileName);
 
@@ -171,6 +190,7 @@ public class WindowController extends Application implements Initializable {
     if (specifications.length > 0) {
       menuItem = new RadioMenuItem(specifications[0].algorithmName());
     } else {
+      logger.warn(String.format("%s class does not specified its name", algorithm.getName()));
       menuItem = new RadioMenuItem(getNameFromClass(algorithm));
     }
 
@@ -193,6 +213,7 @@ public class WindowController extends Application implements Initializable {
 
   @FXML
   public void executeAlgorithm() {
+    logger.info("Executing algorithm");
     if (isDecryptionSelected()) {
       executeDecryption();
     } else {
@@ -205,10 +226,11 @@ public class WindowController extends Application implements Initializable {
   }
 
   private void executeEncryption() {
+    logger.info("Executing encryption");
     MenuItem menuItem = cryptoAlgorithms.getItems().get(0);
 
     if (!(menuItem instanceof RadioMenuItem)) {
-      System.err.println("Menu item is not instance of RadioMenuItem");
+      logger.error("Menu item is not instance of RadioMenuItem");
       return;
     }
 
@@ -216,14 +238,14 @@ public class WindowController extends Application implements Initializable {
     Toggle selectedToggle = radioMenuItem.getToggleGroup().getSelectedToggle();
 
     if (selectedToggle == null) {
-      System.err.println("No algorithm has been chosen");
+      logger.warn("No algorithm has been chosen");
       return;
     }
 
     Object object = selectedToggle.getUserData();
 
     if (!(object instanceof Encrypter)) {
-      System.err.println("Selected algorithm is not instance of Encrypter");
+      logger.error("Selected algorithm is not instance of Encrypter");
       return;
     }
 
@@ -233,10 +255,11 @@ public class WindowController extends Application implements Initializable {
   }
 
   private void executeDecryption() {
+    logger.info("Executing decryption");
     MenuItem menuItem = cryptoAlgorithms.getItems().get(0);
 
     if (!(menuItem instanceof RadioMenuItem)) {
-      System.err.println("Menu item is not instance of RadioMenuItem");
+      logger.error("Menu item is not instance of RadioMenuItem");
       return;
     }
 
@@ -244,19 +267,20 @@ public class WindowController extends Application implements Initializable {
     Toggle selectedToggle = radioMenuItem.getToggleGroup().getSelectedToggle();
 
     if (selectedToggle == null) {
-      System.err.println("No algorithm has been chosen");
+      logger.warn("No algorithm has been chosen");
       return;
     }
 
     Object object = selectedToggle.getUserData();
 
     if (!(object instanceof String)) {
-      System.err.println("Data od decryption algorithm is not a String instance");
+      logger.error("Data od decryption algorithm is not a String instance");
       return;
     }
 
     try {
       String name = (String) object;
+      logger.info("Chosen decryption algorithm: " + name);
       String message = "";
       if (name.equals(decryptersNames[0])) {
         message = Decrypter.decrypt(fileName);
@@ -269,7 +293,7 @@ public class WindowController extends Application implements Initializable {
 
       textHolder.setText(message);
     } catch (IOException e) {
-      System.err.println(e.getMessage());
+      logger.error(e);
     }
   }
 }
