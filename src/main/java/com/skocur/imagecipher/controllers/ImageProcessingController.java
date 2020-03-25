@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ImageProcessingController implements Initializable {
 
@@ -34,6 +36,8 @@ public class ImageProcessingController implements Initializable {
   private PixelTraversalController pixelTraversalController;
 
   private Observable<Point> clickObservable;
+
+  private static final Logger logger = LogManager.getLogger();
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -57,7 +61,7 @@ public class ImageProcessingController implements Initializable {
       setProcessedImage(ColorFilter.getColorOf(new File(WindowController.fileName),
           FilteringColorMode.RED));
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error(e);
     }
   }
 
@@ -67,7 +71,7 @@ public class ImageProcessingController implements Initializable {
       setProcessedImage(ColorFilter.getColorOf(new File(WindowController.fileName),
           FilteringColorMode.GREEN));
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error(e);
     }
   }
 
@@ -77,7 +81,7 @@ public class ImageProcessingController implements Initializable {
       setProcessedImage(ColorFilter.getColorOf(new File(WindowController.fileName),
           FilteringColorMode.BLUE));
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error(e);
     }
   }
 
@@ -87,7 +91,7 @@ public class ImageProcessingController implements Initializable {
       try {
         setProcessedImage(new ImageNoise(WindowController.fileName).createRandomNoise());
       } catch (IOException e) {
-        e.printStackTrace();
+        logger.error(e);
       }
     };
     new Thread(r).start();
@@ -99,29 +103,34 @@ public class ImageProcessingController implements Initializable {
 
   @FXML
   public void saveProcessedImage() {
+    logger.info("Saving processed image");
     String filePath = WindowController.fileName;
     int extIndex = filePath.lastIndexOf('.');
 
     if (extIndex == -1) {
-      throw new Error("Invalid path. Extension not specified");
+      logger.error("Invalid path. Extension not specified");
+      return;
     }
 
     String outputPath =
         filePath.substring(0, extIndex) + "_processed" + filePath.substring(extIndex);
     File out = new File(outputPath);
 
+    logger.debug("Path of processed image: " + out.getAbsolutePath());
+
     BufferedImage afterPreviewBuffer = SwingFXUtils.fromFXImage(imageAfterPreview.getImage(), null);
 
     try {
       ImageIO.write(afterPreviewBuffer, filePath.substring(extIndex + 1), out);
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error(e);
     }
   }
 
   @FXML
   public void openPixelTraversing() {
     if (pixelTraversalController != null) {
+      logger.warn("PixelTraversalController is already opened");
       return;
     }
 
@@ -130,11 +139,12 @@ public class ImageProcessingController implements Initializable {
       FXMLLoader fxmlLoader = new FXMLLoader(
           Main.class.getResource("/views/PixelTraversalWindow.fxml"));
       root = Optional.of(fxmlLoader.load());
+
       pixelTraversalController = fxmlLoader.getController();
       pixelTraversalController.setPreview(imageAfterPreview);
       pixelTraversalController.setClickObservable(clickObservable);
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error(e);
     }
 
     root.ifPresent(parent -> {
@@ -145,6 +155,7 @@ public class ImageProcessingController implements Initializable {
       stage.setTitle("Pixel Traversal");
       stage.setScene(scene);
       stage.show();
+      logger.info("Showing PixelTraversalWindow");
     });
   }
 }

@@ -16,16 +16,21 @@ import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class PluginLoader {
+
+  private static final Logger logger = LogManager.getLogger();
 
   @Inject
   @Named("YamlMapper")
   public ObjectMapper mapper;
 
   void loadAllPlugins() {
+    logger.info("Loading all plugins");
     File[] jars = listJars();
 
     if (jars == null) {
@@ -38,13 +43,14 @@ public class PluginLoader {
   }
 
   private void loadPluginFromUri(@NotNull URI uri) {
+    logger.debug("Loading plugin from URI: " + uri.getPath());
     try {
       JarFile jarFile = new JarFile(uri.getPath());
 
       JarEntry jarEntry = (JarEntry) jarFile.getEntry("plugin.yml");
 
       if (jarEntry == null) {
-        System.err.println(
+        logger.error(
             String.format("Cannot find plugin.yml for %s", uri.toString())
         );
         return;
@@ -56,23 +62,24 @@ public class PluginLoader {
       ClassLoader loader = getPluginLoader(uri);
 
       if (loader == null) {
-        System.err.println(
+        logger.error(
             String.format("Class loader is null, because of malformed uri: %s", uri.toString()));
         return;
       }
 
       loadPlugin(loader, pluginConfiguration);
     } catch (MalformedURLException e) {
-      e.printStackTrace();
+      logger.error(e);
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      logger.error(e);
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error(e);
     }
   }
 
   private void loadPlugin(@NotNull ClassLoader loader,
       @NotNull PluginConfiguration pluginConfiguration) {
+    logger.debug("Loading plugin: " + pluginConfiguration.getPluginName());
     IcPlugin plugin;
     try {
       plugin = (IcPlugin) loader.loadClass(pluginConfiguration.getMainClassPath())
@@ -83,11 +90,11 @@ public class PluginLoader {
 
       PluginManager.getPlugins().add(pluginConfiguration);
     } catch (InstantiationException e) {
-      e.printStackTrace();
+      logger.error(e);
     } catch (IllegalAccessException e) {
-      e.printStackTrace();
+      logger.error(e);
     } catch (ClassNotFoundException e) {
-      e.printStackTrace();
+      logger.error(e);
     }
   }
 
@@ -99,7 +106,7 @@ public class PluginLoader {
           PluginManager.class.getClassLoader()
       );
     } catch (MalformedURLException e) {
-      e.printStackTrace();
+      logger.error(e);
     }
 
     return null;
@@ -112,11 +119,12 @@ public class PluginLoader {
     StringBuilder yamlContentBuilder = new StringBuilder();
     String line;
     try {
+      logger.info("Reading plugin.yaml");
       while ((line = in.readLine()) != null) {
         yamlContentBuilder.append(line).append(System.lineSeparator());
       }
     } catch (IOException e) {
-      System.err.println(
+      logger.error(
           String
               .format("IOException occured while reading contents of yaml file, %s", e.getMessage())
       );

@@ -1,5 +1,7 @@
 package com.skocur.imagecipher.tools.imageprocessing;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
@@ -12,8 +14,12 @@ public class ImageNoise {
   private String fileName;
   private BufferedImage image;
 
+  private static final Logger logger = LogManager.getLogger();
+
   public ImageNoise(@NotNull String fileName) throws IOException {
     this.fileName = fileName;
+
+    logger.debug("Reading image file: " + fileName);
     this.image = ImageIO.read(new File(fileName));
   }
 
@@ -23,6 +29,7 @@ public class ImageNoise {
    */
   @NotNull
   public BufferedImage createRandomNoise() {
+    logger.info("Creating random noise");
     int sum = 0;
     while (sum < image.getHeight() * image.getWidth()) {
       int x = (int) (Math.random() * image.getWidth());
@@ -40,13 +47,14 @@ public class ImageNoise {
   }
 
   public void saveNoiseImage(@NotNull BufferedImage image) {
+    logger.info("Saving noise image");
     try {
       File file = new File(fileName.split("\\.")[0] + "_noise.png");
       ImageIO.write(image, "png", file);
 
-      System.out.println("Saved");
+      logger.info("Saved");
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error(e);
     }
   }
 }

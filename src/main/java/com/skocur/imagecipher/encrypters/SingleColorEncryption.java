@@ -2,6 +2,8 @@ package com.skocur.imagecipher.encrypters;
 
 import com.imagecipher.icsdk.annotations.IcAlgorithmSpecification;
 import com.skocur.imagecipher.Config;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -12,15 +14,16 @@ import java.util.ArrayList;
 public class SingleColorEncryption extends Encrypter {
 
   private ArrayList<Integer> asciiChars;
+  private static final Logger logger = LogManager.getLogger();
 
   public SingleColorEncryption(@NotNull String fileName) throws IOException {
     super(fileName);
-
     asciiChars = new ArrayList<>();
   }
 
   @Override
   public void encrypt(@NotNull String text) {
+    logger.debug("Encrypting: " + text);
     for (char c : text.toCharArray()) {
       asciiChars.add((int) c);
     }

@@ -5,6 +5,8 @@ import com.skocur.imagecipher.encrypters.*;
 import com.skocur.imagecipher.tools.imageprocessing.ColorFilter;
 import com.skocur.imagecipher.tools.imageprocessing.FilteringColorMode;
 import com.skocur.imagecipher.tools.imageprocessing.ImageNoise;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -13,7 +15,10 @@ import java.util.Scanner;
 
 public class CommandExecutor {
 
+  private static final Logger logger = LogManager.getLogger();
+
   public static void executeArgs(String[] args) throws IOException {
+    logger.info("Executing command line arguments passed to ImageCipher");
     CommandArgs commandArgs = new CommandArgs();
 
     JCommander.newBuilder()
@@ -27,6 +32,7 @@ public class CommandExecutor {
       decrypt(commandArgs);
     } else if (commandArgs.encryptionMode > 0 && commandArgs.decryptionMode > 0) {
       System.err.println("You cannot encrypt and decrypt data at the same time");
+      logger.error("Cannot encrypt and decrypt data at the same time");
       System.exit(2);
     } else if (commandArgs.imageNoise > 0) {
       ImageNoise imageNoise = new ImageNoise(commandArgs.originalFileName);
@@ -56,6 +62,8 @@ public class CommandExecutor {
    * @param args CommandArgs object that contains program arguments
    */
   private static void encrypt(@NotNull CommandArgs args) {
+    logger.info("Encrypting data passed via command line interface");
+    logger.debug("Encryption mode: " + args.encryptionMode);
     try (Encrypter encrypter = EncrypterManager.getEncrypter(
         EncrypterType.getType(args.encryptionMode), args.originalFileName
     )) {
@@ -70,6 +78,8 @@ public class CommandExecutor {
       }
 
       if (encrypter == null) {
+        logger.error("Encrypter is null");
+        System.out.println("Encrypter is null, maybe you provided invalid algorithm number?");
         return;
       }
 
@@ -83,6 +93,7 @@ public class CommandExecutor {
    * @param args CommandArgs object that contains program arguments
    */
   private static void decrypt(@NotNull CommandArgs args) throws IOException {
+    logger.info("Decrypting data passed via command line interface");
     String message = "";
 
     switch (args.decryptionMode) {
@@ -100,7 +111,7 @@ public class CommandExecutor {
         // TODO: Create decrypter for RSAEncryption
         break;
       default:
-        System.err.println("No valid decryption mode was chosen!");
+        logger.error("No valid decryption mode was chosen!");
         System.exit(2);
     }
 

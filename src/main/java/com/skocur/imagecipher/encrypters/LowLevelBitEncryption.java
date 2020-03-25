@@ -1,6 +1,8 @@
 package com.skocur.imagecipher.encrypters;
 
 import com.imagecipher.icsdk.annotations.IcAlgorithmSpecification;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -12,12 +14,15 @@ public class LowLevelBitEncryption extends Encrypter {
   private int row;
   private int col;
 
+  private static final Logger logger = LogManager.getLogger();
+
   public LowLevelBitEncryption(@NotNull String fileName) throws IOException {
     super(fileName);
   }
 
   @Override
   public void encrypt(@NotNull String text) {
+    logger.debug("Encrypting: " + text);
     for (char c : text.toCharArray()) {
       encryptByte(c);
     }

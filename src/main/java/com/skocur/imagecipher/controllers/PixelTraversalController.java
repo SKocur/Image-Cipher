@@ -15,6 +15,8 @@ import javafx.scene.image.ImageView;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class PixelTraversalController {
 
@@ -39,7 +41,10 @@ public class PixelTraversalController {
 
   private Disposable disposable;
 
+  private static final Logger logger = LogManager.getLogger();
+
   void setClickObservable(Observable<Point> observable) {
+    logger.info("Setting observable");
     disposable = observable.subscribeOn(Schedulers.computation())
         .subscribe(point -> {
           startingPoint = point;
@@ -52,6 +57,7 @@ public class PixelTraversalController {
   }
 
   public void runPixelTraversal() {
+    logger.debug("Running pixel traversal from: " + startingPoint.toString());
     if (imageGenerationThread != null) {
       imageGenerationThread.interrupt();
     }
@@ -66,7 +72,7 @@ public class PixelTraversalController {
               preview,
               startingPoint);
         } catch (IOException e) {
-          e.printStackTrace();
+          logger.error(e);
         }
       });
       imageGenerationThread.start();
@@ -80,7 +86,7 @@ public class PixelTraversalController {
               preview,
               startingPoint);
         } catch (IOException e) {
-          e.printStackTrace();
+          logger.error(e);
         }
       });
       imageGenerationThread.start();
@@ -88,6 +94,7 @@ public class PixelTraversalController {
   }
 
   void dispose() {
+    logger.info("Disposing");
     disposable.dispose();
   }
 }

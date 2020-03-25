@@ -11,6 +11,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -20,38 +22,45 @@ public class UpdateChecker {
   @Named("GitHubService")
   public GitHubService gitHubService;
 
+  private static final Logger logger = LogManager.getLogger();
+
   public UpdateChecker() {
+    logger.info("Injecting GitHub Service");
     ServiceComponent serviceComponent = DaggerServiceComponent.builder()
         .serviceModule(new ServiceModule()).build();
     serviceComponent.injectUpdater(this);
   }
 
   public void checkForUpdates() {
+    logger.info("Checking for updates");
     Call<Release> releaseCall = gitHubService.getLatestRelease();
     try {
       Response<Release> response = releaseCall.execute();
       Release release = response.body();
 
       if (release == null) {
-        System.err.println("Release response body is null");
+        logger.error("Release response body is null");
         return;
       }
 
       Date buildTime = ManifestReader.getBuildTime();
       if (buildTime == null) {
-        System.out.println("Build-Time is null, probably manifest is missing");
+        logger.warn("Build-Time is null, probably manifest is missing");
         return;
       }
 
       if (buildTime.before(release.publishedDate)) {
         displayUpdateAlert();
+      } else {
+        logger.debug("No new version is available. Current build date: " + buildTime.toString());
       }
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error(e);
     }
   }
 
   private void displayUpdateAlert() {
+    logger.info("New version is available. Displaying update alert");
     Alert alert = new Alert(AlertType.INFORMATION);
     alert.setHeaderText("New update is available to download");
     alert.showAndWait();

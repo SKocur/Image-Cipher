@@ -5,6 +5,8 @@ import com.skocur.imagecipher.plugin.di.LoaderComponent;
 import com.skocur.imagecipher.plugin.di.LoaderModule;
 import java.util.LinkedList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class PluginManager {
 
@@ -12,7 +14,10 @@ public class PluginManager {
 
   private static List<PluginConfiguration> plugins = new LinkedList<>();
 
+  private static final Logger logger = LogManager.getLogger();
+
   public static void initialize() {
+    logger.info("Initializing PluginLoader");
     PluginLoader pluginLoader = new PluginLoader();
 
     LoaderComponent loaderComponent = DaggerLoaderComponent.builder()

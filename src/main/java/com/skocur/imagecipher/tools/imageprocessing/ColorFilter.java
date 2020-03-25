@@ -1,5 +1,7 @@
 package com.skocur.imagecipher.tools.imageprocessing;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
@@ -14,6 +16,8 @@ import java.io.IOException;
  * order to be displayed.
  */
 public class ColorFilter {
+
+  private static final Logger logger = LogManager.getLogger();
 
   /**
    * Returns BufferedImage object that is in one color. Takes option parameter which describes color
@@ -30,6 +34,11 @@ public class ColorFilter {
   @NotNull
   public static BufferedImage getColorOf(File file, FilteringColorMode colorMode)
       throws IOException {
+    logger.debug(
+        "Getting color from: " + file.getAbsolutePath() + " FilteringColorMode: " + colorMode
+            .name()
+    );
+
     BufferedImage image = ImageIO.read(file);
 
     int bitShift = 16;
@@ -69,6 +78,7 @@ public class ColorFilter {
    */
   public static void getColorAndSave(@NotNull File file, FilteringColorMode colorMode)
       throws IOException {
+    logger.info("getColorAndSave()");
     String tag = "red";
 
     switch (colorMode) {
@@ -86,13 +96,14 @@ public class ColorFilter {
   private static void saveColorData(@NotNull String fileName,
       @NotNull String fileTag,
       @NotNull BufferedImage image) {
+    logger.info("Saving color data");
     try {
       File file = new File(fileName.split("\\.")[0] + "_" + fileTag + ".png");
       ImageIO.write(image, "png", file);
 
-      System.out.println("Saved: " + file.getPath());
+      logger.debug("Saved data: " + file.getPath());
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error(e);
     }
   }
 }
