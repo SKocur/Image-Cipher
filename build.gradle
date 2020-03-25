@@ -9,12 +9,21 @@ jar {
     manifest {
         attributes(
                 'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-                'Main-Class': 'com.skocur.imagecipher.Main'
+                'Main-Class': 'com.skocur.imagecipher.Main',
+                'Build-Time': new Date().format("yyyy.MM.dd")
         )
     }
 
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'build/classes/'
+        }
     }
 }
 
@@ -31,6 +40,9 @@ dependencies {
 
     implementation 'com.google.dagger:dagger:2.27'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.27'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.8.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
 
     implementation files("libs/IcSdk-0.1.jar")
 
