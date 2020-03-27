@@ -1,5 +1,6 @@
 package com.skocur.imagecipher.plugin;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.imagecipher.icsdk.IcPlugin;
 import com.imagecipher.icsdk.PluginInstance;
@@ -83,6 +84,8 @@ public class PluginLoader {
     } catch (MalformedURLException e) {
       logger.error(e);
     } catch (FileNotFoundException e) {
+      logger.error(e);
+    } catch (JsonMappingException e) {
       logger.error(e);
     } catch (IOException e) {
       logger.error(e);
