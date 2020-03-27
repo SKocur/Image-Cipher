@@ -3,6 +3,9 @@ package com.skocur.imagecipher.plugin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.imagecipher.icsdk.IcPlugin;
 import com.imagecipher.icsdk.PluginInstance;
+import com.skocur.imagecipher.plugin.di.DaggerLoaderComponent;
+import com.skocur.imagecipher.plugin.di.LoaderComponent;
+import com.skocur.imagecipher.plugin.di.LoaderModule;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,9 +34,15 @@ public class PluginLoader {
   @Named("YamlMapper")
   public ObjectMapper mapper;
 
-  void loadAllPlugins() {
+  public PluginLoader() {
+    LoaderComponent loaderComponent = DaggerLoaderComponent.builder()
+        .loaderModule(new LoaderModule()).build();
+    loaderComponent.inject(this);
+  }
+
+  public void loadAllPlugins(String path) {
     logger.info("Loading all plugins");
-    File[] jars = FileLister.listJars(PluginManager.PLUGINS_PATH);
+    File[] jars = FileLister.listJars(path);
 
     if (jars == null) {
       logger.warn("No plugin have been found");
@@ -83,9 +92,8 @@ public class PluginLoader {
   private void loadPlugin(@NotNull ClassLoader loader,
       @NotNull PluginConfiguration pluginConfiguration) {
     logger.debug("Loading plugin: " + pluginConfiguration.getPluginName());
-    IcPlugin plugin;
     try {
-      plugin = (IcPlugin) loader.loadClass(pluginConfiguration.getMainClassPath())
+      IcPlugin plugin = (IcPlugin) loader.loadClass(pluginConfiguration.getMainClassPath())
           .newInstance();
 
       PluginInstance instance = plugin.onPluginLoaded();
