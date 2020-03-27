@@ -3,17 +3,19 @@ package com.skocur.imagecipher.plugin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.imagecipher.icsdk.IcPlugin;
 import com.imagecipher.icsdk.PluginInstance;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Arrays;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.logging.log4j.LogManager;
@@ -31,13 +33,14 @@ public class PluginLoader {
 
   void loadAllPlugins() {
     logger.info("Loading all plugins");
-    File[] jars = listJars();
+    File[] jars = FileLister.listJars(PluginManager.PLUGINS_PATH);
 
     if (jars == null) {
+      logger.warn("No plugin have been found");
       return;
     }
 
-    List<URI> jarsUrls = listUris(jars);
+    List<URI> jarsUrls = FileLister.listUris(jars);
 
     jarsUrls.parallelStream().forEach(this::loadPluginFromUri);
   }
@@ -131,18 +134,5 @@ public class PluginLoader {
     }
 
     return yamlContentBuilder.toString();
-  }
-
-  @NotNull
-  private List<URI> listUris(File[] jars) {
-    return Arrays.stream(jars)
-        .map(File::toURI)
-        .collect(Collectors.toList());
-  }
-
-  @Nullable
-  private File[] listJars() {
-    File dir = new File(PluginManager.PLUGINS_PATH);
-    return dir.listFiles((directory, name) -> name.endsWith(".jar"));
   }
 }
