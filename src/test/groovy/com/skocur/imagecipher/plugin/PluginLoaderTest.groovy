@@ -17,6 +17,18 @@ class PluginLoaderTest extends Specification {
         PluginManager.plugins.clear()
     }
 
+    def "load one plugin that is given by default using plugin manager"() {
+        given:
+        PluginManager.initialize()
+
+        expect:
+        PluginManager.plugins.size() == 1
+        PluginManager.plugins.get(0).pluginName == "LLBE Plugin"
+
+        cleanup:
+        PluginManager.plugins.clear()
+    }
+
     def "no plugins should be loaded"() {
         given:
         PluginLoader pluginLoader = new PluginLoader()
