@@ -88,7 +88,6 @@ public class BfsImagePainter {
         Thread.sleep(animationPause);
       } catch (InterruptedException e) {
         logger.info("Interrupting BFS painting thread");
-        Thread.currentThread().interrupt();
         return;
       }
     }

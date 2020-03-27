@@ -88,7 +88,6 @@ public class DfsImagePainter {
         Thread.sleep(animationPause);
       } catch (InterruptedException e) {
         logger.debug("Interrupting DFS painting thread: " + e.getMessage());
-        Thread.currentThread().interrupt();
         return;
       }
     }
