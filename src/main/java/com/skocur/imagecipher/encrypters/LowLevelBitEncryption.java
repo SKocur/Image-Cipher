@@ -46,7 +46,7 @@ public class LowLevelBitEncryption extends Encrypter {
       int g = (rgb >> 8) & mask;
 
       int b = image.getRGB(col + 1, row) & mask;
-      b -= c; //TODO What is user add white/bright image to encrypt (b would be equal 0)?
+      b -= c; //TODO What if user add white/bright image to encrypt (b would be equal 0)?
 
       Color color = new Color(r, g, b);
       image.setRGB(col, row, color.getRGB());

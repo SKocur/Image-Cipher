@@ -7,8 +7,7 @@ import com.skocur.imagecipher.rest.github.GitHubService;
 import com.skocur.imagecipher.rest.github.Release;
 import java.io.IOException;
 import java.util.Date;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import java.util.function.Supplier;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.logging.log4j.LogManager;
@@ -31,7 +30,10 @@ public class UpdateChecker {
     serviceComponent.injectUpdater(this);
   }
 
-  public void checkForUpdates() {
+  /**
+   * @return Boolean - status whether app update was processed or not
+   */
+  public boolean checkForUpdates(Supplier<Boolean> supplier) {
     logger.info("Checking for updates");
     Call<Release> releaseCall = gitHubService.getLatestRelease();
     try {
@@ -40,29 +42,24 @@ public class UpdateChecker {
 
       if (release == null) {
         logger.error("Release response body is null");
-        return;
+        return false;
       }
 
       Date buildTime = ManifestReader.getBuildTime();
       if (buildTime == null) {
         logger.warn("Build-Time is null, probably manifest is missing");
-        return;
+        return false;
       }
 
       if (buildTime.before(release.publishedDate)) {
-        displayUpdateAlert();
+        return supplier.get();
       } else {
         logger.debug("No new version is available. Current build date: " + buildTime.toString());
       }
     } catch (IOException e) {
       logger.error(e);
     }
-  }
 
-  private void displayUpdateAlert() {
-    logger.info("New version is available. Displaying update alert");
-    Alert alert = new Alert(AlertType.INFORMATION);
-    alert.setHeaderText("New update is available to download");
-    alert.showAndWait();
+    return false;
   }
 }

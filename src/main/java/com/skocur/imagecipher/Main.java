@@ -6,6 +6,8 @@ import com.skocur.imagecipher.tools.UpdateChecker;
 import javafx.application.Application;
 
 import java.io.IOException;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,8 +18,9 @@ public class Main {
   public static void main(String[] args) {
     logger.info("Application launched");
     PluginManager.initialize();
+
     UpdateChecker updateChecker = new UpdateChecker();
-    updateChecker.checkForUpdates();
+    updateChecker.checkForUpdates(Main::displayNotification);
 
     if (args.length == 0) {
       logger.info("Opening window");
@@ -35,5 +38,15 @@ public class Main {
       logger.error(e);
       System.exit(1);
     }
+  }
+
+  private static boolean displayNotification() {
+    logger.info("New version is available. Displaying update alert");
+
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setHeaderText("New update is available to download");
+    alert.showAndWait();
+
+    return true;
   }
 }
