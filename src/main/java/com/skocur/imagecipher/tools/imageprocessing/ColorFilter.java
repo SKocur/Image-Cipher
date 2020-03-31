@@ -32,7 +32,7 @@ public class ColorFilter {
    * @throws IOException Thrown when file cannot be found
    */
   @NotNull
-  public static BufferedImage getColorOf(File file, FilteringColorMode colorMode)
+  public static BufferedImage getColorOf(@NotNull File file, @NotNull FilteringColorMode colorMode)
       throws IOException {
     logger.debug(
         "Getting color from: " + file.getAbsolutePath() + " FilteringColorMode: " + colorMode
@@ -76,7 +76,7 @@ public class ColorFilter {
    * @param file Path to image
    * @param colorMode Option of filtering
    */
-  public static void getColorAndSave(@NotNull File file, FilteringColorMode colorMode)
+  public static boolean getColorAndSave(@NotNull File file, @NotNull FilteringColorMode colorMode)
       throws IOException {
     logger.info("getColorAndSave()");
     String tag = "red";
@@ -90,20 +90,20 @@ public class ColorFilter {
         break;
     }
 
-    saveColorData(file.getName(), tag, getColorOf(file, colorMode));
+    return saveColorData(file.getAbsolutePath(), tag, getColorOf(file, colorMode));
   }
 
-  private static void saveColorData(@NotNull String fileName,
+  public static boolean saveColorData(@NotNull String fileName,
       @NotNull String fileTag,
       @NotNull BufferedImage image) {
     logger.info("Saving color data");
     try {
       File file = new File(fileName.split("\\.")[0] + "_" + fileTag + ".png");
-      ImageIO.write(image, "png", file);
-
-      logger.debug("Saved data: " + file.getPath());
+      return ImageIO.write(image, "png", file);
     } catch (IOException e) {
       logger.error(e);
     }
+
+    return false;
   }
 }

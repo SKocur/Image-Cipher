@@ -17,9 +17,6 @@ class PluginLoaderTest extends Specification {
         expect:
         PluginManager.plugins.size() == 1
         PluginManager.plugins.get(0).pluginName == "LLBE Plugin"
-
-        cleanup:
-        PluginManager.plugins.clear()
     }
 
     def "plugin should not be loaded, because of empty plugin.yml"() {
@@ -31,9 +28,6 @@ class PluginLoaderTest extends Specification {
 
         expect:
         PluginManager.plugins.size() == 0
-
-        cleanup:
-        PluginManager.plugins.clear()
     }
 
     def "plugin should not be loaded, because of malformed plugin.yml"() {
@@ -51,9 +45,6 @@ class PluginLoaderTest extends Specification {
 
         expect:
         PluginManager.plugins.size() == 0
-
-        cleanup:
-        PluginManager.plugins.clear()
     }
 
     def "plugin should not be loaded, because of not existing class"() {
@@ -70,9 +61,6 @@ class PluginLoaderTest extends Specification {
 
         expect:
         PluginManager.plugins.size() == 0
-
-        cleanup:
-        PluginManager.plugins.clear()
     }
 
     def "plugin should not be loaded, because of lack of plugin.yml"() {
@@ -84,9 +72,6 @@ class PluginLoaderTest extends Specification {
 
         expect:
         PluginManager.plugins.size() == 0
-
-        cleanup:
-        PluginManager.plugins.clear()
     }
 
     def "load one plugin that is given by default using plugin manager"() {
@@ -96,9 +81,6 @@ class PluginLoaderTest extends Specification {
         expect:
         PluginManager.plugins.size() == 1
         PluginManager.plugins.get(0).pluginName == "LLBE Plugin"
-
-        cleanup:
-        PluginManager.plugins.clear()
     }
 
     def "no plugins should be loaded"() {
@@ -108,8 +90,9 @@ class PluginLoaderTest extends Specification {
 
         expect:
         PluginManager.plugins.size() == 0
+    }
 
-        cleanup:
+    def cleanup() {
         PluginManager.plugins.clear()
     }
 }

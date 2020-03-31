@@ -46,15 +46,15 @@ public class ImageNoise {
     return image;
   }
 
-  public void saveNoiseImage(@NotNull BufferedImage image) {
+  public boolean saveNoiseImage(@NotNull BufferedImage image) {
     logger.info("Saving noise image");
     try {
       File file = new File(fileName.split("\\.")[0] + "_noise.png");
-      ImageIO.write(image, "png", file);
-
-      logger.info("Saved");
+      return ImageIO.write(image, "png", file);
     } catch (IOException e) {
       logger.error(e);
     }
+
+    return false;
   }
 }

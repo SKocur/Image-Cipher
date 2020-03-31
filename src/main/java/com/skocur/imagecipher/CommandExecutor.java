@@ -36,7 +36,9 @@ public class CommandExecutor {
       System.exit(2);
     } else if (commandArgs.imageNoise > 0) {
       ImageNoise imageNoise = new ImageNoise(commandArgs.originalFileName);
-      imageNoise.saveNoiseImage(imageNoise.createRandomNoise());
+      if (imageNoise.saveNoiseImage(imageNoise.createRandomNoise())) {
+        logger.info("Noise image saved");
+      }
     } else if (commandArgs.imageFilterColor > 0) {
       FilteringColorMode colorMode = FilteringColorMode.RED;
 
@@ -49,7 +51,9 @@ public class CommandExecutor {
           break;
       }
 
-      ColorFilter.getColorAndSave(new File(commandArgs.originalFileName), colorMode);
+      if (ColorFilter.getColorAndSave(new File(commandArgs.originalFileName), colorMode)) {
+        logger.info("Saved color data");
+      }
     }
   }
 
