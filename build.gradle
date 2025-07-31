@@ -19,6 +19,7 @@ application {
 }
 
 tasks.jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes(
                 'Main-Class': application.mainClass.get(),
@@ -40,7 +41,6 @@ sourceSets {
 
 repositories {
     mavenCentral()
-    maven { url 'https://jitpack.io' }
 }
 
 javafx {
