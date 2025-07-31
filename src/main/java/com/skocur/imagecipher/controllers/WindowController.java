@@ -1,6 +1,5 @@
 package com.skocur.imagecipher.controllers;
 
-import com.imagecipher.icsdk.annotations.IcAlgorithmSpecification;
 import com.jfoenix.controls.JFXToggleButton;
 import com.skocur.imagecipher.Decrypter;
 import java.io.File;
@@ -11,7 +10,10 @@ import java.util.Optional;
 import com.skocur.imagecipher.Main;
 import com.skocur.imagecipher.encrypters.*;
 import java.util.ResourceBundle;
+
+import com.skocur.imagecipher.plugin.lib.annotations.IcAlgorithmSpecification;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,8 +33,6 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * WindowController This class is responsible for creating graphical user interface (GUI).
- *
- * @author Szymon Kocur
  */
 public class WindowController extends Application implements Initializable {
 
@@ -51,7 +51,7 @@ public class WindowController extends Application implements Initializable {
   @FXML
   public TextArea textHolder;
 
-  private String[] decryptersNames = {"Single Color Decryption",
+  private final String[] decryptersNames = {"Single Color Decryption",
       "Multi Color Decryption",
       "Low Level Bit Decryption"};
 
@@ -81,6 +81,12 @@ public class WindowController extends Application implements Initializable {
       myStage.show();
 
       logger.info("Showing MainWindow");
+    });
+
+    myStage.setOnCloseRequest(event -> {
+      logger.info("Closing application");
+      Platform.exit();
+      System.exit(0);
     });
   }
 
@@ -258,12 +264,11 @@ public class WindowController extends Application implements Initializable {
     logger.info("Executing decryption");
     MenuItem menuItem = cryptoAlgorithms.getItems().get(0);
 
-    if (!(menuItem instanceof RadioMenuItem)) {
+    if (!(menuItem instanceof RadioMenuItem radioMenuItem)) {
       logger.error("Menu item is not instance of RadioMenuItem");
       return;
     }
 
-    RadioMenuItem radioMenuItem = (RadioMenuItem) menuItem;
     Toggle selectedToggle = radioMenuItem.getToggleGroup().getSelectedToggle();
 
     if (selectedToggle == null) {
@@ -273,13 +278,12 @@ public class WindowController extends Application implements Initializable {
 
     Object object = selectedToggle.getUserData();
 
-    if (!(object instanceof String)) {
+    if (!(object instanceof String name)) {
       logger.error("Data od decryption algorithm is not a String instance");
       return;
     }
 
     try {
-      String name = (String) object;
       logger.info("Chosen decryption algorithm: " + name);
       String message = "";
       if (name.equals(decryptersNames[0])) {

@@ -1,7 +1,7 @@
 package com.skocur.imagecipher.plugin;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.imagecipher.icsdk.PluginInstance;
+import com.skocur.imagecipher.plugin.lib.PluginInstance;
 
 import java.util.List;
 

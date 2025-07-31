@@ -41,15 +41,11 @@ public class ColorFilter {
 
     BufferedImage image = ImageIO.read(file);
 
-    int bitShift = 16;
-    switch (colorMode) {
-      case GREEN:
-        bitShift = 8;
-        break;
-      case BLUE:
-        bitShift = 0;
-        break;
-    }
+    int bitShift = switch (colorMode) {
+      case GREEN -> 8;
+      case BLUE -> 0;
+      default -> 16;
+    };
 
     for (int row = 0; row < image.getHeight(); ++row) {
       for (int col = 0; col < image.getWidth(); ++col) {
@@ -79,16 +75,11 @@ public class ColorFilter {
   public static boolean getColorAndSave(@NotNull File file, @NotNull FilteringColorMode colorMode)
       throws IOException {
     logger.info("getColorAndSave()");
-    String tag = "red";
-
-    switch (colorMode) {
-      case GREEN:
-        tag = "green";
-        break;
-      case BLUE:
-        tag = "blue";
-        break;
-    }
+    String tag = switch (colorMode) {
+      case GREEN -> "green";
+      case BLUE -> "blue";
+      default -> "red";
+    };
 
     return saveColorData(file.getAbsolutePath(), tag, getColorOf(file, colorMode));
   }

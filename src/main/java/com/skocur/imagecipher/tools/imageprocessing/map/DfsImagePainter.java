@@ -21,16 +21,13 @@ public class DfsImagePainter {
   private static final Logger logger = LogManager.getLogger();
 
   /**
-   * Depth First Search algorithm used to color image. This specific implementation uses stack,
-   * because it will prevent possible StackOverflowError which would occur if it gets too big image
-   * to traverse.
+   * Depth First Search algorithm used to color image.
    *
    * @param file Image file
    * @param iterations Number of iterations
    * @param penColor Color of ink that will be used to color image
    * @param animationPause Duration of break between iterations
    * @param preview ImageView that displays live changes done by algorithm
-   * @return BufferedImage - it is returned at the end of painting
    * @throws IOException May occur while reading the image file
    */
   public static void paintImage(@NotNull File file,

@@ -2,8 +2,6 @@ package com.skocur.imagecipher.plugin;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.imagecipher.icsdk.IcPlugin;
-import com.imagecipher.icsdk.PluginInstance;
 import com.skocur.imagecipher.plugin.di.DaggerLoaderComponent;
 import com.skocur.imagecipher.plugin.di.LoaderComponent;
 import com.skocur.imagecipher.plugin.di.LoaderModule;
@@ -22,6 +20,9 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import com.skocur.imagecipher.plugin.lib.IcPlugin;
+import com.skocur.imagecipher.plugin.lib.PluginInstance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;

@@ -9,41 +9,39 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="537.0"
-      prefWidth="930.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.skocur.imagecipher.controllers.ImageProcessingController">
-    <children>
-        <ImageView fx:id="imageBeforePreview" fitHeight="400.0" fitWidth="400.0" layoutX="14.0" layoutY="124.0"
-                   pickOnBounds="true" preserveRatio="true"/>
-        <Text layoutX="14.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Before"/>
-        <ImageView fx:id="imageAfterPreview" fitHeight="400.0" fitWidth="400.0" layoutX="513.0" layoutY="124.0"
-                   pickOnBounds="true" preserveRatio="true"/>
-        <Text layoutX="513.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="After"/>
-        <Separator layoutY="75.0" prefHeight="3.0" prefWidth="930.0"/>
-        <Separator layoutY="115.0" prefHeight="3.0" prefWidth="930.0"/>
-        <Text layoutX="14.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Operation:"/>
-        <ToolBar layoutX="84.0" layoutY="21.0" prefHeight="40.0" prefWidth="154.0">
-            <items>
-                <Button mnemonicParsing="false" onAction="#processRED" text="RED"/>
-                <Button mnemonicParsing="false" onAction="#processGREEN" text="GREEN"/>
-                <Button mnemonicParsing="false" onAction="#processBLUE" text="BLUE"/>
-            </items>
-        </ToolBar>
-        <HBox layoutX="255.0" layoutY="29.0" prefHeight="25.0" prefWidth="249.0">
-            <children>
-                <Button mnemonicParsing="false" onAction="#processNOISE" text="NOISE">
-                    <HBox.margin>
-                        <Insets right="10.0"/>
-                    </HBox.margin>
-                </Button>
-                <Button mnemonicParsing="false" onAction="#openPixelTraversing" prefHeight="25.0" prefWidth="123.0"
-                        text="PIXEL TRAVERSING">
-                    <HBox.margin>
-                        <Insets right="10.0"/>
-                    </HBox.margin>
-                </Button>
-                <Button mnemonicParsing="false" onAction="#saveProcessedImage" text="SAVE"/>
-            </children>
-        </HBox>
-    </children>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+  prefHeight="537.0"
+  prefWidth="930.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="com.skocur.imagecipher.controllers.ImageProcessingController">
+  <ImageView fx:id="imageBeforePreview" fitHeight="400.0" fitWidth="400.0" layoutX="14.0"
+    layoutY="124.0"
+    pickOnBounds="true" preserveRatio="true"/>
+  <Text layoutX="14.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Before"/>
+  <ImageView fx:id="imageAfterPreview" fitHeight="400.0" fitWidth="400.0" layoutX="513.0"
+    layoutY="124.0"
+    pickOnBounds="true" preserveRatio="true"/>
+  <Text layoutX="513.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="After"/>
+  <Separator layoutY="75.0" prefHeight="3.0" prefWidth="930.0"/>
+  <Separator layoutY="115.0" prefHeight="3.0" prefWidth="930.0"/>
+  <Text layoutX="14.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Operation:"/>
+  <ToolBar layoutX="84.0" layoutY="21.0" prefHeight="40.0" prefWidth="154.0">
+    <Button mnemonicParsing="false" onAction="#processRED" text="RED"/>
+    <Button mnemonicParsing="false" onAction="#processGREEN" text="GREEN"/>
+    <Button mnemonicParsing="false" onAction="#processBLUE" text="BLUE"/>
+  </ToolBar>
+  <HBox layoutX="255.0" layoutY="29.0" prefHeight="25.0" prefWidth="249.0">
+    <Button mnemonicParsing="false" onAction="#processNOISE" text="NOISE">
+      <HBox.margin>
+        <Insets right="10.0"/>
+      </HBox.margin>
+    </Button>
+    <Button mnemonicParsing="false" onAction="#openPixelTraversing" prefHeight="25.0"
+      prefWidth="123.0"
+      text="PIXEL TRAVERSING">
+      <HBox.margin>
+        <Insets right="10.0"/>
+      </HBox.margin>
+    </Button>
+    <Button mnemonicParsing="false" onAction="#saveProcessedImage" text="SAVE"/>
+  </HBox>
 </Pane>

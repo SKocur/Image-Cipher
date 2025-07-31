@@ -1,7 +1,7 @@
 package com.skocur.imagecipher.encrypters;
 
-import com.imagecipher.icsdk.annotations.IcAlgorithmSpecification;
 import com.skocur.imagecipher.Config;
+import com.skocur.imagecipher.plugin.lib.annotations.IcAlgorithmSpecification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;

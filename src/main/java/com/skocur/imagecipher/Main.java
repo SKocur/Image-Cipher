@@ -17,7 +17,7 @@ public class Main {
 
   public static void main(String[] args) {
     logger.info("Application launched");
-    PluginManager.initialize();
+//    PluginManager.initialize(); // plugins are temporarily disabled
 
     UpdateChecker updateChecker = new UpdateChecker();
     updateChecker.checkForUpdates(Main::displayNotification);

@@ -51,3 +51,6 @@ Steganography software for encrypting text into image that uses modified version
 
 ## Additional tools
 #### [BinaryToImageConverter](https://gist.github.com/SKocur/edd29a369e6097dbc5d7bef9c35a116e) - converts any binary file to image.
+
+
+[![Star History Chart](https://api.star-history.com/svg?repos=SKocur/Image-Cipher&type=Date)](https://www.star-history.com/#SKocur/Image-Cipher&Date)

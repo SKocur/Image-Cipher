@@ -15,16 +15,12 @@ public class EncrypterManager {
   public static Encrypter getEncrypter(@NotNull EncrypterType type,
       @NotNull String fileName) {
     try {
-      switch (type) {
-        case SINGLE_LEVEL_ENCRYPTION:
-          return new SingleColorEncryption(fileName);
-        case MULTI_COLOR_ENCRYPTION:
-          return new MultiColorEncryption(fileName);
-        case LOW_LEVEL_BIT_ENCRYPTION:
-          return new LowLevelBitEncryption(fileName);
-        case RSA_ENCRYPTION:
-          return new RSAEncryption(fileName);
-      }
+      return switch (type) {
+        case SINGLE_LEVEL_ENCRYPTION -> new SingleColorEncryption(fileName);
+        case MULTI_COLOR_ENCRYPTION -> new MultiColorEncryption(fileName);
+        case LOW_LEVEL_BIT_ENCRYPTION -> new LowLevelBitEncryption(fileName);
+        case RSA_ENCRYPTION -> new RSAEncryption(fileName);
+      };
     } catch (IOException e) {
       logger.error("Cannot create encryption instance: %s\n", e.getMessage());
     }

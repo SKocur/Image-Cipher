@@ -9,7 +9,7 @@ public class PluginManager {
 
   static final String PLUGINS_PATH = "plugins/";
 
-  private static List<PluginConfiguration> plugins = new LinkedList<>();
+  private static final List<PluginConfiguration> plugins = new LinkedList<>();
 
   private static final Logger logger = LogManager.getLogger();
 

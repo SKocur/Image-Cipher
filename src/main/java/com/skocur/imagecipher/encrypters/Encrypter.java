@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public abstract class Encrypter implements AutoCloseable {
 
-  private int imageWidth;
+  private final int imageWidth;
   protected String fileName;
   protected BufferedImage image;
 

@@ -22,5 +22,4 @@ public class ServiceModule {
 
     return retrofit.create(GitHubService.class);
   }
-
 }
