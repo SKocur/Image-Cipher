@@ -6,32 +6,72 @@
 Steganography software for encrypting text into image that uses modified version of LSB (Least Significant Bit) algorithm. Project is part of this [Medium article](https://medium.com/@szymonkocur/how-i-redesigned-lsb-steganography-algorithm-ee45503dd47).
 
 ## Usage:
-### Window option
-#### To encrypt text into image:
-1. Find a photo to use for encryption.
-2. Enter the name of that photo in place of "image_name".
-3. Enter text to encrypt.
-4. Click "Encrypt".
-5. Enjoy!
 
-#### To decrypt text from image:
-1. Enter name of image with encrypted message.
-2. Click "Decrypt".
-3. Enjoy!
+### GUI Application
+Launch desktop application:
+```bash
+./gradlew :app:run
+```
+Or run the compiled JAR:
+```bash
+java -jar app.jar
+```
 
-### Command line arguments:
-`-EM arg` or `--encryption-mode arg` - sets encryption mode to one of the following: 
-* if `arg` is equal to 1, then SingleColorEncryption will be used
-* if `arg` is equal to 2, then MultiColorEncryptio will be used
-* if `arg` is equal to 3, then LowLevelBitEncryption will be used
-* if `arg` is equal to 4, then RSAEncryption will be used. WARNING: EXPERIMENTAL IMPLEMENTATION
+### Command Line Interface
 
-`-DM arg` or `--decryption-mode arg` - sets decryption mode with `arg` option analogically used as above (of course it will decrypt specific algorithm)
+The CLI has been redesigned with intuitive parameters and comprehensive help:
 
-`-f fileName` or `--file-name fileName` - sets image name (or path to it) which will store encrypted data
+```bash
+# Show help
+java -jar app.jar --help
 
-#### Example:
-`java -jar Image-Cipher.jar -DM 3 -f my_awesome_image_with_embedded_data.file`
+# Show version
+java -jar app.jar --version
+```
+
+#### Encryption Examples:
+```bash
+# Encrypt text into image (interactive input)
+java -jar app.jar --encrypt single-color --input photo.jpg
+
+# Encrypt specific text
+java -jar app.jar -e multi-color -i image.png -t "Secret message"
+
+# Encrypt with output file
+java -jar app.jar -e low-level-bit -i input.jpg -t "Hidden data" -o encrypted.png
+
+# Encrypt from stdin
+java -jar app.jar -e single-color -i photo.jpg -t :stdin
+```
+
+#### Decryption Examples:
+```bash
+# Decrypt text from image
+java -jar app.jar --decrypt single-color --input encrypted.jpg
+
+# Decrypt with verbose output
+java -jar app.jar -d multi-color -i hidden.png --verbose
+
+# Decrypt low-level bit data
+java -jar app.jar -d low-level-bit -i steganographic.png
+```
+
+#### Available Algorithms:
+- **single-color**: Basic LSB steganography in single color channel
+- **multi-color**: Enhanced LSB using multiple color channels  
+- **low-level-bit**: Advanced bit-level manipulation
+- **rsa**: RSA encryption with steganography (experimental, encryption only)
+
+#### CLI Parameters:
+- `-h, --help` - Show help message with examples
+- `-e, --encrypt <algorithm>` - Encrypt text using specified algorithm
+- `-d, --decrypt <algorithm>` - Decrypt text using specified algorithm
+- `-i, --input, --image <file>` - Input image file path
+- `-o, --output <file>` - Output image file (encryption only)
+- `-t, --text <text>` - Text to encrypt (use `:stdin` for interactive input)
+- `-c, --certificate <file>` - Certificate file for RSA encryption
+- `-v, --verbose` - Enable detailed output
+- `--version` - Show version information
 
 ### Before encryption
 ![Demo](images/github-logo.jpeg)

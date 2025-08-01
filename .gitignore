@@ -3,3 +3,4 @@ output/
 .gradle/
 build/
 out/
+.kotlin

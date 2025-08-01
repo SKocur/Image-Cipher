@@ -1,15 +1,16 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "2.2.0"
-    id("org.openjfx.javafxplugin") version "0.1.0"
+    kotlin("jvm") version "2.1.0"
+    kotlin("plugin.compose") version "2.1.0"
+    id("org.jetbrains.compose") version "1.7.1"
     application
     java
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 group = "com.imagecipher"
@@ -17,39 +18,38 @@ version = "1.0.0"
 
 repositories {
     mavenCentral()
+    google()
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
 }
 
 application {
-    mainClass.set("com.skocur.imagecipher.MainKt")
-    applicationDefaultJvmArgs = listOf(
-        "--add-modules", "javafx.controls,javafx.fxml",
-        "--add-exports", "javafx.graphics/com.sun.javafx.application=ALL-UNNAMED"
-    )
+    mainClass.set("com.imagecipher.app.MainKt")
 }
 
 tasks {
     jar {
         manifest {
-            attributes["Start-Class"] = "com.skocur.imagecipher.MainKt"
+            attributes["Main-Class"] = "com.imagecipher.app.MainKt"
         }
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     }
 }
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.2.0")
+    implementation(compose.desktop.currentOs)
+    implementation(compose.material3)
+    implementation(compose.materialIconsExtended)
+    
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
     implementation("org.jetbrains:annotations:24.0.0")
+    
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
 
     implementation("org.jcommander:jcommander:2.0")
 
-    implementation("org.openjfx:javafx-controls:21")
-    implementation("org.openjfx:javafx-fxml:21")
-    implementation("org.openjfx:javafx-swing:21")
-
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2")
-
-    implementation("org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0")
-    implementation("com.jfoenix:jfoenix:9.0.10")
 
     implementation("io.reactivex.rxjava3:rxjava:3.1.6")
 
@@ -75,5 +75,5 @@ tasks.test {
     useJUnitPlatform()
 }
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(17)
 }

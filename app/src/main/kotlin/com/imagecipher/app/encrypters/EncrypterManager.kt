@@ -1,11 +1,8 @@
 package com.imagecipher.app.encrypters
 
-import org.apache.logging.log4j.LogManager
 import java.io.IOException
 
 object EncrypterManager {
-
-    private val logger = LogManager.getLogger()
 
     fun getEncrypter(type: EncrypterType, fileName: String): Encrypter? {
         return try {
@@ -16,7 +13,7 @@ object EncrypterManager {
                 EncrypterType.RSA_ENCRYPTION -> RSAEncryption(fileName)
             }
         } catch (e: IOException) {
-            logger.error("Cannot create encryption instance: ${e.message}")
+            System.err.println("Cannot create encryption instance: ${e.message}")
             null
         }
     }

@@ -1,53 +1,54 @@
 package com.imagecipher.app
 
-import com.imagecipher.app.controllers.WindowController
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
+import androidx.compose.ui.unit.dp
 import com.imagecipher.app.tools.UpdateChecker
-import javafx.scene.control.Alert
-import javafx.scene.control.Alert.AlertType
+import com.imagecipher.app.ui.App
 import java.io.IOException
 import kotlin.system.exitProcess
 
-
-object Main {
-    private val logger=
-        org.apache.logging.log4j.LogManager.getLogger()
-
-    @JvmStatic
-    fun main(args: Array<String>) {
-        logger.info("Application launched")
-
-        //    PluginManager.initialize(); // plugins are temporarily disabled
-        val updateChecker = UpdateChecker()
-        updateChecker.checkForUpdates { displayNotification() }
-
-        if (args.isEmpty()) {
-            logger.info("Opening window")
-            javafx.application.Application.launch(
-                WindowController::class.java,
-                *args
+fun main(args: Array<String>) {
+    println("Starting Image Cipher application with Compose UI")
+    
+     // val updateChecker = UpdateChecker()
+     // updateChecker.checkForUpdates {
+     //     println("New version is available")
+     //     true
+     // }
+    
+    if (args.isEmpty()) {
+        println("Opening Compose window")
+        
+        application {
+            val windowState = rememberWindowState(
+                width = 1200.dp,
+                height = 800.dp
             )
-        } else {
-            Main.executeCommand(args as Array<String?>)
+            
+            Window(
+                onCloseRequest = {
+                    println("Closing application")
+                    exitApplication()
+                },
+                state = windowState,
+                title = "Image Cipher"
+            ) {
+                App()
+            }
         }
+    } else {
+        executeCommand(args)
     }
+}
 
-    private fun executeCommand(args: Array<String?>) {
-        try {
-            logger.info("Launching CommandExecutor")
-            CommandExecutor.executeArgs(args)
-        } catch (e: IOException) {
-            logger.error(e)
-            exitProcess(1)
-        }
-    }
-
-    private fun displayNotification(): Boolean {
-        logger.info("New version is available. Displaying update alert")
-
-        val alert = Alert(AlertType.INFORMATION)
-        alert.headerText = "New update is available to download"
-        alert.showAndWait()
-
-        return true
+private fun executeCommand(args: Array<String>) {
+    try {
+        println("Launching CommandExecutor")
+        CommandExecutor.executeArgs(args.map { it }.toTypedArray())
+    } catch (e: IOException) {
+        e.printStackTrace()
+        exitProcess(1)
     }
 }

@@ -28,12 +28,14 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 People *love* thorough bug reports. I'm not even kidding.
 
 ### Used technologies
-* Kotlin
-* Gradle
-* JavaFX
-* RxJava 3
-* For testing: Jupiter JUnit
-* IDE: IntelliJ IDEA
+* **Kotlin** - Primary programming language
+* **Gradle** - Build system and dependency management
+* **Compose Multiplatform** - Modern declarative UI framework (replaced JavaFX)
+* **Material Design 3** - UI design system and components
+* **Coroutines** - Asynchronous programming and threading
+* **JCommander** - Command-line argument parsing
+* **Jupiter JUnit** - Unit testing framework
+* **IDE**: IntelliJ IDEA
 
 ### How to develop ImageCipher?
 1. Choose issue that is opened and not associated to anyone **or** propose something to develop.
