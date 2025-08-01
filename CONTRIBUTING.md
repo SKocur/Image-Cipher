@@ -7,7 +7,9 @@ email, or any other method with the owners of this repository before making a ch
 We use github to host code, to track issues and feature requests, as well as accept pull requests.
 
 ## Any contributions you make will be under the Apache-2.0 Software License
-In short, when you submit code changes, your submissions are understood to be under the same [Apache-2.0 License](https://choosealicense.com/licenses/apache-2.0/) that covers the project. Feel free to contact the maintainers if that's a concern.
+In short, when you submit code changes, your submissions are understood to be under the same 
+[Apache-2.0 License](https://choosealicense.com/licenses/apache-2.0/) that covers the project. Feel
+free to contact the maintainers if that's a concern.
 
 ## Report bugs using Github's [issues](https://github.com/SKocur/Image-Cipher/issues)
 We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/SKocur/Image-Cipher/issues/new); it's that easy!
@@ -26,12 +28,11 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 People *love* thorough bug reports. I'm not even kidding.
 
 ### Used technologies
-* Java 8
+* Kotlin
 * Gradle
 * JavaFX
-* Dagger 2
 * RxJava 3
-* For testing: Spock Framework
+* For testing: Jupiter JUnit
 * IDE: IntelliJ IDEA
 
 ### How to develop ImageCipher?
@@ -41,10 +42,6 @@ People *love* thorough bug reports. I'm not even kidding.
 4. Create Pull Request to merge your changes into `master` branch.
 5. Java CI (Continuous Integration) runner will try to compile the project source code.
 6. If Java CI task completes successfully, you can assign your PR to some mantainer to let them review your code and then eventually merge your changes.
-
-## Use a Consistent Coding Style.
-[Google Java Code Style](https://google.github.io/styleguide/javaguide.html)
-Make sure your code is properly formatted with Intellij IDEA formatter placed in `formatter` directory.
 
 ## License
 By contributing, you agree that your contributions will be licensed under its Apache-2.0 License.
